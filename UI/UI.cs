@@ -1,12 +1,12 @@
 ﻿namespace Core.Ui
 {
-    public class UI
-    {
-        private UIController controller;
+	public class UI
+	{
+		private UIController controller;
 
-        public void Open()
-        {
-            controller.Open();
-        }
-    }
+		public void Open()
+		{
+			controller.Open();
+		}
+	}
 }
