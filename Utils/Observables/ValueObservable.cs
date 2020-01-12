@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace Core.Utils.Observables {
+namespace Core.Utils.Observables
+{
 	[Serializable]
 	public class ValueObservable<T>
 	{
@@ -12,13 +13,12 @@ namespace Core.Utils.Observables {
 				if (this.value != null && this.value.Equals(value)) return;
 
 				this.value = value;
-				OnChanged?.Invoke(value);
+				signal.Fire(value);
 			}
 		}
 
 		private T value;
-
-		private event Action<T> OnChanged;
+		private Signal<T> signal = new Signal<T>();
 
 		public ValueObservable()
 		{
@@ -32,7 +32,7 @@ namespace Core.Utils.Observables {
 
 		public void Listen(Action<T> action)
 		{
-			OnChanged += action;
+			signal.Listen(action);
 		}
 
 		public static implicit operator T(ValueObservable<T> observable)
@@ -53,8 +53,8 @@ namespace Core.Utils.Observables {
 		public override bool Equals(object other)
 		{
 			return other != null
-			       && other is ValueObservable<T>
-			       && ((ValueObservable<T>)other).value.Equals(value);
+				   && other is ValueObservable<T>
+				   && ((ValueObservable<T>)other).value.Equals(value);
 		}
 
 		public override int GetHashCode()
