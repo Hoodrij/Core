@@ -21,11 +21,11 @@ namespace Core
 
 			foreach (Type type in provider.Get())
 			{
-				AddModel(type);
+				Add(type);
 			}
 		}
 
-		public void AddModel(Type type)
+		public void Add(Type type)
 		{
 			IModel model = (IModel)Activator.CreateInstance(type);
 
@@ -38,7 +38,7 @@ namespace Core
 
 			if (!map.ContainsKey(type))
 			{
-				AddModel(type);
+				Add(type);
 			}
 
 			return (T)map[typeof(T)];

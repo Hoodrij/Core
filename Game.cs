@@ -1,9 +1,14 @@
 ﻿using Core.Ui;
+using UnityEngine;
 
 namespace Core
 {
 	public class Game
 	{
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+		private static void Run() => new Game();
+
+
 		public static AppEvents AppEvents { get; }
 		public static UI UI { get; }
 		public static Models Models { get; }
