@@ -11,7 +11,6 @@ namespace Core
 		public Signal<bool> OnPause = new Signal<bool>();
 		public Signal<bool> OnFocus = new Signal<bool>();
 		public Signal OnQuit = new Signal();
-		public string Asd { get; set; }
 
 		public AppEvents()
 		{
