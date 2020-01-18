@@ -1,6 +1,6 @@
 namespace Core.Abstract
 {
-	public class AService
+	public class Service
 	{
 		public static T Get<T>() where T : IModel => Game.Models.Get<T>();
 	}

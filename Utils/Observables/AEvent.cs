@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Core.Utils.Observables
 {
-	public abstract class ASignal
+	public abstract class AEvent
 	{
-		private readonly List<EventHandlerData> eventHandlers = new List<EventHandlerData>();
+		protected readonly List<EventHandlerData> eventHandlers = new List<EventHandlerData>();
 
 		protected void FireInternal(params object[] args)
 		{
@@ -48,7 +48,7 @@ namespace Core.Utils.Observables
 
 
 
-		private class EventHandlerData
+		protected class EventHandlerData
 		{
 			public object handle;
 			public MethodInfo method;

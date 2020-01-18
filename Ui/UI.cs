@@ -4,7 +4,7 @@
 	{
 		internal UIController controller;
 
-		public void Open()
+		internal void Open()
 		{
 			controller.Open();
 		}

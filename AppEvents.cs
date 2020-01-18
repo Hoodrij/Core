@@ -1,16 +1,17 @@
 ﻿using Core.Utils.Observables;
 using UnityEngine;
+using Event = Core.Utils.Observables.Event;
 
 namespace Core
 {
 	public class AppEvents
 	{
-		public Signal OnUpdate = new Signal();
-		public Signal OnFixedUpdate = new Signal();
-		public Signal OnLateUpdate = new Signal();
-		public Signal<bool> OnPause = new Signal<bool>();
-		public Signal<bool> OnFocus = new Signal<bool>();
-		public Signal OnQuit = new Signal();
+		public Event OnUpdate = new Event();
+		public Event OnFixedUpdate = new Event();
+		public Event OnLateUpdate = new Event();
+		public Event<bool> OnPause = new Event<bool>();
+		public Event<bool> OnFocus = new Event<bool>();
+		public Event OnQuit = new Event();
 
 		public AppEvents()
 		{

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace Core
 {
@@ -9,39 +7,22 @@ namespace Core
 	{
 		private Dictionary<Type, IModel> map = new Dictionary<Type, IModel>();
 
-		public Models()
+		private void Add(IModel model)
 		{
-			Type providerType = Assembly.GetExecutingAssembly()
-				.GetTypes()
-				.LastOrDefault(type => type.IsAssignableFrom(typeof(IModelsProvider)) && !type.IsInterface);
-
-			if (providerType == null) return;
-
-			IModelsProvider provider = (IModelsProvider)Activator.CreateInstance(providerType);
-
-			foreach (Type type in provider.Get())
-			{
-				Add(type);
-			}
+			map.Add(model.GetType(), model);
 		}
 
-		public void Add(Type type)
+		public void Add(IEnumerable<IModel> models)
 		{
-			IModel model = (IModel)Activator.CreateInstance(type);
-
-			map.Add(type, model);
+			foreach (IModel model in models)
+			{
+				Add(model);
+			}
 		}
 
 		public T Get<T>() where T : IModel
 		{
-			Type type = typeof(T);
-
-			if (!map.ContainsKey(type))
-			{
-				Add(type);
-			}
-
-			return (T)map[typeof(T)];
+			return (T) map[typeof(T)];
 		}
 	}
 }
