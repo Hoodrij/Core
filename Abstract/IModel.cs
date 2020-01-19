@@ -1,4 +1,7 @@
-﻿public interface IModel
+﻿namespace Core.Abstract
 {
-
+	public interface IModel
+	{
+		
+	}
 }

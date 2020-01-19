@@ -16,10 +16,10 @@ namespace Injection
 
 		public Injector()
 		{
-			Bind(this);
+			Add(this);
 		}
 
-		public void Bind(object obj)
+		public void Add(object obj)
 		{
 			Type type = obj.GetType();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Abstract;
 
 namespace Core
 {
@@ -10,6 +11,7 @@ namespace Core
 		private void Add(IModel model)
 		{
 			map.Add(model.GetType(), model);
+			Game.Injector.Add(model);
 		}
 
 		public void Add(IEnumerable<IModel> models)

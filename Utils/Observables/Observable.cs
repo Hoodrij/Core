@@ -3,7 +3,7 @@
 namespace Core.Utils.Observables
 {
 	[Serializable]
-	public class ValueObservable<T>
+	public class Observable<T>
 	{
 		public T Value
 		{
@@ -20,12 +20,12 @@ namespace Core.Utils.Observables
 		private T value;
 		private Event<T> @event = new Event<T>();
 
-		public ValueObservable()
+		public Observable()
 		{
 
 		}
 
-		public ValueObservable(T value = default)
+		public Observable(T value = default)
 		{
 			this.value = value;
 		}
@@ -35,17 +35,17 @@ namespace Core.Utils.Observables
 			@event.Listen(action);
 		}
 
-		public static implicit operator T(ValueObservable<T> observable)
+		public static implicit operator T(Observable<T> observable)
 		{
 			return observable.Value;
 		}
 
-		public static implicit operator ValueObservable<T>(T observable)
+		public static implicit operator Observable<T>(T observable)
 		{
-			return new ValueObservable<T>(observable);
+			return new Observable<T>(observable);
 		}
 
-		public bool Equals(ValueObservable<T> other)
+		public bool Equals(Observable<T> other)
 		{
 			return other.value.Equals(value);
 		}
@@ -53,8 +53,8 @@ namespace Core.Utils.Observables
 		public override bool Equals(object other)
 		{
 			return other != null
-				   && other is ValueObservable<T>
-				   && ((ValueObservable<T>)other).value.Equals(value);
+				   && other is Observable<T>
+				   && ((Observable<T>)other).value.Equals(value);
 		}
 
 		public override int GetHashCode()

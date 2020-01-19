@@ -1,7 +1,12 @@
 namespace Core.Abstract
 {
-	public class Service
+	public abstract class Service
 	{
-		public static T Get<T>() where T : IModel => Game.Models.Get<T>();
+		protected internal virtual void Start() { }
+	}
+	
+	public abstract class RuntimeService : Service
+	{
+		protected internal abstract void Update();
 	}
 }
