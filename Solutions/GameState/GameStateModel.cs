@@ -1,13 +1,11 @@
-using System.Runtime.CompilerServices;
 using Core.Abstract;
 using Core.StateMachine;
 
 namespace Core.Solutions.GameState
 {
-	public class GameStateModel : IModel
+	public class GameStateModel : StateModel<GameState>
 	{
-		public GameState Current => StateMachine.Current;
-		public StateMachine<GameState> StateMachine = new StateMachine<GameState>();
+		
 	}
 
 	public class GameState : State
