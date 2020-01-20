@@ -15,6 +15,8 @@ namespace Core
 
 		public AppEvents()
 		{
+			if (!Application.isPlaying) return;
+			
 			GameObject gameObject = new GameObject("[AppEvents]");
 			Object.DontDestroyOnLoad(gameObject);
 			AppEventsBehaviour behaviour = gameObject.AddComponent<AppEventsBehaviour>();
