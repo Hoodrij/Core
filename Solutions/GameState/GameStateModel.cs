@@ -3,9 +3,9 @@ using Core.StateMachine;
 
 namespace Core.Solutions.GameState
 {
-	public class GameStateModel : StateModel<GameState>
+	public class GameStateModel : IModel
 	{
-		
+		public FadedStateMachine<GameState> FSM = new FadedStateMachine<GameState>();
 	}
 
 	public class GameState : State
