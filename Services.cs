@@ -23,9 +23,6 @@ namespace Core
 
 		private void Add(Service service)
 		{
-			Game.Injector.Inject(service);
-			service.Start();
-			
 			services.Add(service);
 			
 			if (service is RuntimeService runtimeService)
