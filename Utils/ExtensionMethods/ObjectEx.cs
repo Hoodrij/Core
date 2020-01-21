@@ -6,7 +6,7 @@ namespace Core.Utils.ExtensionMethods
 {
 	public static class ObjectEx
 	{
-		public static void print(this object o, string tag = "")
+		public static void log(this object o, string tag = "")
 		{
 #if UNITY_EDITOR
 			Debug.Log(tag + o);
@@ -22,7 +22,7 @@ namespace Core.Utils.ExtensionMethods
 			var method = type.GetMethod("Clear");
 			method.Invoke(new object(), null);
 
-			o.print(tag);
+			o.log(tag);
 #endif
 		}
 	}
