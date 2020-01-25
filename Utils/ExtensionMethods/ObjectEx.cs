@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,6 +26,20 @@ namespace Core.Utils.ExtensionMethods
 
 			o.log(tag);
 #endif
+		}
+		
+		public static void AddToPreloadedAssets(this Object @this)
+		{
+			Object[] preloadedAssets = PlayerSettings.GetPreloadedAssets();
+
+			List<Object> newAssets = preloadedAssets
+					.Where(o => o != @this)
+					.Where(o => o != null)
+					.ToList()
+					;
+			newAssets.Add(@this);
+			
+			PlayerSettings.SetPreloadedAssets(newAssets.ToArray());
 		}
 	}
 }
