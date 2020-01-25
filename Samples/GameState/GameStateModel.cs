@@ -1,7 +1,7 @@
 using Core.Abstract;
 using Core.StateMachine;
 
-namespace Core.Solutions.GameState
+namespace Core.Samples.GameState
 {
 	public class GameStateModel : IModel
 	{

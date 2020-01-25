@@ -2,7 +2,7 @@ using Core.Abstract;
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Solutions.Fader
+namespace Core.Samples.Fader
 {
 	public class FaderSpawnService : Service
 	{

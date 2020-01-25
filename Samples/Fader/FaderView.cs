@@ -1,8 +1,7 @@
-using System;
 using Core.Utils.ExtensionMethods;
 using UnityEngine;
 
-namespace Core.Solutions.Fader
+namespace Core.Samples.Fader
 {
 	public class FaderView : MonoBehaviour, IFaderView
 	{
