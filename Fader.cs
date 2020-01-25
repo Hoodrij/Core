@@ -2,19 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Core.Utils.ExtensionMethods;
-using Core.Utils.Observables;
+using UnityEditor;
+using UnityEngine;
+using Event = Core.Utils.Observables.Event;
+using Object = UnityEngine.Object;
 
 namespace Core
 {
 	public class Fader
 	{
-		private Queue<PreloaderAsyncAction> actions;
+		private Queue<PreloaderAsyncAction> actions = new Queue<PreloaderAsyncAction>();
 		private IFaderView view;
 
 		public Fader()
 		{
-			actions = new Queue<PreloaderAsyncAction>();
-
 			Game.Coroutiner.StartCoroutine(Worker());
 		}
 
@@ -49,7 +50,7 @@ namespace Core
 		private void StartInternal()
 		{
 			if (view == null) return;
-			if (actions.Count == 1 && !view.IsShown)
+			if (!actions.IsEmpty() && !view.IsShown)
 			{
 				view.ShowView();
 			}
@@ -58,7 +59,7 @@ namespace Core
 		private void EndInternal()
 		{
 			if (view == null) return;
-			if (actions.Count <= 0)
+			if (actions.IsEmpty())
 			{
 				view.HideView();
 			}
