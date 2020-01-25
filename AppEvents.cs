@@ -24,7 +24,7 @@ namespace Core
 		}
 	}
 
-	public class AppEventsBehaviour : MonoBehaviour
+	internal class AppEventsBehaviour : MonoBehaviour
 	{
 		internal AppEvents appEvents { private get; set; }
 
