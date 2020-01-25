@@ -6,7 +6,7 @@ namespace Core.StateMachine
 	{
 		public new void SetState(T state)
 		{
-			Game.Fade.AddAction(() => base.SetState(state));
+			Game.Fader.AddAction(() => base.SetState(state));
 		}
 		
 		public void SetStateWithoutFade(T state)

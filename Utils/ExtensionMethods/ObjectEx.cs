@@ -13,7 +13,7 @@ namespace Core.Utils.ExtensionMethods
 #endif
 		}
 
-		public static void printClear(this object o, string tag = "")
+		public static void logClear(this object o, string tag = "")
 		{
 #if UNITY_EDITOR
 

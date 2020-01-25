@@ -31,14 +31,6 @@ namespace Core
 	
 	internal class CoroutinerBehaviour : MonoBehaviour
 	{
-		public Coroutine Start(IEnumerator coroutine)
-		{
-			return StartCoroutine(coroutine);
-		} 
 		
-		public void Stop(Coroutine coroutine)
-		{
-			StopCoroutine(coroutine);
-		}
 	}
 }
