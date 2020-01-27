@@ -11,12 +11,12 @@ namespace Core.Ui
 		{
 			uiGO = new GameObject("[UI]");
 			Object.DontDestroyOnLoad(uiGO);
+			
 		}
 		
 		internal void AddRoot(UIRoot root)
 		{
 			GameObject rootGO = new GameObject(root.Name);
-			rootGO.AddComponent()
 		}
 	}
 }

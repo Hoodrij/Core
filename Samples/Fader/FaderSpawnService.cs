@@ -8,11 +8,15 @@ namespace Core.Samples.Fader
 	{
 		public FaderSpawnService()
 		{
-			SpawnFaderView();
+			Component prefab = GetFaderViewPrefab();
+
+			Component instantiatedView = Object.Instantiate(prefab);
+			Object.DontDestroyOnLoad(instantiatedView);
 		}
 
-		private void SpawnFaderView()
+		private Component GetFaderViewPrefab()
 		{
+			
 			foreach (Object asset in PlayerSettings.GetPreloadedAssets())
 			{
 				if (!(asset is GameObject gameObject)) continue;
@@ -20,10 +24,10 @@ namespace Core.Samples.Fader
 				Component view = gameObject.GetComponent(typeof(IFaderView));
 				if (view == null) continue;
 
-				Component instantiatedView = Object.Instantiate(view);
-				Object.DontDestroyOnLoad(instantiatedView);
-				break;
+				return view;
 			}
+
+			return null;
 		}
 	}
 }

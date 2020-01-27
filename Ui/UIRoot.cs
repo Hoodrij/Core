@@ -1,17 +1,21 @@
 using System;
 using System.Linq;
+using UnityEngine;
 
 namespace Core.Ui
 {
 	public class UIRoot
 	{
 		public string Name;
-		public Func<UIRoot[]> RootsToClose;
+		public Transform Transform;
+		
+		private Func<UIRoot[]> rootsToClose;
+		
 
 		public UIRoot(string name, Func<UIRoot[]> rootsToClose = null)
 		{
 			Name = name;
-			RootsToClose = rootsToClose;
+			this.rootsToClose = rootsToClose;
 			
 			Game.UI.AddRoot(this);
 		}

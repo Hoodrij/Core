@@ -10,15 +10,31 @@ namespace Core.Samples.Fader
 	{
 		private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
 		{
-			foreach (string importedAsset in importedAssets)
+			if (HasPreloadedFader()) return;
+			
+			foreach (string path in importedAssets)
 			{
-				Object asset = AssetDatabase.LoadAssetAtPath<Object>(importedAsset);
-				GameObject gameObject = asset as GameObject;
-
-				if (gameObject != null && gameObject.GetComponent(typeof(IFaderView)) == null) continue;
+				Type type = AssetDatabase.GetMainAssetTypeAtPath(path);
+				if (type != typeof(GameObject)) continue;
+				
+				GameObject asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+				if (asset.GetComponent(typeof(IFaderView)) == null) continue;
 				
 				asset.AddToPreloadedAssets();
 			}
+		}
+
+		private static bool HasPreloadedFader()
+		{
+			foreach (Object asset in PlayerSettings.GetPreloadedAssets())
+			{
+				if (!(asset is GameObject gameObject)) continue;
+
+				Component view = gameObject.GetComponent(typeof(IFaderView));
+				if (view != null) return true;
+			}
+
+			return false;
 		}
 	}
 }

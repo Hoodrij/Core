@@ -21,7 +21,7 @@ namespace Core.Ui
 
 			void Instantiate(Object resource)
 			{
-				UIView view = Object.Instantiate(resource, info.Root) as UIView;
+				UIView view = Object.Instantiate(resource, info.Root.Transform) as UIView;
 				callback.Invoke(view);
 			}
 		}

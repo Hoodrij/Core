@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Ui.Enums;
 
 namespace Core.Ui
 {
@@ -23,10 +22,10 @@ namespace Core.Ui
 			return controller.Get(info);
 		}
 
-		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
-		{
-			controller.CloseAll(closeParams);
-		}
+//		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
+//		{
+//			controller.CloseAll(closeParams);
+//		}
 		
 		internal void AddRoot(UIRoot root)
 		{

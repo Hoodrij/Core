@@ -28,15 +28,9 @@ namespace Core.Ui
 		{
 			loader.Load(info, view =>
 			{
-				// TODO: close every root which has to be closed (get list)
-//				if (!opened.IsEmpty())
-//				{
-//					UIView currentlyActiveView = opened.LastOrDefault(openedView => info.IsClosingOther(openedView.Info));
-//					if (currentlyActiveView != null)
-//					{
-//						currentlyActiveView.Close();
-//					}
-//				}
+				opened.Where(openedView => info.Root.IsClosingOther(openedView.Info.Root))
+					.ToList()
+					.ForEach(openedView => openedView.Close());
 
 				Object.DontDestroyOnLoad(view);
 				view.Open(data, info);
@@ -54,18 +48,18 @@ namespace Core.Ui
 			});
 		}
 
-		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
-		{
-			List<Transform> rootToClose = closeParams.GetRoots().ToList();
-
-			opened.FindAll(view => rootToClose.Contains(view.Info.Root))
-				.ForEach(view =>
-				{
-					if (view != null)
-					{
-						view.CloseAction();
-					}
-				});
-		}
+//		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
+//		{
+//			List<Transform> rootToClose = closeParams.GetRoots().ToList();
+//
+//			opened.FindAll(view => rootToClose.Contains(view.Info.Root))
+//				.ForEach(view =>
+//				{
+//					if (view != null)
+//					{
+//						view.CloseAction();
+//					}
+//				});
+//		}
 	}
 }
