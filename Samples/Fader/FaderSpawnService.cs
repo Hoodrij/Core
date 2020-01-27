@@ -8,10 +8,15 @@ namespace Core.Samples.Fader
 	{
 		public FaderSpawnService()
 		{
+			SpawnFaderView();
+		}
+
+		private void SpawnFaderView()
+		{
 			foreach (Object asset in PlayerSettings.GetPreloadedAssets())
 			{
 				if (!(asset is GameObject gameObject)) continue;
-				
+
 				Component view = gameObject.GetComponent(typeof(IFaderView));
 				if (view == null) continue;
 
