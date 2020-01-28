@@ -19,7 +19,7 @@ namespace Core.Samples.Ui
                 if (type != typeof(GameObject)) continue;
 				
                 GameObject asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                if (asset.GetComponent(typeof(UIComponent)) == null) continue;
+                if (asset.GetComponent(typeof(UITag)) == null) continue;
 				
                 asset.AddToPreloadedAssets();
             }
@@ -31,7 +31,7 @@ namespace Core.Samples.Ui
             {
                 if (!(asset is GameObject gameObject)) continue;
 
-                Component view = gameObject.GetComponent(typeof(UIComponent));
+                Component view = gameObject.GetComponent(typeof(UITag));
                 if (view != null) return true;
             }
 

@@ -2,7 +2,7 @@
 
 namespace Core.Ui
 {
-    public class UIComponent : MonoBehaviour
+    public class UITag : MonoBehaviour
     {
         
     }

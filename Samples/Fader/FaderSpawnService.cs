@@ -16,7 +16,6 @@ namespace Core.Samples.Fader
 
 		private Component GetFaderViewPrefab()
 		{
-			
 			foreach (Object asset in PlayerSettings.GetPreloadedAssets())
 			{
 				if (!(asset is GameObject gameObject)) continue;

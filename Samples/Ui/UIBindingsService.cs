@@ -11,7 +11,7 @@ namespace Core.Samples.Ui
 
 		public UIBindingsService()
 		{
-			Map(GameState.GameState.Menu, uiModel.MainMenu);
+			Map(GameState.GameState.Menu, uiModel.SampleView);
 		}
 		
 		private void Map(GameState.GameState state, UIInfo info)

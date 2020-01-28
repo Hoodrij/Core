@@ -10,6 +10,7 @@ namespace Core.Ui
 		public UI()
 		{
 			controller = new UIController();
+			generator = new UIGenerator();
 		}
 
 		internal void Open(UIInfo info, UIData data = null, Action<UIView> onOpen = null)

@@ -16,6 +16,6 @@ namespace Core.Samples.Ui
 	{
 		private const string UI_PREFABS_PATH = "UI Prefabs/";
 		
-		public readonly UIInfo MainMenu = new UIInfo<MenuView>(UI_PREFABS_PATH + "Menu", UIRoots.Menu);
+		public readonly UIInfo SampleView = new UIInfo<SampleView>(UI_PREFABS_PATH + "Menu", UIRoots.Menu);
 	}
 }
