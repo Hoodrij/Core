@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Core.Utils.ExtensionMethods;
 using UnityEngine;
 
@@ -6,7 +8,7 @@ namespace Core.Samples.Fader
 	public class FaderView : MonoBehaviour, IFaderView
 	{
 		public bool IsShown { get; private set; }
-		
+
 		private Animator animator;
 
 		private void Awake()

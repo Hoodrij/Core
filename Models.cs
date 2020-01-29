@@ -6,8 +6,13 @@ namespace Core
 {
 	public class Models
 	{
-		private Dictionary<Type, IModel> map = new Dictionary<Type, IModel>();
+		private Dictionary<Type, IModel> map;
 
+		public Models()
+		{
+			map = new Dictionary<Type, IModel>();
+		}
+		
 		private void Add(IModel model)
 		{
 			map.Add(model.GetType(), model);
