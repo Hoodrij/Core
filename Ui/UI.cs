@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 
 namespace Core.Ui
 {
@@ -13,24 +15,30 @@ namespace Core.Ui
 			generator = new UIGenerator();
 		}
 
-		internal void Open(UIInfo info, UIData data = null, Action<UIView> onOpen = null)
+		internal void Open(UIInfoAttribute info, UIData data = null, Action<UIView> onOpen = null)
 		{
 			controller.Open(info, data, onOpen);
 		}
 		
-		internal UIView Get(UIInfo info)
-		{
-			return controller.Get(info);
-		}
+//		internal UIView Get(UIInfoAttribute info)
+//		{
+//			return controller.Get(info);
+//		}
 
 //		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
 //		{
 //			controller.CloseAll(closeParams);
 //		}
 		
-		internal void AddRoot(UIRoot root)
+		public void Add(IEnumerable<Type> roots)
 		{
-			generator.AddRoot(root);
+			foreach (Type type in roots)
+			{
+				if (!type.IsAssignableFrom(typeof(UIRoot))) continue;
+				
+				var root = Activator.CreateInstance(type);
+				generator.AddRoot(root as UIRoot);
+			}
 		}
 	}
 }

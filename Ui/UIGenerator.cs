@@ -17,16 +17,16 @@ namespace Core.Ui
 		
 		internal void AddRoot(UIRoot root)
 		{
-			GameObject rootGO = new GameObject(root.Name, typeof(RectTransform));
-			rootGO.transform.SetParent(uiGO.transform, false);
-			
-			RectTransform rectTransform = rootGO.GetComponent<RectTransform>();
-			rectTransform.anchorMin = Vector2.zero;
-			rectTransform.anchorMax = Vector2.one;
-			rectTransform.offsetMin = Vector2.zero;
-			rectTransform.offsetMax = Vector2.zero;
-			
-			root.Transform = rectTransform;
+//			GameObject rootGO = new GameObject(root.Name, typeof(RectTransform));
+//			rootGO.transform.SetParent(uiGO.transform, false);
+//			
+//			RectTransform rectTransform = rootGO.GetComponent<RectTransform>();
+//			rectTransform.anchorMin = Vector2.zero;
+//			rectTransform.anchorMax = Vector2.one;
+//			rectTransform.offsetMin = Vector2.zero;
+//			rectTransform.offsetMax = Vector2.zero;
+//			
+//			root.Transform = rectTransform;
 		}
 		
 		private UITag GetUIPrefab()

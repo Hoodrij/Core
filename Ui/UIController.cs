@@ -9,43 +9,43 @@ namespace Core.Ui
 {
 	public class UIController
 	{
-		private List<UIView> opened;
+		private List<UIView<UIView>> opened;
 		private UIViewLoader loader;
 
 		internal UIController()
 		{
-			opened = new List<UIView>();
+			opened = new List<UIView<UIView>>();
 			loader = new UIViewLoader();
 		}
 
-		internal UIView Get(UIInfo info)
+//		internal UIView Get(UIInfoAttribute info)
+//		{
+//			UIView uiView = opened.Find(view => view.Info == info);
+//			return uiView;
+//		}
+
+		internal void Open(UIInfoAttribute info, UIData data = null, Action<UIView> onOpen = null)
 		{
-			UIView uiView = opened.Find(view => view.Info == info);
-			return uiView;
-		}
-
-		internal void Open(UIInfo info, UIData data = null, Action<UIView> onOpen = null)
-		{
-			loader.Load(info, view =>
-			{
-				opened.Where(openedView => info.Root.IsClosingOther(openedView.Info.Root))
-					.ToList()
-					.ForEach(openedView => openedView.Close());
-
-				Object.DontDestroyOnLoad(view);
-				view.Open(data, info);
-				opened.Add(view);
-				onOpen?.Invoke(view);
-
-				view.CloseAction = () =>
-				{
-					if (view == null) return;
-
-					opened.Remove(view);
-					view.OnClose();
-					Object.Destroy(view.gameObject);
-				};
-			});
+//			loader.Load(info, view =>
+//			{
+//				opened.Where(openedView => info.Root.IsClosingOther(openedView.Info.Root))
+//					.ToList()
+//					.ForEach(openedView => openedView.Close());
+//
+//				Object.DontDestroyOnLoad(view);
+//				view.Open(data, info);
+//				opened.Add(view);
+//				onOpen?.Invoke(view);
+//
+//				view.CloseAction = () =>
+//				{
+//					if (view == null) return;
+//
+//					opened.Remove(view);
+//					view.OnClose();
+//					Object.Destroy(view.gameObject);
+//				};
+//			});
 		}
 
 //		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)

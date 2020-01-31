@@ -4,22 +4,15 @@ using UnityEngine;
 
 namespace Core.Ui
 {
-	public class UIRoot
+	public abstract class UIRoot
 	{
-		public string Name;
-		public Transform Transform;
-		
-		private Func<UIRoot[]> rootsToClose;
-		
+		protected virtual Type[] rootsToClose { get; }
 
-		public UIRoot(string name, Func<UIRoot[]> rootsToClose = null)
+		protected UIRoot(params Type[] rootsToClose)
 		{
-			Name = name;
 			this.rootsToClose = rootsToClose;
-			
-			Game.UI.AddRoot(this);
 		}
-		
+
 		public bool IsClosingOther(UIRoot other)
 		{
 			return false;
