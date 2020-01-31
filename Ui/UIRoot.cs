@@ -22,7 +22,7 @@ namespace Core.Ui
 		
 		public bool IsClosingOther(UIRoot other)
 		{
-			return false;
+			return rootsToClose().Contains(other);
 		}
 	}
 }
