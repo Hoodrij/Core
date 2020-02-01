@@ -1,16 +1,28 @@
 ﻿using Core.Ui;
 using Injection;
+using UnityEngine;
 
 namespace Core
 {
 	public class Game
 	{
-		internal static Injector Injector { get; } = new Injector();
-		public static AppEvents AppEvents { get; } = new AppEvents();
-		public static Coroutiner Coroutiner { get; } = new Coroutiner();
-		public static Services Services { get; } = new Services();
-		public static Models Models { get; } = new Models();
-		public static UI UI { get; } = new UI();
-		public static Fader Fader { get; } = new Fader();
+		internal static Injector Injector { get; private set; }
+		public static AppEvents AppEvents { get; private set; }
+		public static Coroutiner Coroutiner { get; private set; }
+		public static Services Services { get; private set; }
+		public static Models Models { get; private set; }
+		public static UI UI { get; private set; }
+		public static Fader Fader { get; private set; }
+
+		public Game()
+		{
+			Injector = new Injector();
+			AppEvents = new AppEvents();
+			Coroutiner = new Coroutiner();
+			Services = new Services();
+			Models = new Models();
+			UI = new UI();
+			Fader = new Fader();
+		}
 	}
 }
