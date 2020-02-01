@@ -1,51 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Utils.ExtensionMethods;
-using UnityEngine;
+using System.Reflection;
 using Object = UnityEngine.Object;
 
 namespace Core.Ui
 {
-	public class UIController
+	internal class UIController
 	{
-		private List<UIView<UIView>> opened;
-		private UIViewLoader loader;
+		private List<UIView> opened;
+		private UILoader loader;
 
-		internal UIController()
+		public UIController(UILoader loader)
 		{
-			opened = new List<UIView<UIView>>();
-			loader = new UIViewLoader();
+			opened = new List<UIView>();
+			this.loader = loader;
 		}
 
-//		internal UIView Get(UIInfoAttribute info)
-//		{
-//			UIView uiView = opened.Find(view => view.Info == info);
-//			return uiView;
-//		}
-
-		internal void Open(UIInfoAttribute info, UIData data = null, Action<UIView> onOpen = null)
+		public UIView Get<TView>() where TView : UIView
 		{
-//			loader.Load(info, view =>
-//			{
+			return opened.Find(view => view.GetType() == typeof(TView));
+		}
+
+		public void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView
+		{
+			UIInfoAttribute info = GetUIInfo<TView>();
+			
+			loader.Load<TView>(info, view =>
+			{
 //				opened.Where(openedView => info.Root.IsClosingOther(openedView.Info.Root))
 //					.ToList()
 //					.ForEach(openedView => openedView.Close());
-//
-//				Object.DontDestroyOnLoad(view);
-//				view.Open(data, info);
-//				opened.Add(view);
-//				onOpen?.Invoke(view);
-//
-//				view.CloseAction = () =>
-//				{
-//					if (view == null) return;
-//
-//					opened.Remove(view);
-//					view.OnClose();
-//					Object.Destroy(view.gameObject);
-//				};
-//			});
+
+				Object.DontDestroyOnLoad(view);
+				view.Initialize(data);
+				opened.Add(view);
+				onOpen?.Invoke(view);
+
+				view.CloseAction = () =>
+				{
+					if (view == null) return;
+
+					opened.Remove(view);
+					view.OnClose();
+					Object.Destroy(view.gameObject);
+				};
+			});
 		}
 
 //		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
@@ -61,5 +61,12 @@ namespace Core.Ui
 //					}
 //				});
 //		}
+
+		private static UIInfoAttribute GetUIInfo<TView>() where TView : UIView
+		{
+			Type type = typeof(TView);
+			UIInfoAttribute uiInfo = type.GetCustomAttribute<UIInfoAttribute>();
+			return uiInfo;
+		}
 	}
 }

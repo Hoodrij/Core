@@ -1,22 +1,28 @@
+using System;
+using System.Collections.Generic;
 using Core.Utils.ExtensionMethods;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Core.Ui
 {
-	public class UIGenerator
+	internal class UILoader
 	{
-		UITag uiGO;
+		private List<UIRoot> roots = new List<UIRoot>();
+		private UITag uiGO;
 		
-		public UIGenerator()
+		public UILoader()
 		{
 			UITag uiPrefab = GetUIPrefab();
 			uiGO = Object.Instantiate(uiPrefab);
 			Object.DontDestroyOnLoad(uiGO);
 		}
 		
-		internal void AddRoot(UIRoot root)
+		public void AddRoot(UIRoot root)
 		{
+			roots.Add(root);
+			
 			GameObject rootGO = new GameObject(root.GetType().Name, typeof(RectTransform));
 			rootGO.transform.SetParent(uiGO.transform, false);
 			
@@ -27,6 +33,32 @@ namespace Core.Ui
 			rectTransform.offsetMax = Vector2.zero;
 			
 			root.Transform = rectTransform;
+		}
+		
+		public void Load<TView>(UIInfoAttribute info, Action<TView> callback) where TView : UIView
+		{
+			if (info.AsyncLoad)
+			{
+				Resources.LoadAsync<UIView>(info.Path)
+					.completed += async => Instantiate((async as ResourceRequest)?.asset);
+			}
+			else
+			{
+				var asset = Resources.Load<UIView>(info.Path);
+				Instantiate(asset);
+			}
+
+			void Instantiate(Object resource)
+			{
+				Transform root = GetRoot(info.Root).Transform;
+				UIView view = Object.Instantiate(resource, root) as UIView;
+				callback.Invoke(view as TView);
+			}
+		}
+
+		public UIRoot GetRoot(Type type)
+		{
+			return roots.Find(root => root.GetType() == type);
 		}
 		
 		private UITag GetUIPrefab()

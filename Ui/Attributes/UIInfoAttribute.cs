@@ -7,13 +7,13 @@ namespace Core.Ui
     {
         public Type Root { get; }
         public string Path { get; }
-        public bool IsAsyncLoad { get; }
+        public bool AsyncLoad { get; }
 
-        public UIInfoAttribute(Type root, string path, bool isAsyncLoad = true)
+        public UIInfoAttribute(Type root, string path, bool asyncLoad = true)
         {
             Root = root;
             Path = path;
-            IsAsyncLoad = isAsyncLoad;
+            AsyncLoad = asyncLoad;
         }
     }
 }

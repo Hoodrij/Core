@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Core.Ui
@@ -12,10 +13,14 @@ namespace Core.Ui
 
 		protected UIRoot()
 		{
+			rootsToClose = new[] {this.GetType()};
+			
 			UIRootCloseParamsAttribute paramsAttribute = GetType().GetCustomAttribute<UIRootCloseParamsAttribute>();
 			if (paramsAttribute != null)
 			{
-				rootsToClose = paramsAttribute.RootsToClose;
+				rootsToClose = rootsToClose
+					.Concat(paramsAttribute.RootsToClose)
+					.ToArray();
 			}
 		}
 

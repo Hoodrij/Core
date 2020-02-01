@@ -6,43 +6,34 @@ using UnityEngine;
 
 namespace Core.Ui
 {
-	public abstract class UIView<TView, TData> : UIView where TView : UIView
+	public abstract class UIView<TView, TData> : UIView<TView> where TView : UIView
 	{
-		protected new TData Data => (TData) base.Data;
+		protected TData Data => (TData) base.data;
 
-		public static void Open(TData data)
+		public static void Open(TData data, Action<TView> callback = null)
 		{
-			UIInfoAttribute uiInfo = UIView<TView>.GetUIInfo();
-			
+			Game.UI.Open(data, callback);
 		}
 	}
 
 	public abstract class UIView<TView> : UIView where TView : UIView
 	{
-		public static void Open()
+		public static void Open(Action<TView> callback = null)
 		{
-			UIInfoAttribute uiInfo = GetUIInfo();
-
-		}
-		
-		protected internal static UIInfoAttribute GetUIInfo()
-		{
-			Type type = typeof(TView);
-			UIInfoAttribute uiInfo = type.GetCustomAttribute<UIInfoAttribute>();
-			return uiInfo;
+			Game.UI.Open(null, callback);
 		}
 	} 
 
 	[RequireComponent(typeof(UICloseEventComponent))]
 	public abstract class UIView : APropertyBindableBehaviour
 	{
-		protected object Data { get; private set; }
-		
 		internal Action CloseAction;
+		
+		internal object data;
 
-		internal void Open(object data)
+		internal void Initialize(object data)
 		{
-			Data = data;
+			this.data = data;
 			Game.Injector.Inject(this);
 
 			UICloseEventComponent closeEvent = GetComponent<UICloseEventComponent>();

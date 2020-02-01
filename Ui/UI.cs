@@ -7,23 +7,28 @@ namespace Core.Ui
 	public class UI
 	{
 		private UIController controller;
-		private UIGenerator generator;
+		private UILoader loader;
 
-		public UI()
+		internal UI()
 		{
-			controller = new UIController();
-			generator = new UIGenerator();
+			loader = new UILoader();
+			controller = new UIController(loader);
 		}
 
-		internal void Open(UIInfoAttribute info, UIData data = null, Action<UIView> onOpen = null)
+		internal void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView
 		{
-			controller.Open(info, data, onOpen);
+			controller.Open(data, onOpen);
 		}
 		
-//		internal UIView Get(UIInfoAttribute info)
-//		{
-//			return controller.Get(info);
-//		}
+		internal UIView Get<TView>() where TView : UIView
+		{
+			return controller.Get<TView>();
+		}
+		
+		internal UIView GetRoot<TView>() where TView : UIView
+		{
+			return controller.Get<TView>();
+		}
 
 //		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
 //		{
@@ -34,7 +39,7 @@ namespace Core.Ui
 		{
 			foreach (UIRoot root in roots)
 			{
-				generator.AddRoot(root);
+				loader.AddRoot(root);
 			}
 		}
 	}
