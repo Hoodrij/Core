@@ -30,14 +30,11 @@ namespace Core.Ui
 //			controller.CloseAll(closeParams);
 //		}
 		
-		public void Add(IEnumerable<Type> roots)
+		public void Add(IEnumerable<UIRoot> roots)
 		{
-			foreach (Type type in roots)
+			foreach (UIRoot root in roots)
 			{
-				if (!type.IsAssignableFrom(typeof(UIRoot))) continue;
-				
-				var root = Activator.CreateInstance(type);
-				generator.AddRoot(root as UIRoot);
+				generator.AddRoot(root);
 			}
 		}
 	}

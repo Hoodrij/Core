@@ -50,7 +50,7 @@ namespace Injection
 		{
 			if (!objects.TryGetValue(type, out var obj))
 			{
-				Debug.Log($"Cant find {type} in injector");
+				Debug.LogError($"Cant find {type} in injector");
 			}
 			return obj;
 		}

@@ -23,18 +23,12 @@ namespace Core.Ui
 		{
 			UIInfoAttribute uiInfo = GetUIInfo();
 
-//			foreach (Attribute attribute in Attribute.GetCustomAttributes(type))
-//			{
-//				if ()
-//			}
-
-//			myType.geta
 		}
 		
 		protected internal static UIInfoAttribute GetUIInfo()
 		{
 			Type type = typeof(TView);
-			UIInfoAttribute uiInfo = type.GetCustomAttribute(typeof(UIInfoAttribute)) as UIInfoAttribute;
+			UIInfoAttribute uiInfo = type.GetCustomAttribute<UIInfoAttribute>();
 			return uiInfo;
 		}
 	} 

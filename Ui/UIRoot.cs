@@ -1,21 +1,27 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace Core.Ui
 {
 	public abstract class UIRoot
 	{
-		protected virtual Type[] rootsToClose { get; }
+		public Transform Transform { get; internal set; }
+		private Type[] rootsToClose;
 
-		protected UIRoot(params Type[] rootsToClose)
+		protected UIRoot()
 		{
-			this.rootsToClose = rootsToClose;
+			UIRootCloseParamsAttribute paramsAttribute = GetType().GetCustomAttribute<UIRootCloseParamsAttribute>();
+			if (paramsAttribute != null)
+			{
+				rootsToClose = paramsAttribute.RootsToClose;
+			}
 		}
 
 		public bool IsClosingOther(UIRoot other)
 		{
-			return false;
+			return rootsToClose.Contains(other.GetType());
 		}
 	}
 }
