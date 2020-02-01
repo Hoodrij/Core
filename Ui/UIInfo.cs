@@ -38,11 +38,11 @@ namespace Core.Ui
 
 
 
-	public class UIInfo<TView, TData> : UIInfo<TView> where TView : UIView<TData> where TData : UIData
+	public class UIInfo<TView, TData> : UIInfo<TView> where TView : UIView<TData>
 	{
 		public UIInfo(string path, UIRoot root, bool asyncLoad = true) : base(path, root, asyncLoad) { }
 
-		public void Open(TData data = null, Action<TView> onOpen = null)
+		public void Open(TData data = default, Action<TView> onOpen = null)
 		{
 			Game.UI.Open(this, data, view => onOpen?.Invoke((TView)view));
 		}

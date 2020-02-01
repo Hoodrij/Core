@@ -24,7 +24,7 @@ namespace Core.Ui
 			return uiView;
 		}
 
-		internal void Open(UIInfo info, UIData data = null, Action<UIView> onOpen = null)
+		internal void Open(UIInfo info, object data = null, Action<UIView> onOpen = null)
 		{
 			loader.Load(info, view =>
 			{

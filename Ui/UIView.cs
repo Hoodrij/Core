@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Core.Ui
 {
-	public abstract class UIView<TData> : UIView where TData : UIData
+	public abstract class UIView<TData> : UIView
 	{
-		protected new TData Data => base.Data as TData;
+		protected new TData Data => (TData) base.Data;
 	}
 
 	[RequireComponent(typeof(UICloseEventComponent))]
@@ -15,11 +15,11 @@ namespace Core.Ui
 		public UIInfo Info { get; private set; }
 		internal Action CloseAction;
 
-		protected UIData Data { get; private set; }
+		protected object Data { get; private set; }
 
 		private UICloseDelayer closeDelayer;
 
-		internal void Open(UIData data, UIInfo info)
+		internal void Open(object data, UIInfo info)
 		{
 			Data = data;
 			Info = info;
