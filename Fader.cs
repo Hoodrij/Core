@@ -28,7 +28,7 @@ namespace Core
 					if (view == null || view.IsShown)
 					{
 						var action = actions.Dequeue();
-						action.Invoke(EndInternal);
+						action.Invoke(HideView);
 					}
 				}
 				yield return null;
@@ -42,12 +42,12 @@ namespace Core
 
 		public void AddAction(Action action, Event onCompleted = null)
 		{
-			onCompleted?.Listen(EndInternal);
+			onCompleted?.Listen(HideView);
 			actions.Enqueue(new PreloaderAsyncAction(action, onCompleted));
-			StartInternal();
+			ShowView();
 		}
 
-		private void StartInternal()
+		private void ShowView()
 		{
 			if (view == null) return;
 			if (!actions.IsEmpty() && !view.IsShown)
@@ -56,7 +56,7 @@ namespace Core
 			}
 		}
 
-		private void EndInternal()
+		private void HideView()
 		{
 			if (view == null) return;
 			if (actions.IsEmpty())
