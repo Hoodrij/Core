@@ -25,9 +25,9 @@ namespace Core.Ui
 			return controller.Get<TView>();
 		}
 		
-		internal UIView GetRoot<TView>() where TView : UIView
+		internal UIRoot GetRoot(Type type)
 		{
-			return controller.Get<TView>();
+			return loader.GetRoot(type);
 		}
 
 //		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)

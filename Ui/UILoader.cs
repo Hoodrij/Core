@@ -50,7 +50,7 @@ namespace Core.Ui
 
 			void Instantiate(Object resource)
 			{
-				Transform root = GetRoot(info.Root).Transform;
+				Transform root = GetRoot(info.RootType).Transform;
 				UIView view = Object.Instantiate(resource, root) as UIView;
 				callback.Invoke(view as TView);
 			}

@@ -6,7 +6,6 @@ namespace Core
 {
 	public class Game
 	{
-		internal static Injector Injector { get; private set; }
 		public static AppEvents AppEvents { get; private set; }
 		public static Coroutiner Coroutiner { get; private set; }
 		public static Services Services { get; private set; }
@@ -16,7 +15,6 @@ namespace Core
 
 		public Game()
 		{
-			Injector = new Injector();
 			AppEvents = new AppEvents();
 			Coroutiner = new Coroutiner();
 			Services = new Services();

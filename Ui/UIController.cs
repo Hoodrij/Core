@@ -24,13 +24,13 @@ namespace Core.Ui
 
 		public void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView
 		{
-			UIInfoAttribute info = GetUIInfo<TView>();
+			UIInfoAttribute info = UIView<TView>.Info;
 			
 			loader.Load<TView>(info, view =>
 			{
-//				opened.Where(openedView => info.Root.IsClosingOther(openedView.Info.Root))
-//					.ToList()
-//					.ForEach(openedView => openedView.Close());
+				opened.Where(openedView => info.Root.IsClosingOther(openedView.Info.Root))
+					.ToList()
+					.ForEach(openedView => openedView.Close());
 
 				Object.DontDestroyOnLoad(view);
 				view.Initialize(data);
@@ -61,12 +61,5 @@ namespace Core.Ui
 //					}
 //				});
 //		}
-
-		private static UIInfoAttribute GetUIInfo<TView>() where TView : UIView
-		{
-			Type type = typeof(TView);
-			UIInfoAttribute uiInfo = type.GetCustomAttribute<UIInfoAttribute>();
-			return uiInfo;
-		}
 	}
 }

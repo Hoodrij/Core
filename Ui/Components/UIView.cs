@@ -18,6 +18,8 @@ namespace Core.Ui
 
 	public abstract class UIView<TView> : UIView where TView : UIView
 	{
+		internal static UIInfoAttribute Info => typeof(TView).GetCustomAttribute<UIInfoAttribute>();
+		
 		public static void Open(Action<TView> callback = null)
 		{
 			Game.UI.Open(null, callback);
@@ -27,6 +29,7 @@ namespace Core.Ui
 	[RequireComponent(typeof(UICloseEventComponent))]
 	public abstract class UIView : APropertyBindableBehaviour
 	{
+		internal UIInfoAttribute Info => GetType().GetCustomAttribute<UIInfoAttribute>();
 		internal Action CloseAction;
 		
 		internal object data;
@@ -34,7 +37,7 @@ namespace Core.Ui
 		internal void Initialize(object data)
 		{
 			this.data = data;
-			Game.Injector.Inject(this);
+			Game.Models.Populate(this);
 
 			UICloseEventComponent closeEvent = GetComponent<UICloseEventComponent>();
 			closeEvent.ListenCloseClick(Close);

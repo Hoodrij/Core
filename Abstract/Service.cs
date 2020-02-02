@@ -4,7 +4,7 @@ namespace Core.Abstract
 	{
 		protected Service()
 		{
-			Game.Injector.Inject(this);
+			Game.Models.Populate(this);
 		}
 	}
 	
