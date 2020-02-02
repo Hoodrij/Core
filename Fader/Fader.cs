@@ -11,7 +11,7 @@ namespace Core
 {
 	public class Fader
 	{
-		private Queue<PreloaderAsyncAction> actions = new Queue<PreloaderAsyncAction>();
+		private Queue<FaderAsyncAction> actions = new Queue<FaderAsyncAction>();
 		private IFaderView view;
 
 		public Fader()
@@ -43,7 +43,7 @@ namespace Core
 		public void AddAction(Action action, Event onCompleted = null)
 		{
 			onCompleted?.Listen(HideView);
-			actions.Enqueue(new PreloaderAsyncAction(action, onCompleted));
+			actions.Enqueue(new FaderAsyncAction(action, onCompleted));
 			ShowView();
 		}
 
@@ -62,32 +62,6 @@ namespace Core
 			if (actions.IsEmpty())
 			{
 				view.HideView();
-			}
-		}
-
-		private class PreloaderAsyncAction
-		{
-			private Action action;
-			private Event onCompleted;
-			private bool actionInvoked;
-
-			public PreloaderAsyncAction(Action action, Event onCompleted)
-			{
-				this.action = action;
-				this.onCompleted = onCompleted;
-			}
-
-			public void Invoke(Action callback)
-			{
-				if (actionInvoked) return;
-				actionInvoked = true;
-
-				action?.Invoke();
-
-				if (onCompleted == null)
-				{
-					callback();
-				}
 			}
 		}
 	}
