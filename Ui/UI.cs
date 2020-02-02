@@ -15,25 +15,14 @@ namespace Core.Ui
 			controller = new UIController(loader);
 		}
 
-		internal void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView
-		{
-			controller.Open(data, onOpen);
-		}
+		internal void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView 
+			=> controller.Open(data, onOpen);
 		
-		internal UIView Get<TView>() where TView : UIView
-		{
-			return controller.Get<TView>();
-		}
+		internal UIView Get<TView>() where TView : UIView => controller.Get<TView>();
 		
-		internal UIRoot GetRoot(Type type)
-		{
-			return loader.GetRoot(type);
-		}
+		internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
 
-//		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
-//		{
-//			controller.CloseAll(closeParams);
-//		}
+		internal void CloseAll() => controller.CloseAll();
 		
 		public void Add(IEnumerable<UIRoot> roots)
 		{

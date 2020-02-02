@@ -48,18 +48,9 @@ namespace Core.Ui
 			});
 		}
 
-//		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
-//		{
-//			List<Transform> rootToClose = closeParams.GetRoots().ToList();
-//
-//			opened.FindAll(view => rootToClose.Contains(view.Info.Root))
-//				.ForEach(view =>
-//				{
-//					if (view != null)
-//					{
-//						view.CloseAction();
-//					}
-//				});
-//		}
+		internal void CloseAll()
+		{
+			opened.ForEach(view => view.Close());
+		}
 	}
 }
