@@ -1,36 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 
 namespace Core.Ui
 {
 	public class UI
 	{
 		private UIController controller;
-		private UIGenerator generator;
+		private UILoader loader;
 
-		public UI()
+		internal UI()
 		{
-			controller = new UIController();
-			generator = new UIGenerator();
+			loader = new UILoader();
+			controller = new UIController(loader);
 		}
 
-		internal void Open(UIInfo info, object data = null, Action<UIView> onOpen = null)
-		{
-			controller.Open(info, data, onOpen);
-		}
+		internal void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView 
+			=> controller.Open(data, onOpen);
 		
-		internal UIView Get(UIInfo info)
-		{
-			return controller.Get(info);
-		}
-
-//		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
-//		{
-//			controller.CloseAll(closeParams);
-//		}
+		internal UIView Get<TView>() where TView : UIView => controller.Get<TView>();
 		
-		internal void AddRoot(UIRoot root)
+		internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
+
+		internal void CloseAll() => controller.CloseAll();
+		
+		public void Add(IEnumerable<UIRoot> roots)
 		{
-			generator.AddRoot(root);
+			foreach (UIRoot root in roots)
+			{
+				loader.AddRoot(root);
+			}
 		}
 	}
 }

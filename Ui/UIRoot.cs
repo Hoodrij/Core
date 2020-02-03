@@ -1,28 +1,32 @@
 using System;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Core.Ui
 {
-	public class UIRoot
+	public abstract class UIRoot
 	{
-		public string Name;
-		public Transform Transform;
-		
-		private Func<UIRoot[]> rootsToClose;
-		
+		public Transform Transform { get; internal set; }
+		private Type[] rootsToClose;
 
-		public UIRoot(string name, Func<UIRoot[]> rootsToClose = null)
+		protected UIRoot()
 		{
-			Name = name;
-			this.rootsToClose = rootsToClose;
+			rootsToClose = new[] {this.GetType()};
 			
-			Game.UI.AddRoot(this);
+			UIRootCloseParamsAttribute paramsAttribute = GetType().GetCustomAttribute<UIRootCloseParamsAttribute>();
+			if (paramsAttribute != null)
+			{
+				rootsToClose = rootsToClose
+					.Concat(paramsAttribute.RootsToClose)
+					.ToArray();
+			}
 		}
-		
+
 		public bool IsClosingOther(UIRoot other)
 		{
-			return rootsToClose().Contains(other);
+			return rootsToClose.Contains(other.GetType());
 		}
 	}
 }

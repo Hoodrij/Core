@@ -1,39 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Utils.ExtensionMethods;
-using UnityEngine;
+using System.Reflection;
 using Object = UnityEngine.Object;
 
 namespace Core.Ui
 {
-	public class UIController
+	internal class UIController
 	{
 		private List<UIView> opened;
-		private UIViewLoader loader;
+		private UILoader loader;
 
-		internal UIController()
+		public UIController(UILoader loader)
 		{
 			opened = new List<UIView>();
-			loader = new UIViewLoader();
+			this.loader = loader;
 		}
 
-		internal UIView Get(UIInfo info)
+		public UIView Get<TView>() where TView : UIView
 		{
-			UIView uiView = opened.Find(view => view.Info == info);
-			return uiView;
+			return opened.Find(view => view.GetType() == typeof(TView));
 		}
 
-		internal void Open(UIInfo info, object data = null, Action<UIView> onOpen = null)
+		public void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView
 		{
-			loader.Load(info, view =>
+			UIInfoAttribute info = UIView<TView>.Info;
+			
+			loader.Load<TView>(info, view =>
 			{
 				opened.Where(openedView => info.Root.IsClosingOther(openedView.Info.Root))
 					.ToList()
 					.ForEach(openedView => openedView.Close());
 
 				Object.DontDestroyOnLoad(view);
-				view.Open(data, info);
+				view.Initialize(data);
 				opened.Add(view);
 				onOpen?.Invoke(view);
 
@@ -48,18 +48,9 @@ namespace Core.Ui
 			});
 		}
 
-//		internal void CloseAll(UICloseParams closeParams = UICloseParams.PopupAndWindowAndTopWindow)
-//		{
-//			List<Transform> rootToClose = closeParams.GetRoots().ToList();
-//
-//			opened.FindAll(view => rootToClose.Contains(view.Info.Root))
-//				.ForEach(view =>
-//				{
-//					if (view != null)
-//					{
-//						view.CloseAction();
-//					}
-//				});
-//		}
+		internal void CloseAll()
+		{
+			opened.ForEach(view => view.Close());
+		}
 	}
 }
