@@ -14,6 +14,9 @@ namespace Core.Ui
 		{
 			Game.UI.Open(data, callback);
 		}
+		
+		[Obsolete("Need Data", true)]
+		public new static void Open(Action<TView> callback = null) { }
 	}
 
 	public abstract class UIView<TView> : UIView where TView : UIView
