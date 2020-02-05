@@ -1,17 +1,18 @@
-using Core.Abstract;
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Samples.Fader
+namespace Core
 {
-	public class FaderSpawnService : Service
+	public class FaderSpawner
 	{
-		public FaderSpawnService()
+		public IFaderView SpawnView()
 		{
 			Component prefab = GetFaderViewPrefab();
 
 			Component instantiatedView = Object.Instantiate(prefab);
 			Object.DontDestroyOnLoad(instantiatedView);
+
+			return instantiatedView as IFaderView;
 		}
 
 		private Component GetFaderViewPrefab()

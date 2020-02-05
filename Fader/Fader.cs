@@ -16,6 +16,8 @@ namespace Core
 
 		public Fader()
 		{
+			SetView(new FaderSpawner().SpawnView());
+			
 			Game.Coroutiner.StartCoroutine(Worker());
 		}
 
@@ -25,11 +27,13 @@ namespace Core
 			{
 				if (!actions.IsEmpty())
 				{
-					if (view == null || view.IsShown)
+					if (view != null)
 					{
-						var action = actions.Dequeue();
-						action.Invoke(HideView);
+						yield return Game.Coroutiner.StartCoroutine(view.WaitForShown());
 					}
+					
+					var action = actions.Dequeue();
+					action.Invoke(TryHideView);
 				}
 				yield return null;
 			}
@@ -42,26 +46,16 @@ namespace Core
 
 		public void AddAction(Action action, Event onCompleted = null)
 		{
-			onCompleted?.Listen(HideView);
+			onCompleted?.Listen(TryHideView);
 			actions.Enqueue(new FaderAsyncAction(action, onCompleted));
-			ShowView();
 		}
 
-		private void ShowView()
-		{
-			if (view == null) return;
-			if (!actions.IsEmpty() && !view.IsShown)
-			{
-				view.ShowView();
-			}
-		}
-
-		private void HideView()
+		private void TryHideView()
 		{
 			if (view == null) return;
 			if (actions.IsEmpty())
 			{
-				view.HideView();
+				view.Hide();
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Core.Utils.ExtensionMethods;
 using UnityEngine;
@@ -7,31 +8,30 @@ namespace Core.Samples.Fader
 {
 	public class FaderView : MonoBehaviour, IFaderView
 	{
-		public bool IsShown { get; private set; }
-
 		private Animator animator;
+		private bool isShown;
 
 		private void Awake()
 		{
 			animator = GetComponent<Animator>();
-			Game.Fader.SetView(this);
 		}
 
-		public void ShowView()
+		public IEnumerator WaitForShown()
 		{
 			animator.SetSingleTrigger("show");
+			yield return new WaitWhile(() => !isShown);  
 		}
 
-		public void HideView()
+		public void Hide()
 		{
+			isShown = false;
 			animator.SetSingleTrigger("hide");
-			IsShown = false;
 		}
 		
 		// animation event
 		private void OnAnimShown()
 		{
-			IsShown = true;
+			isShown = true;
 		}
 	}
 }
