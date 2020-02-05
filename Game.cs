@@ -8,6 +8,7 @@ namespace Core
 	{
 		public static AppEvents AppEvents { get; private set; }
 		public static Coroutiner Coroutiner { get; private set; }
+		public static Assets Assets { get; private set; }
 		public static Services Services { get; private set; }
 		public static Models Models { get; private set; }
 		public static UI UI { get; private set; }
@@ -17,6 +18,7 @@ namespace Core
 		{
 			AppEvents = new AppEvents();
 			Coroutiner = new Coroutiner();
+			Assets = new Assets();
 			Services = new Services();
 			Models = new Models();
 			UI = new UI();

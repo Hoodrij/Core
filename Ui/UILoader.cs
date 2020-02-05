@@ -14,7 +14,7 @@ namespace Core.Ui
 		
 		public UILoader()
 		{
-			UITag uiPrefab = GetUIPrefab();
+			UITag uiPrefab = Game.Assets.GetPreloaded<UITag>();
 			uiGO = Object.Instantiate(uiPrefab);
 			Object.DontDestroyOnLoad(uiGO);
 		}
@@ -39,12 +39,11 @@ namespace Core.Ui
 		{
 			if (info.AsyncLoad)
 			{
-				Resources.LoadAsync<UIView>(info.Path)
-					.completed += async => Instantiate((async as ResourceRequest)?.asset);
+				Game.Assets.GetAsync<TView>(info.Path, Instantiate);
 			}
 			else
 			{
-				var asset = Resources.Load<UIView>(info.Path);
+				var asset = Game.Assets.Get<TView>(info.Path);
 				Instantiate(asset);
 			}
 
@@ -59,21 +58,6 @@ namespace Core.Ui
 		public UIRoot GetRoot(Type type)
 		{
 			return roots.Find(root => root.GetType() == type);
-		}
-		
-		private UITag GetUIPrefab()
-		{
-			foreach (Object asset in PlayerSettings.GetPreloadedAssets())
-			{
-				if (!(asset is GameObject gameObject)) continue;
-
-				UITag view = gameObject.GetComponent<UITag>();
-				if (view == null) continue;
-
-				return view;
-			}
-
-			return null;
 		}
 	}
 }

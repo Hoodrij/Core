@@ -7,27 +7,12 @@ namespace Core
 	{
 		public IFaderView SpawnView()
 		{
-			Component prefab = GetFaderViewPrefab();
+			Component prefab = Game.Assets.GetPreloaded(typeof(IFaderView));
 
 			Component instantiatedView = Object.Instantiate(prefab);
 			Object.DontDestroyOnLoad(instantiatedView);
 
 			return instantiatedView as IFaderView;
-		}
-
-		private Component GetFaderViewPrefab()
-		{
-			foreach (Object asset in PlayerSettings.GetPreloadedAssets())
-			{
-				if (!(asset is GameObject gameObject)) continue;
-
-				Component view = gameObject.GetComponent(typeof(IFaderView));
-				if (view == null) continue;
-
-				return view;
-			}
-
-			return null;
 		}
 	}
 }
