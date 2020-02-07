@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+#if UNITY_EDITOR
 namespace Core.Samples.Ui
 {
     public class UIPrefabPostProcessor : AssetPostprocessor
@@ -39,3 +40,4 @@ namespace Core.Samples.Ui
         }
     }
 }
+#endif

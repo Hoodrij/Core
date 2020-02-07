@@ -28,6 +28,7 @@ namespace Core
 
 		public Component GetPreloaded(Type type)
 		{
+//#if UNITY_EDITOR
 			foreach (Object asset in PlayerSettings.GetPreloadedAssets())
 			{
 				if (!(asset is GameObject gameObject)) continue;
@@ -37,6 +38,7 @@ namespace Core
 
 				return component;
 			}
+//#endif
 
 			return null;
 		}

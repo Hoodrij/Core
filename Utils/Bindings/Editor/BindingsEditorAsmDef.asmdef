@@ -1,8 +1,11 @@
 {
-    "name": "Core",
+    "name": "BindingsEditorAsmDef",
     "references": [
+        "GUID:d3a492092629bec469222914e6abab17"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

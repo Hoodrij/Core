@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace Core.Utils.SerializableDictionary.Editor
 {
 	[CustomPropertyDrawer(typeof(DrawableDictionary), true)]
@@ -407,3 +408,4 @@ namespace Core.Utils.SerializableDictionary.Editor
 
 	}
 }
+#endif

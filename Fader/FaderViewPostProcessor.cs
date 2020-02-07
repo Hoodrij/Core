@@ -4,7 +4,8 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Core
+#if UNITY_EDITOR
+namespace Core.Editor
 {
 	public class FaderViewPostProcessor : AssetPostprocessor
 	{
@@ -38,3 +39,4 @@ namespace Core
 		}
 	}
 }
+#endif

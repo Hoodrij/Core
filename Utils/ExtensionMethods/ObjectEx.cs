@@ -30,6 +30,7 @@ namespace Core.Utils.ExtensionMethods
 		
 		public static void AddToPreloadedAssets(this Object @this)
 		{
+#if UNITY_EDITOR
 			Object[] preloadedAssets = PlayerSettings.GetPreloadedAssets();
 
 			List<Object> newAssets = preloadedAssets
@@ -40,6 +41,7 @@ namespace Core.Utils.ExtensionMethods
 			newAssets.Add(@this);
 			
 			PlayerSettings.SetPreloadedAssets(newAssets.ToArray());
+#endif
 		}
 	}
 }
