@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿﻿using System;
 using System.Reflection;
 using Bindings;
 using Core.Utils.ExtensionMethods;
@@ -15,7 +15,7 @@ namespace Core.Ui
 			Game.UI.Open(data, callback);
 		}
 		
-		[Obsolete("Need Data", true)]
+		[Obsolete("Requires Data", true)]
 		public new static void Open(Action<TView> callback = null) { }
 	}
 

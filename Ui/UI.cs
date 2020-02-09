@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace Core.Ui
 {
@@ -14,6 +15,16 @@ namespace Core.Ui
 			loader = new UILoader();
 			controller = new UIController(loader);
 		}
+		
+		public void Init(GameObject canvasRoot, IEnumerable<UIRoot> roots)
+		{
+			loader.SetCanvas(canvasRoot);
+			
+			foreach (UIRoot root in roots)
+			{
+				loader.AddRoot(root);
+			}
+		}
 
 		internal void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView 
 			=> controller.Open(data, onOpen);
@@ -23,13 +34,5 @@ namespace Core.Ui
 		internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
 
 		internal void CloseAll() => controller.CloseAll();
-		
-		public void Add(IEnumerable<UIRoot> roots)
-		{
-			foreach (UIRoot root in roots)
-			{
-				loader.AddRoot(root);
-			}
-		}
 	}
 }

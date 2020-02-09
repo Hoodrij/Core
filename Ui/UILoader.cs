@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Core.Utils.ExtensionMethods;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -10,12 +8,11 @@ namespace Core.Ui
 	internal class UILoader
 	{
 		private List<UIRoot> roots = new List<UIRoot>();
-		private UITag uiGO;
-		
-		public UILoader()
+		private GameObject uiGO;
+
+		public void SetCanvas(GameObject go)
 		{
-			UITag uiPrefab = Game.Assets.GetPreloaded<UITag>();
-			uiGO = Object.Instantiate(uiPrefab);
+			uiGO = go;
 			Object.DontDestroyOnLoad(uiGO);
 		}
 		
@@ -39,11 +36,11 @@ namespace Core.Ui
 		{
 			if (info.AsyncLoad)
 			{
-				Game.Assets.GetAsync<TView>(info.Path, Instantiate);
+				Game.Assets.LoadAsync<TView>(info.Path, Instantiate);
 			}
 			else
 			{
-				var asset = Game.Assets.Get<TView>(info.Path);
+				var asset = Game.Assets.Load<TView>(info.Path);
 				Instantiate(asset);
 			}
 

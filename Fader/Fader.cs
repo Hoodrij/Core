@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Samples.Fader;
 using Core.Utils.ExtensionMethods;
 using UnityEditor;
 using UnityEngine;
@@ -16,8 +17,6 @@ namespace Core
 
 		public Fader()
 		{
-			SetView(new FaderSpawner().SpawnView());
-			
 			Game.Coroutiner.StartCoroutine(Worker());
 		}
 
