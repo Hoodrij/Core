@@ -17,6 +17,8 @@ namespace Core
 
 		public Fader()
 		{
+			SetView(Game.Assets.Spawn<IFaderView>("BaseFaderView", true));
+			
 			Game.Coroutiner.StartCoroutine(Worker());
 		}
 

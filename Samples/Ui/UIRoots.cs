@@ -11,7 +11,9 @@ namespace Core.Samples.Ui
         public class Window : UIRoot { }
         
         public class Popup : UIRoot { }
+        
         public class Hud : UIRoot { }
+        
         public class Overlay : UIRoot { }
 	}
 }

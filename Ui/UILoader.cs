@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Samples.Ui;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -10,10 +11,14 @@ namespace Core.Ui
 		private List<UIRoot> roots = new List<UIRoot>();
 		private GameObject uiGO;
 
+		public UILoader()
+		{
+			SetCanvas(Game.Assets.Spawn("BaseUI", true));
+		}
+
 		public void SetCanvas(GameObject go)
 		{
 			uiGO = go;
-			Object.DontDestroyOnLoad(uiGO);
 		}
 		
 		public void AddRoot(UIRoot root)

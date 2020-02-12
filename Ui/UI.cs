@@ -16,10 +16,8 @@ namespace Core.Ui
 			controller = new UIController(loader);
 		}
 		
-		public void Init(GameObject canvasRoot, IEnumerable<UIRoot> roots)
+		public void Add(IEnumerable<UIRoot> roots)
 		{
-			loader.SetCanvas(canvasRoot);
-			
 			foreach (UIRoot root in roots)
 			{
 				loader.AddRoot(root);
