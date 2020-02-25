@@ -35,6 +35,8 @@ namespace Core.Utils.Observables
 
 		public void Listen(Action action)
 		{
+			if (Listeners.ContainsKey(action.Target)) return;
+			
 			Listeners.Add(action.Target, action);
 		}
 
