@@ -6,7 +6,7 @@ namespace Core.Utils.Observables
 	{
 		public new void Listen(Action action)
 		{
-			eventHandlers.Clear();
+			Listeners.Clear();
 			base.Listen(action);
 		}
 	}
@@ -15,7 +15,7 @@ namespace Core.Utils.Observables
 	{
 		public new void Listen(Action<T1> action)
 		{
-			eventHandlers.Clear();
+			Listeners.Clear();
 			base.Listen(action);
 		}
 	}
