@@ -2,6 +2,86 @@
 using UnityEngine;
 using Event = Core.Utils.Observables.Event;
 
+using System;
+using UnityEngine;
+
+    public class Lifetime
+    {
+        public event Action OnUpdate;
+        public event Action OnLateUpdate;
+        public event Action OnFixedUpdate;
+        public event Action OnPause;
+        public event Action OnResume;
+        public event Action OnQuit;
+        
+        internal Lifetime()
+        {
+            if (Application.isPlaying)
+            {
+                LifetimeBehaviour beh = new GameObject("AppEventsBehaviour").AddComponent<LifetimeBehaviour>();
+                beh.Lifetime = this;
+            }
+        }
+
+        internal void FireUpdate() => OnUpdate?.Invoke();
+        internal void FireLateUpdate() => OnLateUpdate?.Invoke();
+        internal void FireFixedUpdate() => OnFixedUpdate?.Invoke();
+        internal void FirePause() => OnPause?.Invoke();
+        internal void FireResume() => OnResume?.Invoke();
+        internal void FireQuit() => OnQuit?.Invoke();
+    }
+
+    public class LifetimeBehaviour : MonoBehaviour
+    {
+        public Lifetime Lifetime { get; set; }
+        
+        private void Update()
+        {
+            Lifetime?.FireUpdate();
+        }
+
+        private void LateUpdate()
+        {
+            Lifetime?.FireLateUpdate();
+        }
+
+        private void FixedUpdate()
+        {
+            Lifetime?.FireFixedUpdate();
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            if (focus)
+            {
+                Lifetime?.FireResume();
+            }
+            else
+            {
+                Lifetime?.FirePause();
+            }
+        }
+        
+#if UNITY_EDITOR
+        private void OnApplicationPause (bool pause)
+        {
+            if (pause)
+            {
+                Lifetime?.FirePause();
+            }
+            else
+            {
+                Lifetime?.FireResume();
+            }
+        }
+#endif
+
+        private void OnApplicationQuit()
+        {
+            Lifetime?.FireQuit();
+        }
+    }
+
 namespace Core
 {
 	public class AppEvents
