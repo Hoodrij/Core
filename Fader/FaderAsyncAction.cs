@@ -1,15 +1,15 @@
 using System;
-using Core.Utils.Observables;
+using Core.Tools.Observables;
 
 namespace Core
 {
 	public class FaderAsyncAction
 	{
 		private Action action;
-		private Event onCompleted;
+		private Signal onCompleted;
 		private bool actionInvoked;
 
-		public FaderAsyncAction(Action action, Event onCompleted)
+		public FaderAsyncAction(Action action, Signal onCompleted)
 		{
 			this.action = action;
 			this.onCompleted = onCompleted;

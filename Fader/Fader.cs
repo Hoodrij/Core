@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Core.Samples.Fader;
-using Core.Utils.ExtensionMethods;
+using Core.Tools.ExtensionMethods;
+using Core.Tools.Observables;
 using UnityEditor;
 using UnityEngine;
-using Event = Core.Utils.Observables.Event;
 using Object = UnityEngine.Object;
 
 namespace Core
@@ -19,7 +19,7 @@ namespace Core
 		{
 			SetView(Game.Assets.Spawn<IFaderView>("BaseFaderView", true));
 			
-			Game.Coroutiner.StartCoroutine(Worker());
+			Game.Coroutiner.Start(Worker());
 		}
 
 		IEnumerator Worker()
@@ -30,7 +30,7 @@ namespace Core
 				{
 					if (view != null)
 					{
-						yield return Game.Coroutiner.StartCoroutine(view.WaitForShown());
+						yield return Game.Coroutiner.Start(view.WaitForShown());
 					}
 					
 					var action = actions.Dequeue();
@@ -45,7 +45,7 @@ namespace Core
 			this.view = view;
 		}
 
-		public void AddAction(Action action, Event onCompleted = null)
+		public void AddAction(Action action, Signal onCompleted = null)
 		{
 			onCompleted?.Listen(TryHideView);
 			actions.Enqueue(new FaderAsyncAction(action, onCompleted));

@@ -1,5 +1,5 @@
 ﻿using System;
-using Core.Utils.ExtensionMethods;
+using Core.Tools.ExtensionMethods;
 using UnityEngine;
 
 namespace Core.Ui

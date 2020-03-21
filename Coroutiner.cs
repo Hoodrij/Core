@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -9,21 +8,21 @@ namespace Core
 	{
 		CoroutinerBehaviour behaviour;
 		
-		public Coroutiner()
+		internal Coroutiner()
 		{
 			if (!Application.isPlaying) return;
 			
-			GameObject gameObject = new GameObject("[Coroutiner]");
+			GameObject gameObject = new GameObject("Game.Coroutiner");
 			Object.DontDestroyOnLoad(gameObject);
 			behaviour = gameObject.AddComponent<CoroutinerBehaviour>();
 		}
 		
-		public Coroutine StartCoroutine(IEnumerator coroutine)
+		public Coroutine Start(IEnumerator coroutine)
 		{
 			return behaviour.StartCoroutine(coroutine);
 		}
 		
-		public void StopCoroutine(Coroutine coroutine)
+		public void Stop(Coroutine coroutine)
 		{
 			behaviour.StopCoroutine(coroutine);
 		}

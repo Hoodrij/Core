@@ -1,12 +1,10 @@
 ﻿using Core.Ui;
-using Injection;
-using UnityEngine;
 
 namespace Core
 {
 	public class Game
 	{
-		public static AppEvents AppEvents { get; private set; }
+		public static Lifetime Lifetime { get; private set; }
 		public static Coroutiner Coroutiner { get; private set; }
 		public static Assets Assets { get; private set; }
 		public static Services Services { get; private set; }
@@ -16,7 +14,7 @@ namespace Core
 
 		public Game()
 		{
-			AppEvents = new AppEvents();
+			Lifetime = new Lifetime();
 			Coroutiner = new Coroutiner();
 			Assets = new Assets();
 			Services = new Services();

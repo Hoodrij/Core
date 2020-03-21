@@ -1,7 +1,7 @@
 ﻿﻿﻿using System;
 using System.Reflection;
-using Bindings;
-using UnityEngine;
+  using Core.Tools.Bindings;
+  using UnityEngine;
 
 namespace Core.Ui
 {

@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Core.Utils.Observables;
+using Core.Tools.Observables;
 
 namespace Core.StateMachine
 {
 	public class StateMachine<TState> where TState : State
 	{
-		private Event<TState> onEnter = new Event<TState>();
-		private Event<TState> onExit = new Event<TState>();
+		private Signal<TState> onEnter = new Signal<TState>();
+		private Signal<TState> onExit = new Signal<TState>();
 
 		public TState Current { get; private set; }
 

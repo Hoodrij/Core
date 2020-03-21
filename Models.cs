@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Abstract;
-using Injection;
+using Core.Tools;
 
 namespace Core
 {

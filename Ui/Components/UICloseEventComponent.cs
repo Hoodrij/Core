@@ -1,12 +1,12 @@
 ﻿using System;
+using Core.Tools.Observables;
 using UnityEngine;
-using Event = Core.Utils.Observables.Event;
 
 namespace Core.Ui
 {
 	public class UICloseEventComponent : MonoBehaviour
 	{
-		private Event OnClose = new Event();
+		private Signal OnClose = new Signal();
 
 		internal void ListenCloseClick(Action action)
 		{

@@ -1,0 +1,29 @@
+using System;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Core.Tools.Bindings
+{
+  [BindTo(typeof(Boolean))]
+  public class InteractableEnableBinder : ABinder
+  {
+    [SerializeField] Selectable _selectable;
+#pragma warning disable 649
+    [SerializeField] Boolean _revert;
+#pragma warning restore 649
+    private Func<Boolean> _getter;
+
+    protected override void Bind(Boolean init)
+    {
+      _selectable.interactable = _revert ? !_getter() : _getter();
+    }
+
+    private void Awake()
+    {
+      if (_selectable == null)
+        _selectable = GetComponent<Selectable>();
+
+      Init(ref _getter);
+    }
+  }
+}

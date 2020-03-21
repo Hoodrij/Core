@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using Core.Abstract;
 
 namespace Core
@@ -13,7 +10,7 @@ namespace Core
 
 		public Services()
 		{
-			Game.AppEvents.OnUpdate.Listen(Update);
+			Game.Lifetime.OnUpdate.Listen(Update);
 		}
 
 		private void Update()

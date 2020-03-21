@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Utils.ExtensionMethods;
+using Core.Tools.ExtensionMethods;
 using UnityEngine;
 
 namespace Core.Samples.Fader
