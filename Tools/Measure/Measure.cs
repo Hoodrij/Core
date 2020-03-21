@@ -47,8 +47,6 @@ namespace Core.Tools
             float elapsedTicks = stopwatch.Elapsed.Ticks / (float) count;
 
             Debug.Log($"{ name.Color(Color.yellow) } with { elapsedTicks.ToString().Color(Color.yellow) }");
-#if UNITY_EDITOR
-#endif
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿
-using UnityEditor.Experimental.SceneManagement;
+﻿using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace Core.Tools.EditorTools.Editor
 {
@@ -12,11 +12,12 @@ namespace Core.Tools.EditorTools.Editor
 		//% (ctrl), # (shift), & (alt)
 		public const string TOOLS = "Tools/";
 		public const string TOOLS_OTHER = TOOLS + "Hotkeys/";
-		public const string PLAYER_PREFS = TOOLS + "PlayerPrefs/";
 
 		[MenuItem(TOOLS_OTHER + "ResetTransform &z")]
 		private static void ResetTransform()
 		{
+			if (Macros.EDITOR) return;
+			
 			foreach (Transform t in Selection.transforms)
 			{
 				t.localPosition = Vector3.zero;
@@ -36,6 +37,8 @@ namespace Core.Tools.EditorTools.Editor
 		[MenuItem(TOOLS_OTHER + "Toggle active &d")]
 		private static void ToggleActive()
 		{
+			if (Macros.EDITOR) return;
+			
 			foreach (GameObject go in Selection.gameObjects)
 			{
 				go.SetActive(!go.activeSelf);
@@ -49,21 +52,5 @@ namespace Core.Tools.EditorTools.Editor
 				EditorSceneManager.MarkSceneDirty(prefabStage.scene);
 			}
 		}
-
-		[MenuItem(TOOLS_OTHER + "Apply prefab &a")]
-		private static void ApplyPrefab()
-		{
-			var sel = Selection.activeGameObject;
-
-			if (sel != null)
-			{
-				var parent = PrefabUtility.GetCorrespondingObjectFromSource(sel);
-				if (parent != null)
-				{
-					PrefabUtility.ReplacePrefab(PrefabUtility.FindRootGameObjectWithSameParentPrefab(sel), parent, ReplacePrefabOptions.ConnectToPrefab);
-				}
-			}
-		}
 	}
 }
-#endif

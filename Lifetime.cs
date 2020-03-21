@@ -60,9 +60,10 @@ namespace Core
             }
         }
         
-#if UNITY_EDITOR
         private void OnApplicationPause(bool pause)
         {
+            if (!Macros.EDITOR) return;
+            
             if (pause)
             {
                 Lifetime?.FirePause();
@@ -72,7 +73,6 @@ namespace Core
                 Lifetime?.FireResume();
             }
         }
-#endif
 
         private void OnApplicationQuit()
         {

@@ -31,26 +31,27 @@ namespace Core.Tools.Pool
 
 		public virtual void Push(APoolable item)
 		{
-#if DEBUG
-			if (item == null || item.gameObject == null) return;
+			if (Macros.DEBUG)
+			{
+				if (item == null || item.gameObject == null) return;
 
-			if (stack.Contains(item))
-			{
-				Debug.LogError("Tried to pool already pooled object. Ignoring...Check for duplicate return to pool" + name);
-				return;
-			}
-			if (!item.gameObject.activeSelf)
-			{
-				Debug.LogError("Tried to pool inactive object. Ignoring...Check for duplicate return to pool" + name);
-				return;
-			}
+				if (stack.Contains(item))
+				{
+					Debug.LogError("Tried to pool already pooled object. Ignoring...Check for duplicate return to pool" + name);
+					return;
+				}
+				if (!item.gameObject.activeSelf)
+				{
+					Debug.LogError("Tried to pool inactive object. Ignoring...Check for duplicate return to pool" + name);
+					return;
+				}
 
-			if (itemsInUse < 1)
-			{
-				Debug.LogError("Tried to pool object while pool had no items in use. Pool: " + name);
-				return;
+				if (itemsInUse < 1)
+				{
+					Debug.LogError("Tried to pool object while pool had no items in use. Pool: " + name);
+					return;
+				}
 			}
-#endif
 
 			item.gameObject.SetActive(false);
 			stack.Push(item);
@@ -82,9 +83,10 @@ namespace Core.Tools.Pool
 			item.Pool = this;
 			stack.Push(item);
 
-#if UNITY_EDITOR
-			item.name = prefab.name + (stack.Count + itemsInUse);
-#endif
+			if (Macros.EDITOR)
+			{
+				item.name = prefab.name + (stack.Count + itemsInUse);
+			}
 		}
 	}
 }

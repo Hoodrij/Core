@@ -10,38 +10,40 @@ namespace Core.Tools.ExtensionMethods
 	{
 		public static void log(this object o, string tag = "")
 		{
-#if UNITY_EDITOR
-			Debug.Log(tag + o);
-#endif
+			if (Macros.EDITOR)
+			{
+				Debug.Log(tag + o);
+			}
 		}
 
 		public static void logClear(this object o, string tag = "")
 		{
-#if UNITY_EDITOR
+			if (Macros.EDITOR)
+			{
+				var assembly = Assembly.GetAssembly(typeof(SceneView));
+				var type = assembly.GetType("UnityEditor.LogEntries");
+				var method = type.GetMethod("Clear");
+				method.Invoke(new object(), null);
 
-			var assembly = Assembly.GetAssembly(typeof(SceneView));
-			var type = assembly.GetType("UnityEditor.LogEntries");
-			var method = type.GetMethod("Clear");
-			method.Invoke(new object(), null);
-
-			o.log(tag);
-#endif
+				o.log(tag);
+			}
 		}
 		
 		public static void AddToPreloadedAssets(this Object @this)
 		{
-#if UNITY_EDITOR
-			Object[] preloadedAssets = PlayerSettings.GetPreloadedAssets();
+			if (Macros.EDITOR)
+			{
+				Object[] preloadedAssets = PlayerSettings.GetPreloadedAssets();
 
-			List<Object> newAssets = preloadedAssets
-					.Where(o => o != @this)
-					.Where(o => o != null)
-					.ToList()
-					;
-			newAssets.Add(@this);
-			
-			PlayerSettings.SetPreloadedAssets(newAssets.ToArray());
-#endif
+				List<Object> newAssets = preloadedAssets
+						.Where(o => o != @this)
+						.Where(o => o != null)
+						.ToList()
+						;
+				newAssets.Add(@this);
+				
+				PlayerSettings.SetPreloadedAssets(newAssets.ToArray());
+			}
 		}
 	}
 }

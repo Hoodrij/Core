@@ -13,7 +13,7 @@ namespace Core.Ui
 
 		protected UIRoot()
 		{
-			rootsToClose = new[] {this.GetType()};
+			rootsToClose = new[] { this.GetType() };
 			
 			UIRootCloseParamsAttribute paramsAttribute = GetType().GetCustomAttribute<UIRootCloseParamsAttribute>();
 			if (paramsAttribute != null)

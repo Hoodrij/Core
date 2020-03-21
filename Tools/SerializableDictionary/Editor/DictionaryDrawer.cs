@@ -15,10 +15,8 @@ namespace Core.Tools.SerializableDictionary.Editor
 				var keysProp = property.FindPropertyRelative("_keys");
 				return (keysProp.arraySize + 4) * EditorGUIUtility.singleLineHeight;
 			}
-			else
-			{
-				return EditorGUIUtility.singleLineHeight;
-			}
+
+			return EditorGUIUtility.singleLineHeight;
 		}
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
