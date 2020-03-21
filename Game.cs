@@ -22,5 +22,12 @@ namespace Core
 			UI = new UI();
 			Fader = new Fader();
 		}
+
+		public void Setup(BaseGameSetup setup)
+		{
+			UI.Add(setup.UIRoots());
+			Models.Add(setup.Models());
+			Services.Add(setup.Services());
+		}
 	}
 }
