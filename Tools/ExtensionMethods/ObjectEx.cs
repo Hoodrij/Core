@@ -4,8 +4,8 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Tools.ExtensionMethods
-{
+//namespace Core.Tools.ExtensionMethods
+//{
 	public static class ObjectEx
 	{
 		public static void log(this object o, string tag = "")
@@ -46,4 +46,4 @@ namespace Core.Tools.ExtensionMethods
 			}
 		}
 	}
-}
+//}

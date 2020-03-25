@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Core.Samples.Ui;
+using System.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -37,24 +37,21 @@ namespace Core.Ui
 			root.Transform = rectTransform;
 		}
 		
-		public void Load<TView>(UIInfoAttribute info, Action<TView> callback) where TView : UIView
+		public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
 		{
+			TView view;
+			
 			if (info.AsyncLoad)
 			{
-				Game.Assets.LoadAsync<TView>(info.Path, Instantiate);
+				view = await Game.Assets.LoadAsync<TView>(info.Path);
 			}
 			else
 			{
-				var asset = Game.Assets.Load<TView>(info.Path);
-				Instantiate(asset);
+				view = Game.Assets.Load<TView>(info.Path);
 			}
-
-			void Instantiate(Object resource)
-			{
-				Transform root = GetRoot(info.RootType).Transform;
-				UIView view = Object.Instantiate(resource, root) as UIView;
-				callback.Invoke(view as TView);
-			}
+			
+			Transform root = GetRoot(info.RootType).Transform;
+			return Object.Instantiate(view, root);
 		}
 
 		public UIRoot GetRoot(Type type)

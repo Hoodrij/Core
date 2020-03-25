@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using Core.Tools.ExtensionMethods;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -16,11 +18,10 @@ namespace Core
 			return Resources.Load<T>(path);
 		}
 
-		public ResourceRequest LoadAsync<T>(string path, Action<T> callback = null) where T : Component
+		public async Task<T> LoadAsync<T>(string path) where T : Component
 		{
-			ResourceRequest request = Resources.LoadAsync<T>(path);
-			request.completed += operation => callback?.Invoke(request.asset as T);
-			return request;
+			var asset = await Resources.LoadAsync<T>(path);
+			return asset as T;
 		}
 
 		public T Spawn<T>(string path, bool persistent = false) where T : class

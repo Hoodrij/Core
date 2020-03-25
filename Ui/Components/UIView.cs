@@ -1,5 +1,6 @@
 ﻿﻿﻿using System;
 using System.Reflection;
+  using System.Threading.Tasks;
   using Core.Tools.Bindings;
   using UnityEngine;
 
@@ -9,22 +10,22 @@ namespace Core.Ui
 	{
 		protected TData Data => (TData) base.data;
 
-		public static void Open(TData data, Action<TView> callback = null)
+		public static async Task<TView> Open(TData data)
 		{
-			Game.UI.Open(data, callback);
+			return await Game.UI.Open<TView>(data);
 		}
 		
 		[Obsolete("Requires Data", true)]
-		public new static void Open(Action<TView> callback = null) { }
+		public new static void Open() { }
 	}
 
 	public abstract class UIView<TView> : UIView where TView : UIView
 	{
 		internal static UIInfoAttribute Info => typeof(TView).GetCustomAttribute<UIInfoAttribute>();
 		
-		public static void Open(Action<TView> callback = null)
+		public static async Task<TView> Open()
 		{
-			Game.UI.Open(null, callback);
+			return await Game.UI.Open<TView>();
 		}
 	} 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,8 +25,8 @@ namespace Core.Ui
 			}
 		}
 
-		internal void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView 
-			=> controller.Open(data, onOpen);
+		internal async Task<TView> Open<TView>(object data = null) where TView : UIView 
+			=> await controller.Open<TView>(data);
 		
 		internal UIView Get<TView>() where TView : UIView => controller.Get<TView>();
 		

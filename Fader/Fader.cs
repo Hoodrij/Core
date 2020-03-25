@@ -1,42 +1,39 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Core.Samples.Fader;
+using System.Threading.Tasks;
 using Core.Tools.ExtensionMethods;
-using Core.Tools.Observables;
-using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Core
 {
 	public class Fader
 	{
-		private Queue<FaderAsyncAction> actions = new Queue<FaderAsyncAction>();
+		private Queue<Func<Task>> actions = new Queue<Func<Task>>();
 		private IFaderView view;
 
 		public Fader()
 		{
 			SetView(Game.Assets.Spawn<IFaderView>("BaseFaderView", true));
-			
-			Game.Coroutiner.Start(Worker());
+
+			Worker();
 		}
 
-		IEnumerator Worker()
+		private async void Worker()
 		{
 			while (true)
 			{
-				if (!actions.IsEmpty())
+				await new WaitForEndOfFrame();
+
+				if (actions.IsEmpty()) continue;
+				
+				if (view != null)
 				{
-					if (view != null)
-					{
-						yield return Game.Coroutiner.Start(view.WaitForShown());
-					}
-					
-					var action = actions.Dequeue();
-					action.Invoke(TryHideView);
+					await view.WaitForShown();
 				}
-				yield return null;
+					
+				var action = actions.Dequeue();
+				await action();
+				TryHideView();
 			}
 		}
 
@@ -45,10 +42,9 @@ namespace Core
 			this.view = view;
 		}
 
-		public void AddAction(Action action, Signal onCompleted = null)
+		public void AddAction(Func<Task> action)
 		{
-			onCompleted?.Listen(TryHideView);
-			actions.Enqueue(new FaderAsyncAction(action, onCompleted));
+			actions.Enqueue(action);
 		}
 
 		private void TryHideView()

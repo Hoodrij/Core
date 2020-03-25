@@ -1,10 +1,10 @@
-using System.Collections;
+using System.Threading.Tasks;
 
 namespace Core
 {
 	public interface IFaderView
 	{
-		IEnumerator WaitForShown();
+		Task WaitForShown();
 		void Hide();
 	}
 }

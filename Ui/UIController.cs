@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 using Object = UnityEngine.Object;
 
 namespace Core.Ui
@@ -22,30 +21,31 @@ namespace Core.Ui
 			return opened.Find(view => view.GetType() == typeof(TView));
 		}
 
-		public void Open<TView>(object data = null, Action<TView> onOpen = null) where TView : UIView
+		public async Task<TView> Open<TView>(object data = null) where TView : UIView
 		{
 			UIInfoAttribute info = UIView<TView>.Info;
-			
-			loader.Load<TView>(info, view =>
+
+			foreach (UIView openedView in opened.Where(openedView => 
+				info.Root.IsClosingOther(openedView.Info.Root)))
 			{
-				opened.Where(openedView => info.Root.IsClosingOther(openedView.Info.Root))
-					.ToList()
-					.ForEach(openedView => openedView.Close());
+				openedView.Close();
+			}
+			
+			TView view = await loader.Load<TView>(info);
 
-				Object.DontDestroyOnLoad(view);
-				view.Initialize(data);
-				opened.Add(view);
-				onOpen?.Invoke(view);
+			view.Initialize(data);
+			opened.Add(view);
 
-				view.CloseAction = () =>
-				{
-					if (view == null) return;
+			view.CloseAction = () =>
+			{
+				if (view == null) return;
 
-					opened.Remove(view);
-					view.OnClose();
-					Object.Destroy(view.gameObject);
-				};
-			});
+				opened.Remove(view);
+				view.OnClose();
+				Object.Destroy(view.gameObject);
+			};
+
+			return view;
 		}
 
 		internal void CloseAll()

@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
 
@@ -16,10 +14,10 @@ namespace Core.Samples.Fader
 			animator = GetComponent<Animator>();
 		}
 
-		public IEnumerator WaitForShown()
+		public async Task WaitForShown()
 		{
 			animator.SetSingleTrigger("show");
-			yield return new WaitWhile(() => !isShown);  
+			await new WaitUntil(() => isShown);  
 		}
 
 		public void Hide()

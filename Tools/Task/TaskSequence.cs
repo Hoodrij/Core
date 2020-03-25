@@ -1,48 +1,47 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.Tools.Observables;
 using UnityEngine;
 
-namespace Core.Tools.Task
+namespace Core.Tools
 {
 	public class TaskSequence
     {
         public float Progress => (float) tasks.Count / initialTasksCount;
         public readonly Signal<float> OnProgressChanged = new Signal<float>();
         
-        private readonly Queue<BaseTask> tasks = new Queue<BaseTask>();
+        private readonly Queue<Task> tasks = new Queue<Task>();
         private Action onCompleted;
         private int initialTasksCount;
 
-        public TaskSequence Add(BaseTask baseTask)
+        public TaskSequence Add(Task task)
         {
-            tasks.Enqueue(baseTask);
+            tasks.Enqueue(task);
             return this;
         }
         
-        public TaskSequence Run(Action onCompleted = null)
+        public async Task<TaskSequence> Run(Action onCompleted = null)
         {
             this.onCompleted = onCompleted;
             initialTasksCount = tasks.Count;
-            Game.Coroutiner.Start(ExecutionRoutine());
+            await ExecutionRoutine();
+            
             return this;
         }
 
-        private IEnumerator ExecutionRoutine()
+        private async System.Threading.Tasks.Task ExecutionRoutine()
         {
             while (tasks.Count > 0)
             {
-                BaseTask baseTask = tasks.Dequeue();
-                baseTask.Execute();
+                Task task = tasks.Dequeue();
+                task.Execute();
                 
-                yield return new WaitWhile(() => baseTask.State == TaskState.RUNNING);
+                await new WaitWhile(() => task.State == TaskState.RUNNING);
                 OnProgressChanged.Fire(Progress);
             }
 
             onCompleted?.Invoke();
-
-            yield return null;
         }
     }
 }
