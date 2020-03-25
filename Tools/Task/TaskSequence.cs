@@ -8,11 +8,10 @@ namespace Core.Tools
 {
 	public class TaskSequence
     {
-        public float Progress => (float) tasks.Count / initialTasksCount;
-        public readonly Signal<float> OnProgressChanged = new Signal<float>();
+        public float Progress => 1 - (float) tasks.Count / initialTasksCount;
         
+        private readonly Signal<float> onProgressChanged = new Signal<float>();
         private readonly Queue<Task> tasks = new Queue<Task>();
-        private Action onCompleted;
         private int initialTasksCount;
 
         public TaskSequence Add(Task task)
@@ -20,10 +19,15 @@ namespace Core.Tools
             tasks.Enqueue(task);
             return this;
         }
-        
-        public async Task<TaskSequence> Run(Action onCompleted = null)
+
+        public TaskSequence OnProgress(Action<float> action)
         {
-            this.onCompleted = onCompleted;
+            onProgressChanged.Listen(action);
+            return this;
+        }
+        
+        public async Task<TaskSequence> Run()
+        {
             initialTasksCount = tasks.Count;
             await ExecutionRoutine();
             
@@ -38,10 +42,8 @@ namespace Core.Tools
                 task.Execute();
                 
                 await new WaitWhile(() => task.State == TaskState.RUNNING);
-                OnProgressChanged.Fire(Progress);
+                onProgressChanged.Fire(Progress);
             }
-
-            onCompleted?.Invoke();
         }
     }
 }
