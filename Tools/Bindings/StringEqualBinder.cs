@@ -3,48 +3,38 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(String))]
-  public class StringEqualBinder : ABinder
-  {
-#pragma warning disable 649
-    [Serializable]
-    private struct StringBindingPair
+    [BindTo(typeof(string))] public class StringEqualBinder : ABinder
     {
-      public String Str;
-      public GameObject Obj;
-    }
+        [SerializeField] private StringBindingPair[] _binds;
 
-    [SerializeField] private StringBindingPair[] _binds;
-#pragma warning restore 649
 
-    private Func<String> _getter;
+        private Func<string> _getter;
 
-    protected override void Bind(Boolean init)
-    {
-      String key = _getter();
-
-      GameObject activeItem = null;
-      foreach (var i in _binds)
-      {
-        if (i.Str == key)
+        protected override void Bind(bool init)
         {
-          activeItem = i.Obj;
-        }
-        else
-        {
-          i.Obj.SetActive(false);
+            var key = _getter();
+
+            GameObject activeItem = null;
+            foreach (var i in _binds)
+            {
+                if (i.Str == key)
+                    activeItem = i.Obj;
+                else
+                    i.Obj.SetActive(false);
+
+                if (activeItem != null) activeItem.SetActive(true);
+            }
         }
 
-        if (activeItem != null)
+        private void Awake()
         {
-          activeItem.SetActive(true);
+            Init(ref _getter);
         }
-      }
-    }
 
-    private void Awake()
-    {
-      Init(ref _getter);
+        [Serializable] private struct StringBindingPair
+        {
+            public string Str;
+            public GameObject Obj;
+        }
     }
-  }
 }

@@ -3,27 +3,22 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Enum))]
-  public class ShaderColorEnumBinder : GraphicColorEnumBinder
-  {
-#pragma warning disable 649
-    [SerializeField] private string _propertyName;
-#pragma warning restore 649
-
-#pragma warning disable 649
-    [SerializeField] private Renderer _rendererWidget;
-#pragma warning restore 649
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(Enum))] public class ShaderColorEnumBinder : GraphicColorEnumBinder
     {
-      var baseEnum = _getter();
-      var valueName = Enum.GetName(baseEnum.GetType(), baseEnum);
+        [SerializeField] private string _propertyName;
 
-      foreach (var bindingPair in _stateObjects)
-        if (bindingPair.EnumVal == valueName)
+
+        [SerializeField] private Renderer _rendererWidget;
+
+
+        protected override void Bind(bool init)
         {
-          _rendererWidget.material.SetColor(_propertyName, bindingPair.Color);
+            var baseEnum = _getter();
+            var valueName = Enum.GetName(baseEnum.GetType(), baseEnum);
+
+            foreach (var bindingPair in _stateObjects)
+                if (bindingPair.EnumVal == valueName)
+                    _rendererWidget.material.SetColor(_propertyName, bindingPair.Color);
         }
     }
-  }
 }

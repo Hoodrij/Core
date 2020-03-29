@@ -3,53 +3,45 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Boolean))]
-  public class GameObjectsBooleanBinder : ABinder
-  {
-#pragma warning disable 649
-    [SerializeField] private GameObject[] _true;
-#pragma warning restore 649
-#pragma warning disable 649
-    [SerializeField] private GameObject[] _false;
-#pragma warning restore 649
-
-#pragma warning disable 649
-    [SerializeField] private Boolean _disableObjectsOnAwake;
-#pragma warning restore 649
-
-    private Func<Boolean> _getter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(bool))] public class GameObjectsBooleanBinder : ABinder
     {
-      var isTrue = _getter();
+        [SerializeField] private bool _disableObjectsOnAwake;
 
-      foreach (var go in _true)
-      {
-        if (go != null) go.SetActive(isTrue);
-      }
 
-      foreach (var go in _false)
-      {
-        if (go != null) go.SetActive(!isTrue);
-      }
-    }
+        [SerializeField] private GameObject[] _false;
 
-    private void Awake()
-    {
-      if (_disableObjectsOnAwake)
-      {
-        foreach (var go in _true)
+
+        private Func<bool> _getter;
+
+        [SerializeField] private GameObject[] _true;
+
+        protected override void Bind(bool init)
         {
-          if (go != null) go.SetActive(false);
+            var isTrue = _getter();
+
+            foreach (var go in _true)
+                if (go != null)
+                    go.SetActive(isTrue);
+
+            foreach (var go in _false)
+                if (go != null)
+                    go.SetActive(!isTrue);
         }
 
-        foreach (var go in _false)
+        private void Awake()
         {
-          if (go != null) go.SetActive(false);
-        }
-      }
+            if (_disableObjectsOnAwake)
+            {
+                foreach (var go in _true)
+                    if (go != null)
+                        go.SetActive(false);
 
-      Init(ref _getter);
+                foreach (var go in _false)
+                    if (go != null)
+                        go.SetActive(false);
+            }
+
+            Init(ref _getter);
+        }
     }
-  }
 }

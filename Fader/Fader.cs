@@ -6,54 +6,48 @@ using UnityEngine;
 
 namespace Core
 {
-	public class Fader
-	{
-		private Queue<Func<Task>> actions = new Queue<Func<Task>>();
-		private IFaderView view;
+    public class Fader
+    {
+        private Queue<Func<Task>> actions = new Queue<Func<Task>>();
+        private IFaderView view;
 
-		public Fader()
-		{
-			SetView(Game.Assets.Spawn<IFaderView>("BaseFaderView", true));
+        public Fader()
+        {
+            SetView(Game.Assets.Spawn<IFaderView>("BaseFaderView", true));
 
-			Worker();
-		}
+            Worker();
+        }
 
-		private async void Worker()
-		{
-			while (true)
-			{
-				await new WaitForEndOfFrame();
+        private async void Worker()
+        {
+            while (true)
+            {
+                await new WaitForEndOfFrame();
 
-				if (actions.IsEmpty()) continue;
-				
-				if (view != null)
-				{
-					await view.WaitForShown();
-				}
-					
-				var action = actions.Dequeue();
-				await action();
-				TryHideView();
-			}
-		}
+                if (actions.IsEmpty()) continue;
 
-		public void SetView(IFaderView view)
-		{
-			this.view = view;
-		}
+                if (view != null) await view.WaitForShown();
 
-		public void AddAction(Func<Task> action)
-		{
-			actions.Enqueue(action);
-		}
+                var action = actions.Dequeue();
+                await action();
+                TryHideView();
+            }
+        }
 
-		private void TryHideView()
-		{
-			if (view == null) return;
-			if (actions.IsEmpty())
-			{
-				view.Hide();
-			}
-		}
-	}
+        public void SetView(IFaderView view)
+        {
+            this.view = view;
+        }
+
+        public void AddAction(Func<Task> action)
+        {
+            actions.Enqueue(action);
+        }
+
+        private void TryHideView()
+        {
+            if (view == null) return;
+            if (actions.IsEmpty()) view.Hide();
+        }
+    }
 }

@@ -4,75 +4,76 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings.Editor
 {
-	[CustomEditor(typeof(AnimationEnumBinder), true), CanEditMultipleObjects]
-	public class AnimationEnumBinderEditor : ABinderEditor
-	{
-		private void DrawEnumBindingProperties()
-		{
-			if (_memberType == null)
-				return;
+    [CustomEditor(typeof(AnimationEnumBinder), true)] [CanEditMultipleObjects]
+    public class AnimationEnumBinderEditor : ABinderEditor
+    {
+        private void DrawEnumBindingProperties()
+        {
+            if (_memberType == null)
+                return;
 
-			if (!_memberType.IsEnum)
-			{
-				if (_memberType == typeof(Enum))
-				{
-					GUI.color = Color.red;
-					GUILayout.Label("Add Return Type into BindableAttrbiute of your Enum member");
-					GUI.color = Color.white;
-				}
-				else
-				{
-					GUI.color = Color.red;
-					GUILayout.Label("Member Type is Not Enum subtype");
-					GUI.color = Color.white;
-				}
-				return;
-			}
+            if (!_memberType.IsEnum)
+            {
+                if (_memberType == typeof(Enum))
+                {
+                    GUI.color = Color.red;
+                    GUILayout.Label("Add Return Type into BindableAttrbiute of your Enum member");
+                    GUI.color = Color.white;
+                }
+                else
+                {
+                    GUI.color = Color.red;
+                    GUILayout.Label("Member Type is Not Enum subtype");
+                    GUI.color = Color.white;
+                }
 
-			//var animator = serializedObject.FindProperty("_animator");
+                return;
+            }
 
-			var stateObjects = serializedObject.FindProperty("_stateObjects");
-			stateObjects.arraySize = EditorGUILayout.IntField("Values count", stateObjects.arraySize);
+            //var animator = serializedObject.FindProperty("_animator");
 
-			for (var i = 0; i < stateObjects.arraySize; i++)
-			{
-				GUILayout.BeginHorizontal();
-				{
-					var enumPropVal = stateObjects.GetArrayElementAtIndex(i).FindPropertyRelative("EnumVal");
-					var triggerName = stateObjects.GetArrayElementAtIndex(i).FindPropertyRelative("TriggerName");
+            var stateObjects = serializedObject.FindProperty("_stateObjects");
+            stateObjects.arraySize = EditorGUILayout.IntField("Values count", stateObjects.arraySize);
 
-					if (String.IsNullOrEmpty(enumPropVal.stringValue))
-					{
-						var names = Enum.GetNames(_memberType);
+            for (var i = 0; i < stateObjects.arraySize; i++)
+            {
+                GUILayout.BeginHorizontal();
+                {
+                    var enumPropVal = stateObjects.GetArrayElementAtIndex(i).FindPropertyRelative("EnumVal");
+                    var triggerName = stateObjects.GetArrayElementAtIndex(i).FindPropertyRelative("TriggerName");
 
-						if (names.Length > 0)
-							enumPropVal.stringValue = names[0];
-					}
+                    if (string.IsNullOrEmpty(enumPropVal.stringValue))
+                    {
+                        var names = Enum.GetNames(_memberType);
 
-					try
-					{
-						enumPropVal.stringValue = EditorGUILayout.EnumPopup((Enum)Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
-						triggerName.stringValue = EditorGUILayout.TextField(String.Empty, triggerName.stringValue);
-					}
-					catch
-					{
-						if (String.IsNullOrEmpty(enumPropVal.stringValue))
-						{
-							var names = Enum.GetNames(_memberType);
+                        if (names.Length > 0)
+                            enumPropVal.stringValue = names[0];
+                    }
 
-							if (names.Length > 0)
-								enumPropVal.stringValue = names[0];
-						}
-					}
-				}
-				GUILayout.EndHorizontal();
-			}
-		}
+                    try
+                    {
+                        enumPropVal.stringValue = EditorGUILayout.EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
+                        triggerName.stringValue = EditorGUILayout.TextField(string.Empty, triggerName.stringValue);
+                    }
+                    catch
+                    {
+                        if (string.IsNullOrEmpty(enumPropVal.stringValue))
+                        {
+                            var names = Enum.GetNames(_memberType);
 
-		protected override void DrawBinderProperties()
-		{
-			DrawPropertiesExcluding(serializedObject, "m_Script", "_target", "_memberName", "_params", "_stateObjects");
-			DrawEnumBindingProperties();
-		}
-	}
+                            if (names.Length > 0)
+                                enumPropVal.stringValue = names[0];
+                        }
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        protected override void DrawBinderProperties()
+        {
+            DrawPropertiesExcluding(serializedObject, "m_Script", "_target", "_memberName", "_params", "_stateObjects");
+            DrawEnumBindingProperties();
+        }
+    }
 }

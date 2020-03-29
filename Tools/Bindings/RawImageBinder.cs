@@ -4,23 +4,20 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Texture2D))]
-  public class RawImageBinder : ABinder
-  {
-#pragma warning disable 649
-    [SerializeField] private RawImage _texture;
-#pragma warning restore 649
-
-    private Func<Texture2D> _getter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(Texture2D))] public class RawImageBinder : ABinder
     {
-      _texture.texture = _getter();
-    }
+        private Func<Texture2D> _getter;
 
-    private void Awake()
-    {
-      Init(ref _getter);
+        [SerializeField] private RawImage _texture;
+
+        protected override void Bind(bool init)
+        {
+            _texture.texture = _getter();
+        }
+
+        private void Awake()
+        {
+            Init(ref _getter);
+        }
     }
-  }
 }

@@ -4,46 +4,42 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Single))]
-  public class SliderMaxValueBinder : ABinder
-  {
-#pragma warning disable 649
-    [SerializeField] private Slider _slider;
-#pragma warning restore 649
-
-    private Func<Single> _getter;
-    private Action<Single> _setter;
-
-    private Boolean _inset;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(float))] public class SliderMaxValueBinder : ABinder
     {
-      if (_inset)
-        return;
+        private Func<float> _getter;
 
-      //if( init )
-      //	_slider.Set( _getter( ), false );
+        private bool _inset;
+        private Action<float> _setter;
 
-      else
-        _slider.maxValue = _getter();
+        [SerializeField] private Slider _slider;
+
+        protected override void Bind(bool init)
+        {
+            if (_inset)
+                return;
+
+            //if( init )
+            //	_slider.Set( _getter( ), false );
+
+            _slider.maxValue = _getter();
+        }
+
+        private void Awake()
+        {
+            Init(ref _getter);
+            Init(ref _setter, false);
+
+            _slider.onValueChanged.AddListener(OnValueChanged);
+        }
+
+        private void OnValueChanged(float value)
+        {
+            if (_setter == null)
+                return;
+
+            _inset = true;
+            _setter(value);
+            _inset = false;
+        }
     }
-
-    private void Awake()
-    {
-      Init(ref _getter);
-      Init(ref _setter, false);
-
-      _slider.onValueChanged.AddListener(OnValueChanged);
-    }
-
-    private void OnValueChanged(Single value)
-    {
-      if (_setter == null)
-        return;
-
-      _inset = true;
-      _setter(value);
-      _inset = false;
-    }
-  }
 }

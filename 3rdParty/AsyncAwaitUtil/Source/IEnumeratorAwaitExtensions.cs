@@ -101,7 +101,7 @@ public static class IEnumeratorAwaitExtensions
         return awaiter;
     }
 
-    static SimpleCoroutineAwaiter GetAwaiterReturnVoid(object instruction)
+    private static SimpleCoroutineAwaiter GetAwaiterReturnVoid(object instruction)
     {
         var awaiter = new SimpleCoroutineAwaiter();
         RunOnUnityScheduler(() => AsyncCoroutineRunner.Instance.StartCoroutine(
@@ -109,7 +109,7 @@ public static class IEnumeratorAwaitExtensions
         return awaiter;
     }
 
-    static SimpleCoroutineAwaiter<T> GetAwaiterReturnSelf<T>(T instruction)
+    private static SimpleCoroutineAwaiter<T> GetAwaiterReturnSelf<T>(T instruction)
     {
         var awaiter = new SimpleCoroutineAwaiter<T>();
         RunOnUnityScheduler(() => AsyncCoroutineRunner.Instance.StartCoroutine(
@@ -117,46 +117,33 @@ public static class IEnumeratorAwaitExtensions
         return awaiter;
     }
 
-    static void RunOnUnityScheduler(Action action)
+    private static void RunOnUnityScheduler(Action action)
     {
         if (SynchronizationContext.Current == SyncContextUtil.UnitySynchronizationContext)
-        {
             action();
-        }
         else
-        {
             SyncContextUtil.UnitySynchronizationContext.Post(_ => action(), null);
-        }
     }
 
-    static void Assert(bool condition)
+    private static void Assert(bool condition)
     {
-        if (!condition)
-        {
-            throw new Exception("Assert hit in UnityAsyncUtil package!");
-        }
+        if (!condition) throw new Exception("Assert hit in UnityAsyncUtil package!");
     }
 
     public class SimpleCoroutineAwaiter<T> : INotifyCompletion
     {
-        bool _isDone;
-        Exception _exception;
-        Action _continuation;
-        T _result;
+        private bool _isDone;
+        private Exception _exception;
+        private Action _continuation;
+        private T _result;
 
-        public bool IsCompleted
-        {
-            get { return _isDone; }
-        }
+        public bool IsCompleted => _isDone;
 
         public T GetResult()
         {
             Assert(_isDone);
 
-            if (_exception != null)
-            {
-                ExceptionDispatchInfo.Capture(_exception).Throw();
-            }
+            if (_exception != null) ExceptionDispatchInfo.Capture(_exception).Throw();
 
             return _result;
         }
@@ -171,10 +158,7 @@ public static class IEnumeratorAwaitExtensions
 
             // Always trigger the continuation on the unity thread when awaiting on unity yield
             // instructions
-            if (_continuation != null)
-            {
-                RunOnUnityScheduler(_continuation);
-            }
+            if (_continuation != null) RunOnUnityScheduler(_continuation);
         }
 
         void INotifyCompletion.OnCompleted(Action continuation)
@@ -188,23 +172,17 @@ public static class IEnumeratorAwaitExtensions
 
     public class SimpleCoroutineAwaiter : INotifyCompletion
     {
-        bool _isDone;
-        Exception _exception;
-        Action _continuation;
+        private bool _isDone;
+        private Exception _exception;
+        private Action _continuation;
 
-        public bool IsCompleted
-        {
-            get { return _isDone; }
-        }
+        public bool IsCompleted => _isDone;
 
         public void GetResult()
         {
             Assert(_isDone);
 
-            if (_exception != null)
-            {
-                ExceptionDispatchInfo.Capture(_exception).Throw();
-            }
+            if (_exception != null) ExceptionDispatchInfo.Capture(_exception).Throw();
         }
 
         public void Complete(Exception e)
@@ -216,10 +194,7 @@ public static class IEnumeratorAwaitExtensions
 
             // Always trigger the continuation on the unity thread when awaiting on unity yield
             // instructions
-            if (_continuation != null)
-            {
-                RunOnUnityScheduler(_continuation);
-            }
+            if (_continuation != null) RunOnUnityScheduler(_continuation);
         }
 
         void INotifyCompletion.OnCompleted(Action continuation)
@@ -231,10 +206,10 @@ public static class IEnumeratorAwaitExtensions
         }
     }
 
-    class CoroutineWrapper<T>
+    private class CoroutineWrapper<T>
     {
-        readonly SimpleCoroutineAwaiter<T> _awaiter;
-        readonly Stack<IEnumerator> _processStack;
+        private readonly SimpleCoroutineAwaiter<T> _awaiter;
+        private readonly Stack<IEnumerator> _processStack;
 
         public CoroutineWrapper(
             IEnumerator coroutine, SimpleCoroutineAwaiter<T> awaiter)
@@ -265,15 +240,11 @@ public static class IEnumeratorAwaitExtensions
                     var objectTrace = GenerateObjectTrace(_processStack);
 
                     if (objectTrace.Any())
-                    {
                         _awaiter.Complete(
                             default(T), new Exception(
                                 GenerateObjectTraceMessage(objectTrace), e));
-                    }
                     else
-                    {
                         _awaiter.Complete(default(T), e);
-                    }
 
                     yield break;
                 }
@@ -284,7 +255,7 @@ public static class IEnumeratorAwaitExtensions
 
                     if (_processStack.Count == 0)
                     {
-                        _awaiter.Complete((T)topWorker.Current, null);
+                        _awaiter.Complete((T) topWorker.Current, null);
                         yield break;
                     }
                 }
@@ -293,28 +264,21 @@ public static class IEnumeratorAwaitExtensions
                 // our own handling here so that we can catch exceptions in nested coroutines
                 // instead of just top level coroutine
                 if (topWorker.Current is IEnumerator)
-                {
-                    _processStack.Push((IEnumerator)topWorker.Current);
-                }
+                    _processStack.Push((IEnumerator) topWorker.Current);
                 else
-                {
                     // Return the current value to the unity engine so it can handle things like
                     // WaitForSeconds, WaitToEndOfFrame, etc.
                     yield return topWorker.Current;
-                }
             }
         }
 
-        string GenerateObjectTraceMessage(List<Type> objTrace)
+        private string GenerateObjectTraceMessage(List<Type> objTrace)
         {
             var result = new StringBuilder();
 
             foreach (var objType in objTrace)
             {
-                if (result.Length != 0)
-                {
-                    result.Append(" -> ");
-                }
+                if (result.Length != 0) result.Append(" -> ");
 
                 result.Append(objType.ToString());
             }
@@ -323,7 +287,7 @@ public static class IEnumeratorAwaitExtensions
             return "Unity Coroutine Object Trace: " + result.ToString();
         }
 
-        static List<Type> GenerateObjectTrace(IEnumerable<IEnumerator> enumerators)
+        private static List<Type> GenerateObjectTrace(IEnumerable<IEnumerator> enumerators)
         {
             var objTrace = new List<Type>();
 
@@ -333,24 +297,15 @@ public static class IEnumeratorAwaitExtensions
                 // And could easily stop working with unity updates
                 var field = enumerator.GetType().GetField("$this", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
-                if (field == null)
-                {
-                    continue;
-                }
+                if (field == null) continue;
 
                 var obj = field.GetValue(enumerator);
 
-                if (obj == null)
-                {
-                    continue;
-                }
+                if (obj == null) continue;
 
                 var objType = obj.GetType();
 
-                if (!objTrace.Any() || objType != objTrace.Last())
-                {
-                    objTrace.Add(objType);
-                }
+                if (!objTrace.Any() || objType != objTrace.Last()) objTrace.Add(objType);
             }
 
             objTrace.Reverse();
@@ -358,7 +313,7 @@ public static class IEnumeratorAwaitExtensions
         }
     }
 
-    static class InstructionWrappers
+    private static class InstructionWrappers
     {
         public static IEnumerator ReturnVoid(
             SimpleCoroutineAwaiter awaiter, object instruction)

@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace Core.Ui
 {
-	public class UICloseEventComponent : MonoBehaviour
-	{
-		private Signal OnClose = new Signal();
+    public class UICloseEventComponent : MonoBehaviour
+    {
+        private Signal onClose = new Signal();
 
-		internal void ListenCloseClick(Action action)
-		{
-			OnClose.Listen(action);
-		}
+        internal void ListenCloseClick(Action action)
+        {
+            onClose.Listen(action);
+        }
 
-		// button inspector
-		public void Close()
-		{
-			OnClose.Fire();
-		}
-	}
+        // button inspector
+        public void Close()
+        {
+            onClose.Fire();
+        }
+    }
 }

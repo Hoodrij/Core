@@ -3,42 +3,31 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Boolean))]
-  public class BehaviourEnabledBooleanBinder : ABinder
-  {
-#pragma warning disable 649
-    [SerializeField] private Behaviour[] _true;
-#pragma warning restore 649
-#pragma warning disable 649
-    [SerializeField] private Behaviour[] _false;
-#pragma warning restore 649
-
-    private Func<Boolean> _getter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(bool))] public class BehaviourEnabledBooleanBinder : ABinder
     {
-      var isTrue = _getter();
+        [SerializeField] private Behaviour[] _false;
 
-      if (_true != null)
-      {
-        foreach (var behaviour in _true)
+
+        private Func<bool> _getter;
+
+        [SerializeField] private Behaviour[] _true;
+
+        protected override void Bind(bool init)
         {
-          behaviour.enabled = isTrue;
-        }
-      }
+            var isTrue = _getter();
 
-      if (_false != null)
-      {
-        foreach (var behaviour in _false)
+            if (_true != null)
+                foreach (var behaviour in _true)
+                    behaviour.enabled = isTrue;
+
+            if (_false != null)
+                foreach (var behaviour in _false)
+                    behaviour.enabled = !isTrue;
+        }
+
+        private void Awake()
         {
-          behaviour.enabled = !isTrue;
+            Init(ref _getter);
         }
-      }
     }
-
-    private void Awake()
-    {
-      Init(ref _getter);
-    }
-  }
 }

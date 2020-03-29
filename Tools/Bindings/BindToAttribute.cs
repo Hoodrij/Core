@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings
 {
-  [AttributeUsage(AttributeTargets.Field | AttributeTargets.Class)]
-  public class BindToAttribute : PropertyAttribute
-  {
-    public BindToAttribute(Type bindToType)
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Class)]
+    public class BindToAttribute : PropertyAttribute
     {
-      BindToType = bindToType;
-    }
+        public Type BindToType;
 
-    public Type BindToType;
-  }
+        public BindToAttribute(Type bindToType)
+        {
+            BindToType = bindToType;
+        }
+    }
 }

@@ -1,35 +1,30 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
 
 namespace Core.Ui
 {
-	public class UICloseDelayer : MonoBehaviour
-	{
-		private Animator animator;
-		private Action onCloseCallback;
+    public class UICloseDelayer : MonoBehaviour
+    {
+        private bool isClosed;
+        
+        internal async Task BeginClose()
+        {
+            Animator animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                return;
+            }
+   
+            animator.SetSingleTrigger("Close");
 
-		internal void BeginClose(Action onCloseCallback)
-		{
-			if (animator == null)
-			{
-				animator = GetComponent<Animator>();
-				if (animator == null)
-				{
-					onCloseCallback.Invoke();
-					return;
-				}
-			}
+            await new WaitUntil(() => isClosed);
+        }
 
-			this.onCloseCallback = onCloseCallback;
-
-			animator.SetSingleTrigger("Close");
-		}
-
-		// Animaton event
-		private void OnAnimationCompleted()
-		{
-			onCloseCallback.Invoke();
-		}
-	}
+        // Animaton event
+        private void OnAnimationCompleted()
+        {
+            isClosed = true;
+        }
+    }
 }

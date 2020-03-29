@@ -4,36 +4,34 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-	[BindTo(typeof(String))]
-	public class TextBinder : ABinder
-	{
-		[SerializeField] private Text _label;
+    [BindTo(typeof(string))] public class TextBinder : ABinder
+    {
+        private Func<string> _getter;
+        [SerializeField] private Text _label;
 
-		[SerializeField] private bool _makeUpperCase = false;
+        [SerializeField] private bool _makeUpperCase;
 
-		private Func<String> _getter;
+        protected override void Bind(bool init)
+        {
+            var text = _getter();
 
-		protected override void Bind(Boolean init)
-		{
-			var text = _getter();
+            if (_makeUpperCase)
+                text = text.ToUpper();
 
-			if (_makeUpperCase)
-				text = text.ToUpper();
+            _label.text = text;
+        }
 
-			_label.text = text;
-		}
+        private void Awake()
+        {
+            if (_label == null)
+                _label = GetComponent<Text>();
 
-		private void Awake()
-		{
-			if (_label == null)
-				_label = GetComponent<Text>();
+            Init(ref _getter);
+        }
 
-			Init(ref _getter);
-		}
-
-		protected void Reset()
-		{
-			_label = GetComponent<Text>();
-		}
-	}
+        protected void Reset()
+        {
+            _label = GetComponent<Text>();
+        }
+    }
 }

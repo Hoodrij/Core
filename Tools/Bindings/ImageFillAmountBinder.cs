@@ -4,23 +4,20 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Single))]
-  public class ImageFillAmountBinder : ABinder
-  {
-#pragma warning disable 649
-    [SerializeField] private Image _sprite;
-#pragma warning restore 649
-
-    private Func<Single> _getter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(float))] public class ImageFillAmountBinder : ABinder
     {
-      _sprite.fillAmount = _getter();
-    }
+        private Func<float> _getter;
 
-    private void Awake()
-    {
-      Init(ref _getter);
+        [SerializeField] private Image _sprite;
+
+        protected override void Bind(bool init)
+        {
+            _sprite.fillAmount = _getter();
+        }
+
+        private void Awake()
+        {
+            Init(ref _getter);
+        }
     }
-  }
 }

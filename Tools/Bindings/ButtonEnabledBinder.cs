@@ -4,27 +4,26 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Boolean))]
-  public class ButtonEnabledBinder : ABinder
-  {
-    [SerializeField] private Button _button;
-#pragma warning disable 649
-    [SerializeField] private Boolean _revert;
-#pragma warning restore 649
-
-    private Func<Boolean> _getter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(bool))] public class ButtonEnabledBinder : ABinder
     {
-      _button.interactable = _revert ? !_getter() : _getter();
-    }
+        [SerializeField] private Button _button;
 
-    private void Awake()
-    {
-      if (_button == null)
-        _button = GetComponent<Button>();
 
-      Init(ref _getter);
+        private Func<bool> _getter;
+
+        [SerializeField] private bool _revert;
+
+        protected override void Bind(bool init)
+        {
+            _button.interactable = _revert ? !_getter() : _getter();
+        }
+
+        private void Awake()
+        {
+            if (_button == null)
+                _button = GetComponent<Button>();
+
+            Init(ref _getter);
+        }
     }
-  }
 }

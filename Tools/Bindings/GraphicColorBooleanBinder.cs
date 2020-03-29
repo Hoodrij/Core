@@ -4,27 +4,26 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Boolean))]
-  public class GraphicColorBooleanBinder : ABinder
-  {
-    [SerializeField] private Color _ableColor = Color.gray;
-    [SerializeField] private Color _unableColor = Color.red;
-
-    [SerializeField] private Graphic _widget;
-
-    private Func<Boolean> _getter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(bool))] public class GraphicColorBooleanBinder : ABinder
     {
-      Color color = _getter() ? _ableColor : _unableColor;
-      _widget.color = color;
-    }
+        [SerializeField] private Color _ableColor = Color.gray;
 
-    private void Awake()
-    {
-      if (_widget == null)
-        _widget = GetComponent<Graphic>();
-      Init(ref _getter);
+        private Func<bool> _getter;
+        [SerializeField] private Color _unableColor = Color.red;
+
+        [SerializeField] private Graphic _widget;
+
+        protected override void Bind(bool init)
+        {
+            var color = _getter() ? _ableColor : _unableColor;
+            _widget.color = color;
+        }
+
+        private void Awake()
+        {
+            if (_widget == null)
+                _widget = GetComponent<Graphic>();
+            Init(ref _getter);
+        }
     }
-  }
 }

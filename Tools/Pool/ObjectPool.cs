@@ -3,90 +3,85 @@ using UnityEngine;
 
 namespace Core.Tools.Pool
 {
-	public class ObjectPool
-	{
-		private APoolable prefab;
-		public GameObject parent;
+    public class ObjectPool
+    {
+        private APoolable prefab;
+        public GameObject parent;
 
-		private Stack<APoolable> stack;
-		private int itemsInUse;
-		private string name;
+        private Stack<APoolable> stack;
+        private int itemsInUse;
+        private string name;
 
-		public ObjectPool(APoolable prefab, GameObject parent, int initialCap = 0)
-		{
-			this.prefab = prefab;
-			this.parent = parent;
+        public ObjectPool(APoolable prefab, GameObject parent, int initialCap = 0)
+        {
+            this.prefab = prefab;
+            this.parent = parent;
 
-			stack = new Stack<APoolable>();
-			itemsInUse = 0;
-			name = prefab.name;
+            stack = new Stack<APoolable>();
+            itemsInUse = 0;
+            name = prefab.name;
 
-			for (int i = 0; i < initialCap; i++)
-			{
-				AddInstance();
-			}
-		}
+            for (var i = 0; i < initialCap; i++) AddInstance();
+        }
 
-		#region Push item
+        #region Push item
 
-		public virtual void Push(APoolable item)
-		{
-			if (Macros.DEBUG)
-			{
-				if (item == null || item.gameObject == null) return;
+        public virtual void Push(APoolable item)
+        {
+            if (Macros.DEBUG)
+            {
+                if (item == null || item.gameObject == null) return;
 
-				if (stack.Contains(item))
-				{
-					Debug.LogError("Tried to pool already pooled object. Ignoring...Check for duplicate return to pool" + name);
-					return;
-				}
-				if (!item.gameObject.activeSelf)
-				{
-					Debug.LogError("Tried to pool inactive object. Ignoring...Check for duplicate return to pool" + name);
-					return;
-				}
+                if (stack.Contains(item))
+                {
+                    Debug.LogError("Tried to pool already pooled object. Ignoring...Check for duplicate return to pool" + name);
+                    return;
+                }
 
-				if (itemsInUse < 1)
-				{
-					Debug.LogError("Tried to pool object while pool had no items in use. Pool: " + name);
-					return;
-				}
-			}
+                if (!item.gameObject.activeSelf)
+                {
+                    Debug.LogError("Tried to pool inactive object. Ignoring...Check for duplicate return to pool" + name);
+                    return;
+                }
 
-			item.gameObject.SetActive(false);
-			stack.Push(item);
-			itemsInUse--;
-		}
+                if (itemsInUse < 1)
+                {
+                    Debug.LogError("Tried to pool object while pool had no items in use. Pool: " + name);
+                    return;
+                }
+            }
 
-		#endregion
+            item.gameObject.SetActive(false);
+            stack.Push(item);
+            itemsInUse--;
+        }
 
-		#region Pop item
+        #endregion
 
-		public virtual APoolable Pop()
-		{
-			if (stack.Count == 0)
-				AddInstance();
+        #region Pop item
 
-			APoolable item = stack.Pop();
-			item.OnPop();
+        public virtual APoolable Pop()
+        {
+            if (stack.Count == 0)
+                AddInstance();
 
-			itemsInUse++;
-			return item;
-		}
+            var item = stack.Pop();
+            item.OnPop();
 
-		#endregion
+            itemsInUse++;
+            return item;
+        }
 
-		void AddInstance()
-		{
-			APoolable item = Object.Instantiate(prefab, parent.transform);
-			item.gameObject.SetActive(false);
-			item.Pool = this;
-			stack.Push(item);
+        #endregion
 
-			if (Macros.EDITOR)
-			{
-				item.name = prefab.name + (stack.Count + itemsInUse);
-			}
-		}
-	}
+        private void AddInstance()
+        {
+            var item = Object.Instantiate(prefab, parent.transform);
+            item.gameObject.SetActive(false);
+            item.Pool = this;
+            stack.Push(item);
+
+            if (Macros.EDITOR) item.name = prefab.name + (stack.Count + itemsInUse);
+        }
+    }
 }

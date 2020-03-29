@@ -3,35 +3,33 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Int32))]
-  public class Int32BinderRebindBinder : ABinder
-  {
-#pragma warning disable 649
-    [SerializeField] private ABinder _binder;
-#pragma warning restore 649
-
-    private Func<Int32> _getter;
-    private Int32 _data;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(int))] public class Int32BinderRebindBinder : ABinder
     {
-      var data = _getter();
+        [SerializeField] private ABinder _binder;
+        private int _data;
 
-      if (data != _data)
-      {
-        _data = data;
-        _binder.Rebind();
-      }
-    }
 
-    private void Update()
-    {
-      Bind(false);
-    }
+        private Func<int> _getter;
 
-    private void Awake()
-    {
-      Init(ref _getter);
+        protected override void Bind(bool init)
+        {
+            var data = _getter();
+
+            if (data != _data)
+            {
+                _data = data;
+                _binder.Rebind();
+            }
+        }
+
+        private void Update()
+        {
+            Bind(false);
+        }
+
+        private void Awake()
+        {
+            Init(ref _getter);
+        }
     }
-  }
 }

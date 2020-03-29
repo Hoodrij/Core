@@ -4,40 +4,35 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(float))]
-  public class ShaderPropertyBinder : ABinder
-  {
-#pragma warning disable 649
-
-    [Serializable]
-    private struct EnumBindingPair
+    [BindTo(typeof(float))] public class ShaderPropertyBinder : ABinder
     {
-      public String EnumVal;
-      public Color Color;
+        private Func<float> _getter;
+        [SerializeField] private string _propertyName;
+
+        [Header("Or this")] [SerializeField] private Image _uiImage;
+
+        [Header("Use this")] [SerializeField] private Renderer _widget;
+
+        protected override void Bind(bool init)
+        {
+            var baseFloat = _getter();
+
+            if (_widget != null)
+                _widget.material.SetFloat(_propertyName, baseFloat);
+            if (_uiImage != null)
+                _uiImage.material.SetFloat(_propertyName, baseFloat);
+        }
+
+        private void Awake()
+        {
+            Init(ref _getter);
+        }
+
+
+        [Serializable] private struct EnumBindingPair
+        {
+            public string EnumVal;
+            public Color Color;
+        }
     }
-
-    [Header("Use this")] [SerializeField] private Renderer _widget;
-
-    [Header("Or this")] [SerializeField] private Image _uiImage;
-    [SerializeField] private string _propertyName;
-
-#pragma warning restore 649
-
-    private Func<float> _getter;
-
-    protected override void Bind(Boolean init)
-    {
-      var baseFloat = _getter();
-
-      if (_widget != null)
-        _widget.material.SetFloat(_propertyName, baseFloat);
-      if (_uiImage != null)
-        _uiImage.material.SetFloat(_propertyName, baseFloat);
-    }
-
-    private void Awake()
-    {
-      Init(ref _getter);
-    }
-  }
 }

@@ -4,79 +4,75 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings.Editor
 {
-	[CustomPropertyDrawer(typeof(ConditionalFieldAttribute))]
-	public class ConditionalFieldAttributeDrawer : PropertyDrawer
-	{
+    [CustomPropertyDrawer(typeof(ConditionalFieldAttribute))]
+    public class ConditionalFieldAttributeDrawer : PropertyDrawer
+    {
+        private ConditionalFieldAttribute _attribute;
+        private bool _toShow = true;
+        private ConditionalFieldAttribute Attribute => _attribute ?? (_attribute = attribute as ConditionalFieldAttribute);
 
-		private ConditionalFieldAttribute Attribute { get { return _attribute ?? (_attribute = attribute as ConditionalFieldAttribute); } }
+        private string PropertyToCheck => Attribute != null ? _attribute.PropertyToCheck : null;
 
-		private string PropertyToCheck { get { return Attribute != null ? _attribute.PropertyToCheck : null; } }
+        private object CompareValue => Attribute != null ? _attribute.CompareValue : null;
 
-		private object CompareValue { get { return Attribute != null ? _attribute.CompareValue : null; } }
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return _toShow ? EditorGUI.GetPropertyHeight(property) : 0;
+        }
 
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            if (!string.IsNullOrEmpty(PropertyToCheck))
+            {
+                var conditionProperty = FindPropertyRelative(property, PropertyToCheck);
+                if (conditionProperty != null)
+                {
+                    var isBoolMatch = conditionProperty.propertyType == SerializedPropertyType.Boolean &&
+                                      conditionProperty.boolValue;
+                    var compareStringValue = CompareValue == null ? "NULL" : CompareValue.ToString().ToUpper();
+                    if (isBoolMatch && compareStringValue == "FALSE") isBoolMatch = false;
 
-		private ConditionalFieldAttribute _attribute;
-		private bool _toShow = true;
+                    var conditionPropertyStringValue = conditionProperty.ToString().ToUpper();
+                    var objectMatch = compareStringValue == conditionPropertyStringValue;
 
-		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-		{
-			return _toShow ? EditorGUI.GetPropertyHeight(property) : 0;
-		}
+                    if (!isBoolMatch && !objectMatch)
+                    {
+                        _toShow = false;
+                        return;
+                    }
+                }
+            }
 
-		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-		{
-			if (!string.IsNullOrEmpty(PropertyToCheck))
-			{
-				var conditionProperty = FindPropertyRelative(property, PropertyToCheck);
-				if (conditionProperty != null)
-				{
-					bool isBoolMatch = conditionProperty.propertyType == SerializedPropertyType.Boolean &&
-									   conditionProperty.boolValue;
-					string compareStringValue = CompareValue == null ? "NULL" : CompareValue.ToString().ToUpper();
-					if (isBoolMatch && compareStringValue == "FALSE") isBoolMatch = false;
+            _toShow = true;
+            EditorGUI.PropertyField(position, property, label, true);
+        }
 
-					string conditionPropertyStringValue = conditionProperty.ToString().ToUpper();
-					bool objectMatch = compareStringValue == conditionPropertyStringValue;
+        private SerializedProperty FindPropertyRelative(SerializedProperty property, string toGet)
+        {
+            if (property.depth == 0) return property.serializedObject.FindProperty(toGet);
 
-					if (!isBoolMatch && !objectMatch)
-					{
-						_toShow = false;
-						return;
-					}
-				}
-			}
+            var path = property.propertyPath.Replace(".Array.data[", "[");
+            var elements = path.Split('.');
+            SerializedProperty parent = null;
+            for (var i = 0; i < elements.Length - 1; i++)
+            {
+                var element = elements[i];
+                var index = -1;
+                if (element.Contains("["))
+                {
+                    index = Convert.ToInt32(element.Substring(element.IndexOf("[", StringComparison.Ordinal))
+                        .Replace("[", "")
+                        .Replace("]", ""));
+                    element = element.Substring(0, element.IndexOf("[", StringComparison.Ordinal));
+                }
 
-			_toShow = true;
-			EditorGUI.PropertyField(position, property, label, true);
-		}
+                parent = i == 0 ? property.serializedObject.FindProperty(element) : parent.FindPropertyRelative(element);
 
-		private SerializedProperty FindPropertyRelative(SerializedProperty property, string toGet)
-		{
-			if (property.depth == 0) return property.serializedObject.FindProperty(toGet);
-
-			var path = property.propertyPath.Replace(".Array.data[", "[");
-			var elements = path.Split('.');
-			SerializedProperty parent = null;
-			for (int i = 0; i < elements.Length - 1; i++)
-			{
-				var element = elements[i];
-				int index = -1;
-				if (element.Contains("["))
-				{
-					index = Convert.ToInt32(element.Substring(element.IndexOf("[", StringComparison.Ordinal))
-					  .Replace("[", "")
-					  .Replace("]", ""));
-					element = element.Substring(0, element.IndexOf("[", StringComparison.Ordinal));
-				}
-
-				parent = i == 0 ? property.serializedObject.FindProperty(element) : parent.FindPropertyRelative(element);
-
-				if (index >= 0) parent = parent.GetArrayElementAtIndex(index);
-			}
+                if (index >= 0) parent = parent.GetArrayElementAtIndex(index);
+            }
 
 
-			return parent.FindPropertyRelative(toGet);
-		}
-
-	}
+            return parent.FindPropertyRelative(toGet);
+        }
+    }
 }

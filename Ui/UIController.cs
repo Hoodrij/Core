@@ -5,52 +5,50 @@ using Object = UnityEngine.Object;
 
 namespace Core.Ui
 {
-	internal class UIController
-	{
-		private List<UIView> opened;
-		private UILoader loader;
+    internal class UIController
+    {
+        private List<UIView> opened;
+        private UILoader loader;
 
-		public UIController(UILoader loader)
-		{
-			opened = new List<UIView>();
-			this.loader = loader;
-		}
+        public UIController(UILoader loader)
+        {
+            opened = new List<UIView>();
+            this.loader = loader;
+        }
 
-		public UIView Get<TView>() where TView : UIView
-		{
-			return opened.Find(view => view.GetType() == typeof(TView));
-		}
+        internal TView Get<TView>() where TView : UIView
+        {
+            return (TView) opened.Find(view => view.GetType() == typeof(TView));
+        }
 
-		public async Task<TView> Open<TView>(object data = null) where TView : UIView
-		{
-			UIInfoAttribute info = UIView<TView>.Info;
+        internal async Task<TView> Open<TView>(object data = null) where TView : UIView
+        {
+            UIInfoAttribute info = UIView<TView>.Info;
 
-			foreach (UIView openedView in opened.Where(openedView => 
-				info.Root.IsClosingOther(openedView.Info.Root)))
-			{
-				openedView.Close();
-			}
-			
-			TView view = await loader.Load<TView>(info);
+            foreach (var openedView in opened.Where(openedView =>
+                info.Root.IsClosingOther(openedView.Info.Root)))
+                openedView.Close();
 
-			view.Initialize(data);
-			opened.Add(view);
+            TView view = await loader.Load<TView>(info);
 
-			view.CloseAction = () =>
-			{
-				if (view == null) return;
+            view.Initialize(data);
+            opened.Add(view);
 
-				opened.Remove(view);
-				view.OnClose();
-				Object.Destroy(view.gameObject);
-			};
+            view.CloseAction = () =>
+            {
+                if (view == null) return;
 
-			return view;
-		}
+                opened.Remove(view);
+                view.OnClose();
+                Object.Destroy(view.gameObject);
+            };
 
-		internal void CloseAll()
-		{
-			opened.ForEach(view => view.Close());
-		}
-	}
+            return view;
+        }
+
+        internal void CloseAll()
+        {
+            opened.ForEach(view => view.Close());
+        }
+    }
 }

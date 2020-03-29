@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace Core.Tools.Bindings
+﻿namespace Core.Tools.Bindings
 {
-  public interface IBindersNotifier
-  {
-    void AttachBinder(ABinder binder);
-    void DetachBinder(ABinder binder);
-
-    Boolean ReadyForBind { get; }
-  }
+    public interface IBindersNotifier
+    {
+        bool ReadyForBind { get; }
+        void AttachBinder(ABinder binder);
+        void DetachBinder(ABinder binder);
+    }
 }

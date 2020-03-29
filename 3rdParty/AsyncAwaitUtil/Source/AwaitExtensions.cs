@@ -14,10 +14,7 @@ public static class AwaitExtensions
 
         process.Exited += (s, e) => tcs.TrySetResult(process.ExitCode);
 
-        if (process.HasExited)
-        {
-            tcs.TrySetResult(process.ExitCode);
-        }
+        if (process.HasExited) tcs.TrySetResult(process.ExitCode);
 
         return tcs.Task.GetAwaiter();
     }

@@ -4,37 +4,35 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Boolean))]
-  public class SliderBooleanBinder : ABinder
-  {
-    [SerializeField] private Slider _slider;
-
-    private Func<Boolean> _getter;
-    private Action<Boolean> _setter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(bool))] public class SliderBooleanBinder : ABinder
     {
-      //if( init )
-      //	_slider.Set( _getter( ) ? 1 : 0, false );
+        private Func<bool> _getter;
+        private Action<bool> _setter;
+        [SerializeField] private Slider _slider;
 
-      //else
-      _slider.value = _getter() ? 1 : 0;
+        protected override void Bind(bool init)
+        {
+            //if( init )
+            //	_slider.Set( _getter( ) ? 1 : 0, false );
+
+            //else
+            _slider.value = _getter() ? 1 : 0;
+        }
+
+        private void Awake()
+        {
+            if (_slider == null)
+                _slider = GetComponent<Slider>();
+
+            Init(ref _getter);
+            Init(ref _setter);
+
+            _slider.onValueChanged.AddListener(OnSliderValueChanged);
+        }
+
+        private void OnSliderValueChanged(float value)
+        {
+            _setter(value > 0.5f);
+        }
     }
-
-    private void Awake()
-    {
-      if (_slider == null)
-        _slider = GetComponent<Slider>();
-
-      Init(ref _getter);
-      Init(ref _setter);
-
-      _slider.onValueChanged.AddListener(OnSliderValueChanged);
-    }
-
-    private void OnSliderValueChanged(Single value)
-    {
-      _setter(value > 0.5f);
-    }
-  }
 }

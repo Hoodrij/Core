@@ -4,73 +4,74 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings.Editor
 {
-	[CustomEditor(typeof(GameObjectEnumBinder), true), CanEditMultipleObjects]
-	public class GameObjectEnumBinderEditor : ABinderEditor
-	{
-		private void DrawEnumBindingProperties()
-		{
-			if (_memberType == null)
-				return;
+    [CustomEditor(typeof(GameObjectEnumBinder), true)] [CanEditMultipleObjects]
+    public class GameObjectEnumBinderEditor : ABinderEditor
+    {
+        private void DrawEnumBindingProperties()
+        {
+            if (_memberType == null)
+                return;
 
-			if (!_memberType.IsEnum)
-			{
-				if (_memberType == typeof(Enum))
-				{
-					GUI.color = Color.red;
-					GUILayout.Label("Add Return Type into BindableAttrbiute of your Enum member");
-					GUI.color = Color.white;
-				}
-				else
-				{
-					GUI.color = Color.red;
-					GUILayout.Label("Member Type is Not Enum subtype");
-					GUI.color = Color.white;
-				}
-				return;
-			}
+            if (!_memberType.IsEnum)
+            {
+                if (_memberType == typeof(Enum))
+                {
+                    GUI.color = Color.red;
+                    GUILayout.Label("Add Return Type into BindableAttrbiute of your Enum member");
+                    GUI.color = Color.white;
+                }
+                else
+                {
+                    GUI.color = Color.red;
+                    GUILayout.Label("Member Type is Not Enum subtype");
+                    GUI.color = Color.white;
+                }
 
-			var stateObjects = serializedObject.FindProperty("_stateObjects");
-			stateObjects.arraySize = EditorGUILayout.IntField("Values count", stateObjects.arraySize);
+                return;
+            }
 
-			for (var i = 0; i < stateObjects.arraySize; i++)
-			{
-				GUILayout.BeginHorizontal();
-				{
-					var enumPropVal = stateObjects.GetArrayElementAtIndex(i).FindPropertyRelative("EnumVal");
-					var go = stateObjects.GetArrayElementAtIndex(i).FindPropertyRelative("TargetObject");
+            var stateObjects = serializedObject.FindProperty("_stateObjects");
+            stateObjects.arraySize = EditorGUILayout.IntField("Values count", stateObjects.arraySize);
 
-					if (String.IsNullOrEmpty(enumPropVal.stringValue))
-					{
-						var names = Enum.GetNames(_memberType);
+            for (var i = 0; i < stateObjects.arraySize; i++)
+            {
+                GUILayout.BeginHorizontal();
+                {
+                    var enumPropVal = stateObjects.GetArrayElementAtIndex(i).FindPropertyRelative("EnumVal");
+                    var go = stateObjects.GetArrayElementAtIndex(i).FindPropertyRelative("TargetObject");
 
-						if (names.Length > 0)
-							enumPropVal.stringValue = names[0];
-					}
+                    if (string.IsNullOrEmpty(enumPropVal.stringValue))
+                    {
+                        var names = Enum.GetNames(_memberType);
 
-					try
-					{
-						enumPropVal.stringValue = EditorGUILayout.EnumPopup((Enum)Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
-						go.objectReferenceValue = EditorGUILayout.ObjectField(go.objectReferenceValue, typeof(GameObject), true);
-					}
-					catch
-					{
-						if (String.IsNullOrEmpty(enumPropVal.stringValue))
-						{
-							var names = Enum.GetNames(_memberType);
+                        if (names.Length > 0)
+                            enumPropVal.stringValue = names[0];
+                    }
 
-							if (names.Length > 0)
-								enumPropVal.stringValue = names[0];
-						}
-					}
-				}
-				GUILayout.EndHorizontal();
-			}
-		}
+                    try
+                    {
+                        enumPropVal.stringValue = EditorGUILayout.EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
+                        go.objectReferenceValue = EditorGUILayout.ObjectField(go.objectReferenceValue, typeof(GameObject), true);
+                    }
+                    catch
+                    {
+                        if (string.IsNullOrEmpty(enumPropVal.stringValue))
+                        {
+                            var names = Enum.GetNames(_memberType);
 
-		protected override void DrawBinderProperties()
-		{
-			DrawPropertiesExcluding(serializedObject, "m_Script", "_target", "_memberName", "_params", "_stateObjects");
-			DrawEnumBindingProperties();
-		}
-	}
+                            if (names.Length > 0)
+                                enumPropVal.stringValue = names[0];
+                        }
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        protected override void DrawBinderProperties()
+        {
+            DrawPropertiesExcluding(serializedObject, "m_Script", "_target", "_memberName", "_params", "_stateObjects");
+            DrawEnumBindingProperties();
+        }
+    }
 }

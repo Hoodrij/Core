@@ -4,24 +4,22 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Color))]
-  public class GraphicColorBinder : ABinder
-  {
-    [SerializeField] private Graphic _widget;
-
-    private Func<Color> _getter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(Color))] public class GraphicColorBinder : ABinder
     {
-      _widget.color = _getter();
-    }
+        private Func<Color> _getter;
+        [SerializeField] private Graphic _widget;
 
-    private void Awake()
-    {
-      if (_widget == null)
-        _widget = GetComponent<Graphic>();
+        protected override void Bind(bool init)
+        {
+            _widget.color = _getter();
+        }
 
-      Init(ref _getter);
+        private void Awake()
+        {
+            if (_widget == null)
+                _widget = GetComponent<Graphic>();
+
+            Init(ref _getter);
+        }
     }
-  }
 }

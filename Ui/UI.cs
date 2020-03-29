@@ -6,32 +6,28 @@ using UnityEngine;
 
 namespace Core.Ui
 {
-	public class UI
-	{
-		private UIController controller;
-		private UILoader loader;
+    public class UI
+    {
+        private UIController controller;
+        private UILoader loader;
 
-		internal UI()
-		{
-			loader = new UILoader();
-			controller = new UIController(loader);
-		}
-		
-		public void Add(IEnumerable<UIRoot> roots)
-		{
-			foreach (UIRoot root in roots)
-			{
-				loader.AddRoot(root);
-			}
-		}
+        internal UI()
+        {
+            loader = new UILoader();
+            controller = new UIController(loader);
+        }
 
-		internal async Task<TView> Open<TView>(object data = null) where TView : UIView 
-			=> await controller.Open<TView>(data);
-		
-		internal UIView Get<TView>() where TView : UIView => controller.Get<TView>();
-		
-		internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
+        public void Add(IEnumerable<UIRoot> roots)
+        {
+            foreach (var root in roots) loader.AddRoot(root);
+        }
 
-		internal void CloseAll() => controller.CloseAll();
-	}
+
+        internal async Task<TView> Open<TView>(object data = null) where TView : UIView => await controller.Open<TView>(data);
+
+        internal TView Get<TView>() where TView : UIView => controller.Get<TView>();
+        internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
+        
+        internal void CloseAll() => controller.CloseAll();
+    }
 }

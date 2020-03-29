@@ -1,77 +1,74 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Core.Tools.Bindings
 {
-  public abstract class APropertyBindableBehaviour : MonoBehaviour, IBindersNotifier
-  {
-    protected Boolean _readyForBind = false;
-
-    private readonly List<ABinder> _attachedBinders = new List<ABinder>();
-
-    public Boolean ReadyForBind
+    public abstract class APropertyBindableBehaviour : MonoBehaviour, IBindersNotifier
     {
-      get { return _readyForBind; }
-    }
+        private readonly List<ABinder> _attachedBinders = new List<ABinder>();
+        protected bool _readyForBind;
 
-    public void AttachBinder(ABinder binder)
-    {
-      _attachedBinders.Add(binder);
-    }
+        public bool ReadyForBind => _readyForBind;
 
-    public void DetachBinder(ABinder binder)
-    {
-      _attachedBinders.Remove(binder);
-    }
-
-    public void MakeBindReadyAndRebindAll()
-    {
-      _readyForBind = true;
-      RaisePropertyChanged("*");
-    }
-
-    public void MakeBindReady()
-    {
-      _readyForBind = true;
-    }
-
-    public void MakeBindUnready()
-    {
-      _readyForBind = false;
-    }
-
-    protected void RebindAll()
-    {
-      RaisePropertyChanged("*");
-    }
-
-    protected void RaisePropertyChanged(String propertyName)
-    {
-      if (_attachedBinders == null)
-        return;
-
-      for (var i = 0; i < _attachedBinders.Count; i++)
-      {
-        var binder = _attachedBinders[i];
-        var unityObject = binder.Target as UnityEngine.Object;
-
-        if (unityObject != null && !unityObject)
+        public void AttachBinder(ABinder binder)
         {
-          _attachedBinders.RemoveAt(i);
-          i--;
-          continue;
+            _attachedBinders.Add(binder);
         }
 
-        try
+        public void DetachBinder(ABinder binder)
         {
-          ABinder.Internal.RebindOn(binder, propertyName);
+            _attachedBinders.Remove(binder);
         }
-        catch (Exception ex)
+
+        public void MakeBindReadyAndRebindAll()
         {
-          Debug.LogException(ex);
+            _readyForBind = true;
+            RaisePropertyChanged("*");
         }
-      }
+
+        public void MakeBindReady()
+        {
+            _readyForBind = true;
+        }
+
+        public void MakeBindUnready()
+        {
+            _readyForBind = false;
+        }
+
+        protected void RebindAll()
+        {
+            RaisePropertyChanged("*");
+        }
+
+        protected void RaisePropertyChanged(string propertyName)
+        {
+            if (_attachedBinders == null)
+                return;
+
+            for (var i = 0; i < _attachedBinders.Count; i++)
+            {
+                var binder = _attachedBinders[i];
+                var unityObject = binder.Target as Object;
+
+                if (unityObject != null && !unityObject)
+                {
+                    _attachedBinders.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+
+                try
+                {
+                    ABinder.Internal.RebindOn(binder, propertyName);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                }
+            }
+        }
     }
-  }
 }

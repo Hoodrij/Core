@@ -3,41 +3,39 @@ using UnityEngine;
 
 namespace Core.Tools.Bindings
 {
-  [ExecuteInEditMode]
-  [RequireComponent(typeof(Renderer))]
-  public class RendererSortingLayerBinder : MonoBehaviour
-  {
-    public bool _setParentCanvas;
-
-    [ConditionalField("_setParentCanvas")]
-    [SerializeField]
-    private Canvas _parentCanvas;
-
-    private Renderer _mesh;
-
-    private void SetCanvasLayer()
+    [ExecuteInEditMode] [RequireComponent(typeof(Renderer))]
+    public class RendererSortingLayerBinder : MonoBehaviour
     {
-      if (_parentCanvas != null)
-      {
-        _mesh.sortingLayerName = _parentCanvas.sortingLayerName;
-        _mesh.sortingOrder = _parentCanvas.sortingOrder;
-      }
+        private Renderer _mesh;
+
+        [ConditionalField("_setParentCanvas")] [SerializeField]
+        private Canvas _parentCanvas;
+
+        public bool _setParentCanvas;
+
+        private void SetCanvasLayer()
+        {
+            if (_parentCanvas != null)
+            {
+                _mesh.sortingLayerName = _parentCanvas.sortingLayerName;
+                _mesh.sortingOrder = _parentCanvas.sortingOrder;
+            }
+        }
+
+        private void OnEnable()
+        {
+            SetCanvasLayer();
+        }
+
+        private void Awake()
+        {
+            if (_mesh == null)
+                _mesh = GetComponent<Renderer>();
+
+            if (_parentCanvas == null)
+                _parentCanvas = GetComponentsInParent(typeof(Canvas), true).Cast<Canvas>().FirstOrDefault();
+
+            SetCanvasLayer();
+        }
     }
-
-    private void OnEnable()
-    {
-      SetCanvasLayer();
-    }
-
-    private void Awake()
-    {
-      if (_mesh == null)
-        _mesh = GetComponent<Renderer>();
-
-      if (_parentCanvas == null)
-        _parentCanvas = GetComponentsInParent(typeof(Canvas), true).Cast<Canvas>().FirstOrDefault();
-
-      SetCanvasLayer();
-    }
-  }
 }

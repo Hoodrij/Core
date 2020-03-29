@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Core.Tools
 {
-	public abstract class Job
+    public abstract class Job
     {
         private Action<string> onError;
 

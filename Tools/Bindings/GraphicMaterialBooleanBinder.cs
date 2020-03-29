@@ -4,46 +4,36 @@ using UnityEngine.UI;
 
 namespace Core.Tools.Bindings
 {
-  [BindTo(typeof(Boolean))]
-  public class GraphicMaterialBooleanBinder : ABinder
-  {
-#pragma warning disable 649
-    [SerializeField] private Material _true;
-#pragma warning restore 649
-#pragma warning disable 649
-    [SerializeField] private Material _false;
-#pragma warning restore 649
-
-    [SerializeField] private Graphic[] _widgets = new Graphic[0];
-
-    [SerializeField] private Graphic _widget;
-
-    private Func<Boolean> _getter;
-
-    protected override void Bind(Boolean init)
+    [BindTo(typeof(bool))] public class GraphicMaterialBooleanBinder : ABinder
     {
-      Material mat = _getter() ? _true : _false;
-      SetMaterial(_widget, mat);
-      for (int i = 0; i < _widgets.Length; ++i)
-      {
-        SetMaterial(_widgets[i], mat);
-      }
-    }
+        [SerializeField] private Material _false;
+        [SerializeField] private Material _true;
+        [SerializeField] private Graphic _widget;
+        [SerializeField] private Graphic[] _widgets = new Graphic[0];
 
-    private void SetMaterial(Graphic graphic, Material mat)
-    {
-      if (graphic != null)
-      {
-        graphic.material = mat;
-        graphic.SetAllDirty();
-      }
-    }
+        private Func<bool> _getter;
 
-    private void Awake()
-    {
-      if (_widget == null)
-        _widget = GetComponent<Graphic>();
-      Init(ref _getter);
+        protected override void Bind(bool init)
+        {
+            var mat = _getter() ? _true : _false;
+            SetMaterial(_widget, mat);
+            for (var i = 0; i < _widgets.Length; ++i) SetMaterial(_widgets[i], mat);
+        }
+
+        private void SetMaterial(Graphic graphic, Material mat)
+        {
+            if (graphic != null)
+            {
+                graphic.material = mat;
+                graphic.SetAllDirty();
+            }
+        }
+
+        private void Awake()
+        {
+            if (_widget == null)
+                _widget = GetComponent<Graphic>();
+            Init(ref _getter);
+        }
     }
-  }
 }

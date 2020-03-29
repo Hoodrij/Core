@@ -7,133 +7,124 @@ using UnityEngine.Assertions;
 
 namespace Core.Tools
 {
-	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-	public class injectAttribute : Attribute { }
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class injectAttribute : Attribute { }
 
-	public class Injector
-	{
-		private readonly Dictionary<Type, object> objects = new Dictionary<Type, object>();
+    public class Injector
+    {
+        private readonly Dictionary<Type, object> objects = new Dictionary<Type, object>();
 
-		public Injector()
-		{
-			Add(this);
-		}
+        public Injector()
+        {
+            Add(this);
+        }
 
-		public void Add(object obj)
-		{
-			Type type = obj.GetType();
+        public void Add(object obj)
+        {
+            var type = obj.GetType();
 
-			objects[type] = obj;
-		}
+            objects[type] = obj;
+        }
 
-		public void Inject(object obj)
-		{
-			MemberInfo[] members = Reflector.Reflect(obj.GetType());
-			foreach (var member in members)
-			{
-				Type type = Reflector.GetUnderlyingType(member);
-				object value = Get(type);
+        public void Inject(object obj)
+        {
+            var members = Reflector.Reflect(obj.GetType());
+            foreach (var member in members)
+            {
+                var type = Reflector.GetUnderlyingType(member);
+                var value = Get(type);
 
-				switch (member.MemberType)
-				{
-					case MemberTypes.Field:
-						((FieldInfo)member).SetValue(obj, value);
-						break;
-					case MemberTypes.Property:
-						((PropertyInfo)member).SetValue(obj, value, null);
-						break;
-				}
-			}
-		}
+                switch (member.MemberType)
+                {
+                    case MemberTypes.Field:
+                        ((FieldInfo) member).SetValue(obj, value);
+                        break;
+                    case MemberTypes.Property:
+                        ((PropertyInfo) member).SetValue(obj, value, null);
+                        break;
+                }
+            }
+        }
 
-		private object Get(Type type)
-		{
-			if (!objects.TryGetValue(type, out var obj))
-			{
-				Debug.LogError($"Cant find {type} in injector");
-			}
-			return obj;
-		}
+        private object Get(Type type)
+        {
+            if (!objects.TryGetValue(type, out var obj)) Debug.LogError($"Cant find {type} in injector");
 
-		public T GetInstance<T>()
-		{
-			return (T)Get(typeof(T));
-		}
+            return obj;
+        }
 
-		private static class Reflector
-		{
-			private static readonly Type injectAttributeType = typeof(injectAttribute);
-			private static readonly Dictionary<Type, MemberInfo[]> cachedFieldInfos = new Dictionary<Type, MemberInfo[]>();
-			private static readonly List<MemberInfo> reusableList = new List<MemberInfo>(1024);
+        public T GetInstance<T>()
+        {
+            return (T) Get(typeof(T));
+        }
 
-			public static MemberInfo[] Reflect(Type type)
-			{
-				Assert.AreEqual(0, reusableList.Count, "Reusable list in Reflector was not empty!");
+        private static class Reflector
+        {
+            private static readonly Type injectAttributeType = typeof(injectAttribute);
+            private static readonly Dictionary<Type, MemberInfo[]> cachedFieldInfos = new Dictionary<Type, MemberInfo[]>();
+            private static readonly List<MemberInfo> reusableList = new List<MemberInfo>(1024);
 
-				if (cachedFieldInfos.TryGetValue(type, out var cachedResult))
-				{
-					return cachedResult;
-				}
+            public static MemberInfo[] Reflect(Type type)
+            {
+                Assert.AreEqual(0, reusableList.Count, "Reusable list in Reflector was not empty!");
 
-				BindingFlags flags = BindingFlags.Public |
-				                     BindingFlags.NonPublic |
-				                     BindingFlags.Static |
-				                     BindingFlags.Instance |
-				                     BindingFlags.DeclaredOnly;
+                if (cachedFieldInfos.TryGetValue(type, out var cachedResult)) return cachedResult;
 
-				IEnumerable<MemberInfo> fields =
-					from it in type.GetMembers(flags)
-					where it is PropertyInfo || it is FieldInfo
-					select it;
+                var flags = BindingFlags.Public |
+                            BindingFlags.NonPublic |
+                            BindingFlags.Static |
+                            BindingFlags.Instance |
+                            BindingFlags.DeclaredOnly;
 
-				foreach (var baseType in GetBaseTypes(type))
-				{
-					fields = fields.Concat(from it in baseType.GetMembers(flags)
-						where it is PropertyInfo || it is FieldInfo
-						select it);
-				}
+                var fields =
+                    from it in type.GetMembers(flags)
+                    where it is PropertyInfo || it is FieldInfo
+                    select it;
 
-				foreach (var field in fields)
-				{
-					bool hasInjectAttribute = field.IsDefined(injectAttributeType);
-					if (hasInjectAttribute)
-					{
-						reusableList.Add(field);
-					}
-				}
-				MemberInfo[] resultAsArray = reusableList.ToArray();
-				reusableList.Clear();
-				cachedFieldInfos[type] = resultAsArray;
-				return resultAsArray;
-			}
+                foreach (var baseType in GetBaseTypes(type))
+                    fields = fields.Concat(from it in baseType.GetMembers(flags)
+                        where it is PropertyInfo || it is FieldInfo
+                        select it);
 
-			private static List<Type> GetBaseTypes(Type type)
-			{
-				List<Type> result = new List<Type>();
-				if (type.BaseType != null)
-				{
-					result.Add(type.BaseType);
-					result.AddRange(GetBaseTypes(type.BaseType));
-				}
+                foreach (var field in fields)
+                {
+                    var hasInjectAttribute = field.IsDefined(injectAttributeType);
+                    if (hasInjectAttribute) reusableList.Add(field);
+                }
 
-				return result;
-			}
+                var resultAsArray = reusableList.ToArray();
+                reusableList.Clear();
+                cachedFieldInfos[type] = resultAsArray;
+                return resultAsArray;
+            }
 
-			public static Type GetUnderlyingType(MemberInfo member)
-			{
-				switch (member.MemberType)
-				{
-					case MemberTypes.Field:
-						return ((FieldInfo)member).FieldType;
-					case MemberTypes.Property:
-						return ((PropertyInfo)member).PropertyType;
-					default:
-						throw new ArgumentException
-						(
-							"Input MemberInfo must be if type FieldInfo or PropertyInfo"
-						);
-				}
-			}
-		}
-	}
+            private static List<Type> GetBaseTypes(Type type)
+            {
+                var result = new List<Type>();
+                if (type.BaseType != null)
+                {
+                    result.Add(type.BaseType);
+                    result.AddRange(GetBaseTypes(type.BaseType));
+                }
+
+                return result;
+            }
+
+            public static Type GetUnderlyingType(MemberInfo member)
+            {
+                switch (member.MemberType)
+                {
+                    case MemberTypes.Field:
+                        return ((FieldInfo) member).FieldType;
+                    case MemberTypes.Property:
+                        return ((PropertyInfo) member).PropertyType;
+                    default:
+                        throw new ArgumentException
+                        (
+                            "Input MemberInfo must be if type FieldInfo or PropertyInfo"
+                        );
+                }
+            }
+        }
+    }
 }

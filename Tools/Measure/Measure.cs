@@ -11,10 +11,10 @@ namespace Core.Tools
         private Action action;
         private int count;
         private string name;
-        
+
         public static Measure Method(Action action)
         {
-            Measure measure = new Measure
+            var measure = new Measure
             {
                 action = action,
                 name = action.Target.ToString(),
@@ -37,16 +37,14 @@ namespace Core.Tools
 
         public void Run()
         {
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
-            for (int i = 0; i < count; i++)
-            {
-                action();
-            }
-            stopwatch.Stop();
-            float elapsedTicks = stopwatch.Elapsed.Ticks / (float) count;
+            for (var i = 0; i < count; i++) action();
 
-            Debug.Log($"{ name.Color(Color.yellow) } with { elapsedTicks.ToString().Color(Color.yellow) }");
+            stopwatch.Stop();
+            var elapsedTicks = stopwatch.Elapsed.Ticks / (float) count;
+
+            Debug.Log($"{name.Color(Color.yellow)} with {elapsedTicks.ToString().Color(Color.yellow)}");
         }
     }
 }
