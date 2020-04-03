@@ -10,7 +10,7 @@ namespace Core
 
         public Services()
         {
-            Game.Lifetime.OnUpdate.Listen(Update);
+            Game.Life.OnUpdate.Listen(Update);
         }
 
         private void Update()

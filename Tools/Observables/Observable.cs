@@ -2,7 +2,8 @@
 
 namespace Core.Tools.Observables
 {
-    [Serializable] public class Observable<T>
+    [Serializable] 
+    public class Observable<T>
     {
         public T Value
         {

@@ -10,10 +10,10 @@ namespace Core.Tools.Observables
             base.Listen(action);
         }
     }
-
-    public class Command<T1> : Signal<T1>
+    
+    public class Command<T> : Signal<T>
     {
-        public new void Listen(Action<T1> action)
+        public new void Listen(Action<T> action)
         {
             Listeners.Clear();
             base.Listen(action);

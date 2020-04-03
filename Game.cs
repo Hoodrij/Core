@@ -3,7 +3,7 @@ using Core.Ui;
 
 public class Game
 {
-    public static Lifetime Lifetime { get; private set; }
+    public static Life Life { get; private set; }
     public static Assets Assets { get; private set; }
     public static Services Services { get; private set; }
     public static Models Models { get; private set; }
@@ -12,7 +12,7 @@ public class Game
 
     public Game()
     {
-        Lifetime = new Lifetime();
+        Life = new Life();
         Assets = new Assets();
         Services = new Services();
         Models = new Models();

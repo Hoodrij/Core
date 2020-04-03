@@ -5,6 +5,12 @@ namespace Core.Abstract
         protected Service()
         {
             Game.Models.Populate(this);
+            Start();
+        }
+
+        protected virtual void Start()
+        {
+            
         }
     }
 

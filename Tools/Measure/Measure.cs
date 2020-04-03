@@ -39,7 +39,9 @@ namespace Core.Tools
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            for (var i = 0; i < count; i++) action();
+            
+            for (var i = 0; i < count; i++) 
+                action();
 
             stopwatch.Stop();
             var elapsedTicks = stopwatch.Elapsed.Ticks / (float) count;
