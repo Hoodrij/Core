@@ -13,6 +13,13 @@ public static class Macros
 #else
 			false;
 #endif
+    
+    public static bool ON_DEVICE =
+#if UNITY_ANDROID || UNITY_IOS
+        true;
+#else
+			false;
+#endif
 
     public static bool ANDROID =
 #if UNITY_ANDROID
@@ -21,7 +28,7 @@ public static class Macros
 			false;
 #endif
 
-    public static bool IOS =
+    public static bool UNITY_IOS =
 #if IOS
 			true;
 #else

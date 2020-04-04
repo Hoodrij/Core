@@ -24,7 +24,11 @@ namespace Core
 
         public void Add(IEnumerable<IModel> models)
         {
-            foreach (var model in models) Add(model);
+            foreach (var model in models)
+            {
+                if (model == null) continue;
+                Add(model);
+            }
         }
 
         public T Get<T>() where T : IModel

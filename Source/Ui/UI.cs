@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -19,7 +20,11 @@ namespace Core.Ui
 
         public void Add(IEnumerable<UIRoot> roots)
         {
-            foreach (var root in roots) loader.AddRoot(root);
+            foreach (var root in roots)
+            {
+                if (root == null) continue;
+                loader.AddRoot(root);
+            }
         }
 
 
