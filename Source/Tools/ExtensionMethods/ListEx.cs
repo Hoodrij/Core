@@ -16,7 +16,7 @@ namespace Core.Tools.ExtensionMethods
             return !list.Any();
         }
 
-        public static ICollection AddAndGet<T>(this List<T> list, T item)
+        public static ICollection<T> AddAndGet<T>(this ICollection<T> list, T item)
         {
             list.Add(item);
             return list;

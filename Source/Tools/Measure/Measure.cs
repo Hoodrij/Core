@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Debug = UnityEngine.Debug;
 
 namespace Core.Tools
@@ -38,15 +39,21 @@ namespace Core.Tools
         public void Run()
         {
             var stopwatch = new Stopwatch();
+            GC.Collect();
+            float memoryAllocated = Profiler.GetTotalAllocatedMemoryLong() + GC.GetTotalMemory(false);
             stopwatch.Start();
-            
+
             for (var i = 0; i < count; i++) 
                 action();
 
             stopwatch.Stop();
-            var elapsedTicks = stopwatch.Elapsed.Ticks / (float) count;
+            memoryAllocated = Profiler.GetTotalAllocatedMemoryLong() + GC.GetTotalMemory(false) - memoryAllocated;
+            memoryAllocated /= count;
+            var elapsedTicks = stopwatch.Elapsed.Duration().TotalMilliseconds / count;
 
-            Debug.Log($"{name.Color(Color.yellow)} with {elapsedTicks.ToString().Color(Color.yellow)}");
+            ($"{"[MEASURE]".Color(Color.blue)} {name}. " +
+                      $"\n [Duration: {elapsedTicks} ms]" +
+                      $"   [Memory : {memoryAllocated}]").log();
         }
     }
 }

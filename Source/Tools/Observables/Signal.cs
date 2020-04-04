@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Core.Tools.Observables
 {
@@ -30,7 +31,10 @@ namespace Core.Tools.Observables
         
         public void Listen(Action action)
         {
-            Listeners.Add(action.Target, action);
+            if (Listeners.ContainsKey(action.Target))
+                Listeners[action.Target] = action;
+            else
+                Listeners.Add(action.Target, action);
         }
         
         public void Unsubscribe(Action action)
