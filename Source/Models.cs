@@ -16,7 +16,7 @@ namespace Core
             map = new Dictionary<Type, IModel>();
         }
 
-        private void Add(IModel model)
+        public void Add(IModel model)
         {
             map.Add(model.GetType(), model);
             injector.Add(model);

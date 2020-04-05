@@ -23,23 +23,23 @@ namespace Core.Tests
         // }
         
         // A Test behaves as an ordinary method
-        [Test]
-        public void JobTestsSimplePasses()
-        {
-            // i = 3;
-            // Use the Assert class to test conditions
-            Assert.AreEqual(i, 2);
-        }
-        
-        [UnityTest]
-        public IEnumerator TestSomeAsyncThing() {
-            var task = Task.Run(async () => 
-            {
-                await new WaitForSeconds(1);
-            });
-            yield return new WaitUntil(() => task.IsCompleted);
-            if (task.IsFaulted) { throw task.Exception; }
-        }
+        // [Test]
+        // public void JobTestsSimplePasses()
+        // {
+        //     // i = 3;
+        //     // Use the Assert class to test conditions
+        //     Assert.AreEqual(i, 2);
+        // }
+        //
+        // [UnityTest]
+        // public IEnumerator TestSomeAsyncThing() {
+        //     var task = Task.Run(async () => 
+        //     {
+        //         await new WaitForSeconds(0.1f);
+        //     });
+        //     yield return new WaitUntil(() => task.IsCompleted);
+        //     if (task.IsFaulted) { throw task.Exception; }
+        // }
 
         // [Test]
         // public async Task JobTestsWithEnumeratorPasses()

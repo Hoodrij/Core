@@ -8,6 +8,6 @@ namespace Core
     {
         IEnumerable<UIRoot> UIRoots();
         IEnumerable<IModel> Models();
-        IEnumerable<Service> Services();
+        IEnumerable<IService> Services();
     }
 }

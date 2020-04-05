@@ -18,12 +18,14 @@ namespace Core.Ui
             controller = new UIController(loader);
         }
 
+        public void Add(UIRoot root) => loader.AddRoot(root);
+
         public void Add(IEnumerable<UIRoot> roots)
         {
             foreach (var root in roots)
             {
                 if (root == null) continue;
-                loader.AddRoot(root);
+                Add(root);
             }
         }
 

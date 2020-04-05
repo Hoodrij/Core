@@ -5,14 +5,21 @@ namespace Core
 {
     public class Services
     {
-        private List<Service> services = new List<Service>();
+        private List<IService> services = new List<IService>();
 
-        private void Add(Service service)
+        public void Add(IService service)
         {
             services.Add(service);
+            
+            Game.Models.Populate(service);
+            
+            if (service is IUpdate iupdate)
+            {
+                Game.Life.OnUpdate.Listen(iupdate.Update);
+            }
         }
 
-        public void Add(IEnumerable<Service> services)
+        public void Add(IEnumerable<IService> services)
         {
             foreach (var service in services)
             {
