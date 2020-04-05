@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Core
 {
@@ -14,7 +15,7 @@ namespace Core
         public Fader()
         {
             SetView(Game.Assets.Spawn<IFaderView>("BaseFaderView", true));
-
+            
             Worker();
         }
 
@@ -30,7 +31,7 @@ namespace Core
 
                 var action = actions.Dequeue();
                 await action();
-                TryHideView();
+                await TryHideView();
             }
         }
 
@@ -44,10 +45,16 @@ namespace Core
             actions.Enqueue(action);
         }
 
-        private void TryHideView()
+        private async Task TryHideView()
         {
             if (view == null) return;
-            if (actions.IsEmpty()) view.Hide();
+            if (actions.IsEmpty()) await view.Hide();
+        }
+        
+        internal async void Reset()
+        {
+            actions.Clear();
+            await TryHideView();
         }
     }
 }

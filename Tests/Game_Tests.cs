@@ -5,30 +5,23 @@ namespace Core.Tests
 {
     public class Game_Tests : TestFixture
     {
-        [Test]
-        public void Game_Created()
+        [Test] 
+        public void Create()
         {
             Assert.NotNull(game);
         }
         
-        [Test]
+        [Test] 
         public void Game_Reset()
         {
-            Add<TestModel>();
-            
             var model = Game.Models.Get<TestModel>();
-            Assert.NotNull(model);
+            int testValue = 123;
+            model.i = testValue;
+            Assert.AreEqual(model.i, testValue);
             
             Game.Reset();
-            try
-            {
-                model = null;
-                model = Game.Models.Get<TestModel>();
-            }
-            catch (Exception e)
-            {
-                Assert.Null(model);
-            }
+            
+            Assert.AreNotEqual(model.i, testValue);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Core.Ui
 
         internal void CloseAll()
         {
-            opened.ForEach(view => view.Close());
+            opened.ToList().ForEach(view => view.Close());
         }
     }
 }

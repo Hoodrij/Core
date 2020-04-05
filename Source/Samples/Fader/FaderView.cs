@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
@@ -6,8 +7,15 @@ namespace Core.Samples.Fader
 {
     public class FaderView : MonoBehaviour, IFaderView
     {
+        private enum State
+        {
+            Idle,
+            Shown,
+            Hiding,
+        }
+        
         private Animator animator;
-        private bool isShown;
+        private State state;
 
         private void Awake()
         {
@@ -17,19 +25,28 @@ namespace Core.Samples.Fader
         public async Task WaitForShown()
         {
             animator.SetSingleTrigger("show");
-            await new WaitUntil(() => isShown);
+            await new WaitUntil(() => state == State.Shown);
         }
 
-        public void Hide()
+        public async Task Hide()
         {
-            isShown = false;
+            if (state != State.Shown) return;
+            
+            state = State.Hiding;
             animator.SetSingleTrigger("hide");
+            await new WaitUntil(() => state == State.Idle);
         }
 
         // animation event
         private void OnAnimShown()
         {
-            isShown = true;
+            state = State.Shown;
+        }
+        
+        // animation event
+        private void OnAnimHidden()
+        {
+            state = State.Idle;
         }
     }
 }

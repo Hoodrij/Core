@@ -1,30 +1,40 @@
-﻿namespace Core.Tests
+﻿using System.Collections;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using UnityEngine.TestTools;
+
+namespace Core.Tests
 {
-    // [TestFixture]
-    // [PrebuildSetup("TestSetup")]
     public class Service_Test : TestFixture
     {
-        // [inject] private TestModel model;
-        //
-        // public TestService()
-        // {
-        //     123.log();
-        // }
-        //
-        // // [OneTimeSetUp]
-        // // public void Setup() => new TestSetup().Setup();
-        //
-        // // [TestCase(1, 0)]
-        // [Test]
-        // public void TestCase()
-        // {
-        //     // Game.Models.
-        //     Assert.That(model, Is.Not.Null);
-        // }
-        //
-        // public void Update()
-        // {
-        //     
-        // }
+        [Test]
+        public void Injection()
+        {
+            var service = GetService<TestInjectService>();
+
+            Assert.NotNull(service.testModel);
+        }
+        
+        [UnityTest]
+        [TestCase(1,1, ExpectedResult = null)]
+        [TestCase(15,15, ExpectedResult = null)]
+        [TestCase(20,30, ExpectedResult = null)]
+        public IEnumerator Update(int waitFrames, int expectedUpdates)
+        {
+            TestUpdateService service = GetService<TestUpdateService>();
+            int serviceUpdateCounter = service.UpdateCounter;
+
+            for (int i = 0; i < waitFrames; i++)
+            {
+                yield return Task.Yield();
+            }
+            
+            serviceUpdateCounter = service.UpdateCounter - serviceUpdateCounter;
+
+            if (waitFrames == expectedUpdates)
+                Assert.AreEqual(expectedUpdates, serviceUpdateCounter);
+            else
+                Assert.AreNotEqual(expectedUpdates, serviceUpdateCounter);
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace Core
     public interface IGameSetup
     {
         IEnumerable<UIRoot> UIRoots();
-        IEnumerable<IModel> Models();
-        IEnumerable<IService> Services();
+        IEnumerable<Model> Models();
+        IEnumerable<Service> Services();
     }
 }

@@ -3,7 +3,7 @@ using Core.StateMachine;
 
 namespace Core.Samples.GameState
 {
-    public class GameStateModel : IModel
+    public class GameStateModel : Model
     {
         public FadedStateMachine<GameState> FSM = new FadedStateMachine<GameState>();
     }

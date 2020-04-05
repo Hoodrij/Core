@@ -12,7 +12,12 @@ public class Game
 
     public Game()
     {
-        Reset();
+        Life = new Life();
+        Assets = new Assets();
+        Services = new Services();
+        Models = new Models();
+        UI = new UI();
+        Fader = new Fader();
     }
 
     public void Setup(IGameSetup setup)
@@ -24,11 +29,9 @@ public class Game
 
     public static void Reset()
     {
-        Life = new Life();
-        Assets = new Assets();
-        Services = new Services();
-        Models = new Models();
-        UI = new UI();
-        Fader = new Fader();
+        Models.Reset();
+        Services.Reset();
+        UI.CloseAll();
+        Fader.Reset();
     }
 }

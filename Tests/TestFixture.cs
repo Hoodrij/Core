@@ -1,36 +1,37 @@
-﻿﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Core.Abstract;
 using Core.Ui;
 using NUnit.Framework;
-using UnityEngine.TestTools;
 
 namespace Core.Tests
 {
     public class TestFixture
     {
-        protected Game game;
+        protected static Game game;
         
         [SetUp]
         public void Setup()
         {
+            if (game != null) 
+                return;
             game = new Game();
+            game.Setup(new TestGameSetup());
         }
 
         [TearDown]
         public void Cleanup()
         {
-            game = null;
+            Game.Reset();
         }
 
-        protected T Add<T>() where T : new()
+        protected T GetService<T>() where T : Service
         {
-            T obj = new T();
-            
-            if (obj is IModel model) Game.Models.Add(model); 
-            if (obj is IService service) Game.Services.Add(service);
-            if (obj is UIRoot root) Game.UI.Add(root);
-
-            return obj;
+            Type type = Game.Services.GetType();
+            FieldInfo fieldInfo = type.GetField("services", BindingFlags.NonPublic | BindingFlags.Instance);
+            object value = fieldInfo.GetValue(Game.Services);
+            return (value as List<Service>).Find(service => service is T) as T;
         }
     }
 }

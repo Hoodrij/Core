@@ -37,10 +37,9 @@ namespace Core.Tools.Observables
                 Listeners.Add(action.Target, action);
         }
         
-        public void Unsubscribe(Action action)
-        {
-            Listeners.Remove(action.Target);
-        }
+        public void Unsubscribe(Action action) => Listeners.Remove(action.Target);
+
+        public void Clear() => Listeners.Clear();
     }
 
     public class Signal<T>
@@ -72,9 +71,8 @@ namespace Core.Tools.Observables
             Listeners.Add(action.Target, action);
         }
 
-        public void Unsubscribe(Action<T> action)
-        {
-            Listeners.Remove(action.Target);
-        }
+        public void Unsubscribe(Action<T> action) => Listeners.Remove(action.Target);
+        
+        public void Clear() => Listeners.Clear();
     }
 }

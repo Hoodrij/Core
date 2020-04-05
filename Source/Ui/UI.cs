@@ -29,7 +29,6 @@ namespace Core.Ui
             }
         }
 
-
         internal async Task<TView> Open<TView>(object data = null) where TView : UIView => await controller.Open<TView>(data);
 
         internal TView Get<TView>() where TView : UIView => controller.Get<TView>();

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Core.Abstract;
 using Core.Tools;
 
@@ -8,21 +10,21 @@ namespace Core
     public class Models
     {
         private Injector injector;
-        private Dictionary<Type, IModel> map;
+        private Dictionary<Type, Model> models;
 
         public Models()
         {
             injector = new Injector();
-            map = new Dictionary<Type, IModel>();
+            models = new Dictionary<Type, Model>();
         }
 
-        public void Add(IModel model)
+        public void Add(Model model)
         {
-            map.Add(model.GetType(), model);
+            models.Add(model.GetType(), model);
             injector.Add(model);
         }
 
-        public void Add(IEnumerable<IModel> models)
+        public void Add(IEnumerable<Model> models)
         {
             foreach (var model in models)
             {
@@ -31,14 +33,22 @@ namespace Core
             }
         }
 
-        public T Get<T>() where T : IModel
+        public T Get<T>() where T : Model
         {
-            return (T) map[typeof(T)];
+            return (T) models[typeof(T)];
         }
 
         public void Populate(object obj)
         {
             injector.Inject(obj);
+        }
+        
+        internal void Reset()
+        {
+            foreach (Model model in models.Values)
+            {
+                model.Reset();
+            }
         }
     }
 }
