@@ -6,7 +6,7 @@ namespace Core.Abstract
         {
             Game.Models.Populate(this);
             
-            if (this is IUpdate iupdate)
+            if (this is IUpdateHandler iupdate)
             {
                 Game.Life.OnUpdate.Listen(iupdate.Update);
             }

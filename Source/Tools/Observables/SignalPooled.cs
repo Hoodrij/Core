@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Core.Tools.Pool;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Core.Tools.Observables
 {
-    public class Signal
+    public class SignalPooled
     {
         protected Dictionary<object, Action> Listeners { get; } = new Dictionary<object, Action>();
         
@@ -44,7 +43,7 @@ namespace Core.Tools.Observables
         public void Clear() => Listeners.Clear();
     }
 
-    public class Signal<T>
+    public class SignalPooled<T>
     {
         protected Dictionary<object, Action<T>> Listeners { get; } = new Dictionary<object, Action<T>>();
 

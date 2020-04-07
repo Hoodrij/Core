@@ -5,9 +5,9 @@ namespace Core.Tools
 {
     public abstract class Job
     {
-        private Action<string> onError;
+        public TaskState State { get; private set; } = TaskState.IDLE;
 
-        public TaskState State = TaskState.IDLE;
+        private Action<string> onError;
 
         public Job()
         {

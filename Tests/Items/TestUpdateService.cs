@@ -2,7 +2,7 @@
 
 namespace Core.Tests
 {
-    public class TestUpdateService : Service, IUpdate
+    public class TestUpdateService : Service, IUpdateHandler
     {
         public int UpdateCounter;
         

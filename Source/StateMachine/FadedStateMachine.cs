@@ -2,7 +2,7 @@ namespace Core.StateMachine
 {
     public class FadedStateMachine<T> : StateMachine<T> where T : State
     {
-        public new async void SetState(T state)
+        public new void SetState(T state)
         {
             Game.Fader.AddAction(async () => base.SetState(state));
         }

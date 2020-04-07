@@ -14,7 +14,6 @@ namespace Core.Samples.GameState
         public static readonly GameState Menu = new GameState("Menu", Game);
         public static readonly GameState PlayMode = new GameState("PlayMode", Game);
 
-
         private GameState(string name, GameState parent = null) : base(name, parent) { }
     }
 }

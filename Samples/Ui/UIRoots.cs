@@ -8,7 +8,6 @@ namespace Core.Samples.Ui
         public class Menu : UIRoot { }
 
         [UIRootCloseParams(typeof(Popup))] public class Window : UIRoot { }
-
         public class Popup : UIRoot { }
 
         public class Hud : UIRoot { }
