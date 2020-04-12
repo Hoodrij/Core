@@ -17,7 +17,7 @@ namespace Core.Tools.EditorTools.Editor
         [MenuItem(TOOLS_OTHER + "ResetTransform &z")]
         private static void ResetTransform()
         {
-            if (!Macros.EDITOR) return;
+            if (!IS.EDITOR) return;
 
             foreach (var t in Selection.transforms)
             {
@@ -35,7 +35,7 @@ namespace Core.Tools.EditorTools.Editor
         [MenuItem(TOOLS_OTHER + "Toggle active &d")]
         private static void ToggleActive()
         {
-            if (!Macros.EDITOR) return;
+            if (!IS.EDITOR) return;
 
             foreach (var go in Selection.gameObjects) go.SetActive(!go.activeSelf);
 

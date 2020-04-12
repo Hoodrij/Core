@@ -6,18 +6,20 @@ namespace Core.StateMachine
 {
     public class StateMachine<TState> where TState : State
     {
-        private Signal<TState> onEnter = new Signal<TState>();
-        private Signal<TState> onExit = new Signal<TState>();
+        private readonly Signal<TState> onEnter = new Signal<TState>();
+        private readonly Signal<TState> onExit = new Signal<TState>();
 
-        public TState Current { get; private set; }
+        private TState Current { get; set; }
 
-        public void SetState(TState newState)
+        protected void Set(TState newState)
         {
             foreach (var state in GetPath(Current, newState))
             {
-                if (state.IsParentOf(Current) || state == Current) onExit.Fire(state);
+                if (state.IsParentOf(Current) || state == Current) 
+                    onExit.Fire(state);
 
-                if (state.IsChildOf(Current) || state.OnOtherBranch(Current) || newState == Current) onEnter.Fire(state);
+                if (state.IsChildOf(Current) || state.OnOtherBranch(Current) || newState == Current) 
+                    onEnter.Fire(state);
             }
 
             Current = newState;

@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Core
 {
     public class Fader
     {
-        private Queue<Func<Task>> actions = new Queue<Func<Task>>();
+        private readonly Queue<Func<Task>> actions = new Queue<Func<Task>>();
         private IFaderView view;
 
         public Fader()
         {
             SetView(Game.Assets.Spawn<IFaderView>("BaseFaderView", true));
-            
+
             Worker();
         }
 
@@ -44,7 +43,7 @@ namespace Core
         {
             actions.Enqueue(action);
         }
-
+        
         private async Task TryHideView()
         {
             if (view == null) return;

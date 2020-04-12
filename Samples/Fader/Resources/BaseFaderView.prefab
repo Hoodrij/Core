@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 6186596271343651358}
   - component: {fileID: 8564509813609335107}
   m_Layer: 5
-  m_Name: FaderView
+  m_Name: BaseFaderView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f0d8655e2e345d69c05d1097212505f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  image: {fileID: 913256594759313199}
 --- !u!225 &6186596271343651358
 CanvasGroup:
   m_ObjectHideFlags: 0

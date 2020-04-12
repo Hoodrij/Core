@@ -52,7 +52,7 @@ namespace Core
 
         private void OnApplicationPause(bool pause)
         {
-            if (!Macros.EDITOR) return;
+            if (!IS.EDITOR) return;
 
             if (pause)
                 Life?.OnPause.Fire();

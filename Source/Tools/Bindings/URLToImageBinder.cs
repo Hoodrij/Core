@@ -21,7 +21,6 @@ namespace Core.Tools.Bindings
             if (string.IsNullOrEmpty(_getter()))
                 return;
 
-            //TODO: show loading
             if (_sprite.sprite == null || _sprite.sprite.texture == null)
             {
                 //_sprite.color = Color.gray;

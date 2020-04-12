@@ -28,7 +28,7 @@ namespace Core.Tools.Pool
 
         public virtual void Push(APoolable item)
         {
-            if (Macros.DEBUG)
+            if (IS.DEBUG)
             {
                 if (item == null || item.gameObject == null) return;
 
@@ -81,7 +81,7 @@ namespace Core.Tools.Pool
             item.Pool = this;
             stack.Push(item);
 
-            if (Macros.EDITOR) item.name = prefab.name + (stack.Count + itemsInUse);
+            if (IS.EDITOR) item.name = prefab.name + (stack.Count + itemsInUse);
         }
     }
 }

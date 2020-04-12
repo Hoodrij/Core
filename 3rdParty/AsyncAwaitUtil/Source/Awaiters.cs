@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-// TODO: Remove the allocs here, use a static memory pool?
 public static class Awaiters
 {
     private static readonly WaitForUpdate _waitForUpdate = new WaitForUpdate();

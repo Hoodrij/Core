@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Abstract;
+using Core.Samples.Ui;
 using Core.Ui;
 
 namespace Core.Tests
@@ -8,7 +9,7 @@ namespace Core.Tests
     {
         public IEnumerable<UIRoot> UIRoots()
         {
-            yield return null;
+            yield return new UIRoots.Menu();
         }
 
         public IEnumerable<Model> Models()

@@ -5,11 +5,11 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+public class injectAttribute : Attribute { }
+
 namespace Core.Tools
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class injectAttribute : Attribute { }
-
     public class Injector
     {
         private readonly Dictionary<Type, object> objects = new Dictionary<Type, object>();

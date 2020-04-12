@@ -8,13 +8,13 @@ public static class ObjectEx
 {
     public static void log(this object o, string tag = "")
     {
-        if (!Macros.EDITOR) return;
+        if (!IS.EDITOR) return;
         Debug.Log(tag + o);
     }
 
     public static void logClear(this object o, string tag = "")
     {
-        if (!Macros.EDITOR) return;
+        if (!IS.EDITOR) return;
         var assembly = Assembly.GetAssembly(typeof(SceneView));
         var type = assembly.GetType("UnityEditor.LogEntries");
         var method = type.GetMethod("Clear");
@@ -25,7 +25,7 @@ public static class ObjectEx
 
     public static void AddToPreloadedAssets(this Object @this)
     {
-        if (!Macros.EDITOR) return;
+        if (!IS.EDITOR) return;
         
         var preloadedAssets = PlayerSettings.GetPreloadedAssets();
 
