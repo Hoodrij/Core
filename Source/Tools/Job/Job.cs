@@ -5,7 +5,7 @@ namespace Core.Tools
 {
     public abstract class Job
     {
-        public TaskState State { get; private set; } = TaskState.IDLE;
+        public JobState State { get; private set; } = JobState.IDLE;
 
         private Action<string> onError;
 
@@ -17,23 +17,23 @@ namespace Core.Tools
         public async Task Run(Action<string> onError = null)
         {
             this.onError = onError;
-            State = TaskState.RUNNING;
+            State = JobState.RUNNING;
 
             await Run();
-            State = TaskState.SUCCESS;
+            State = JobState.SUCCESS;
         }
 
         protected abstract Task Run();
 
         protected void ReportError(string errorMessage)
         {
-            State = TaskState.ERROR;
+            State = JobState.ERROR;
 
             onError?.Invoke(errorMessage);
         }
     }
-
-    public enum TaskState
+    
+    public enum JobState
     {
         IDLE,
         RUNNING,
