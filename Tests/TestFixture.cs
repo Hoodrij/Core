@@ -16,8 +16,7 @@ namespace Core.Tests
         {
             if (game != null) 
                 return;
-            game = new Game();
-            game.Setup(new TestGameSetup());
+            game = new Game(new TestGameSetup());
         }
 
         [TearDown]

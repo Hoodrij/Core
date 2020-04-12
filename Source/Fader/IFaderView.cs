@@ -4,7 +4,7 @@ namespace Core
 {
     public interface IFaderView
     {
-        Task WaitForShown();
+        Task Show();
         Task Hide();
     }
 }

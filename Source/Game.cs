@@ -11,21 +11,14 @@ public class Game
     public static UI UI { get; private set; }
     public static Fader Fader { get; private set; }
 
-    public Game()
+    public Game(IGameSetup setup)
     {
         Life = new Life();
         Assets = new Assets();
-        Services = new Services();
-        Models = new Models();
-        UI = new UI();
         Fader = new Fader();
-    }
-
-    public void Setup(IGameSetup setup)
-    {
-        UI.Add(setup.UIRoots());
-        Models.Add(setup.Models());
-        Services.Add(setup.Services());
+        UI = new UI(setup.UIRoots());
+        Models = new Models(setup.Models());
+        Services = new Services(setup.Services());
     }
 
     public static void Reset()

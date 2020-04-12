@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,23 +10,23 @@ namespace Core.Ui
 {
     public class UI
     {
-        private UIController controller;
-        private UILoader loader;
+        private readonly UIController controller;
+        private readonly UILoader loader;
 
-        internal UI()
+        internal UI(IEnumerable<UIRoot> setup)
         {
             loader = new UILoader();
             controller = new UIController(loader);
+
+            Add(setup);
         }
 
-        public void Add(UIRoot root) => loader.AddRoot(root);
-
-        public void Add(IEnumerable<UIRoot> roots)
+        private void Add(IEnumerable<UIRoot> setup)
         {
-            foreach (var root in roots)
+            foreach (var root in setup)
             {
                 if (root == null) continue;
-                Add(root);
+                loader.AddRoot(root);
             }
         }
 

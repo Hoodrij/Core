@@ -21,7 +21,7 @@ namespace Core.Samples.Fader
             animator = GetComponent<Animator>();
         }
 
-        public async Task WaitForShown()
+        public async Task Show()
         {
             animator.SetSingleTrigger("show");
             await new WaitUntil(() => state == State.Shown);

@@ -26,7 +26,7 @@ namespace Core
 
                 if (actions.IsEmpty()) continue;
 
-                if (view != null) await view.WaitForShown();
+                if (view != null) await view.Show();
 
                 var action = actions.Dequeue();
                 await action();

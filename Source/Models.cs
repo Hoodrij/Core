@@ -4,32 +4,30 @@ using System.Linq;
 using System.Reflection;
 using Core.Abstract;
 using Core.Tools;
+using JetBrains.Annotations;
 
 namespace Core
 {
     public class Models
     {
-        private Injector injector;
-        private Dictionary<Type, Model> models;
+        private readonly Injector injector;
+        private readonly Dictionary<Type, Model> models;
 
-        public Models()
+        internal Models(IEnumerable<Model> setup)
         {
             injector = new Injector();
             models = new Dictionary<Type, Model>();
+            
+            Add(setup);
         }
 
-        public void Add(Model model)
+        private void Add(IEnumerable<Model> setup)
         {
-            models.Add(model.GetType(), model);
-            injector.Add(model);
-        }
-
-        public void Add(IEnumerable<Model> models)
-        {
-            foreach (var model in models)
+            foreach (var model in setup)
             {
                 if (model == null) continue;
-                Add(model);
+                models.Add(model.GetType(), model);
+                injector.Add(model);
             }
         }
 

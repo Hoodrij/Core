@@ -5,19 +5,19 @@ namespace Core
 {
     public class Services
     {
-        private List<Service> services = new List<Service>();
+        private readonly List<Service> services = new List<Service>();
 
-        public void Add(Service service)
+        internal Services(IEnumerable<Service> setup)
         {
-            services.Add(service);
+            Add(setup);
         }
 
-        public void Add(IEnumerable<Service> services)
+        private void Add(IEnumerable<Service> setup)
         {
-            foreach (var service in services)
+            foreach (var service in setup)
             {
                 if (service == null) continue;
-                Add(service);
+                services.Add(service);
             }
         }
 
