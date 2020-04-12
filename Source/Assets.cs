@@ -18,19 +18,19 @@ namespace Core
 
         public async Task<T> LoadAsync<T>(string path) where T : Component
         {
-            var asset = await Resources.LoadAsync<T>(path);
+            Object asset = await Resources.LoadAsync<T>(path);
             return asset as T;
         }
 
         public T Spawn<T>(string path, bool persistent = false) where T : class
         {
-            var prefab = Load(path);
+            Object prefab = Load(path);
+            GameObject go = Object.Instantiate(prefab) as GameObject;
 
-            var go = Object.Instantiate(prefab) as GameObject;
-
-            if (persistent) Object.DontDestroyOnLoad(go);
-
-            if (typeof(T) == typeof(GameObject)) return go as T;
+            if (persistent) 
+                Object.DontDestroyOnLoad(go);
+            if (typeof(T) == typeof(GameObject)) 
+                return go as T;
 
             return go.GetComponent(typeof(T)) as T;
         }

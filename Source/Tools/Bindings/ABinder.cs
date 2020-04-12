@@ -45,14 +45,14 @@ namespace Core.Tools.Bindings
 
         protected void Init<TArg>(ref Action<TArg> action, bool requireSetter = true)
         {
-            var bindSource = new BindSource {Target = target, MemberName = memberName, Params = @params};
+            BindSource bindSource = new BindSource {Target = target, MemberName = memberName, Params = @params};
 
             Init(ref action, ref bindSource, requireSetter);
         }
 
         protected void Init<TResult>(ref Func<TResult> func, bool requireGetter = true)
         {
-            var bindSource = new BindSource {Target = target, MemberName = memberName, Params = @params};
+            BindSource bindSource = new BindSource {Target = target, MemberName = memberName, Params = @params};
 
             Init(ref func, ref bindSource, requireGetter);
         }
@@ -61,16 +61,16 @@ namespace Core.Tools.Bindings
         {
             try
             {
-                var type = bindSource.Target.GetType();
+                Type type = bindSource.Target.GetType();
 
                 do
                 {
-                    var prop = type.GetProperty(bindSource.MemberName,
+                    PropertyInfo prop = type.GetProperty(bindSource.MemberName,
                         BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                     if (prop != null)
                     {
-                        var propSetter = prop.GetSetMethod(true);
+                        MethodInfo propSetter = prop.GetSetMethod(true);
 
                         if (propSetter != null)
                         {
@@ -97,21 +97,21 @@ namespace Core.Tools.Bindings
         {
             try
             {
-                var type = bindSource.Target.GetType();
+                Type type = bindSource.Target.GetType();
 
                 do
                 {
-                    var prop = type.GetProperty(bindSource.MemberName,
+                    PropertyInfo prop = type.GetProperty(bindSource.MemberName,
                         BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                     if (prop != null)
                         if (prop.GetCustomAttributes(typeof(BindableAttribute), true).Length > 0)
                         {
-                            var propGetter = prop.GetGetMethod(true);
+                            MethodInfo propGetter = prop.GetGetMethod(true);
 
                             if (propGetter.ReturnType == typeof(Enum) && typeof(TResult) != typeof(Enum))
                             {
-                                var delegat = (Func<Enum>) Delegate.CreateDelegate(typeof(Func<Enum>), bindSource.Target, propGetter);
+                                Func<Enum> delegat = (Func<Enum>) Delegate.CreateDelegate(typeof(Func<Enum>), bindSource.Target, propGetter);
 
                                 action = () => (TResult) (object) delegat();
                             }
@@ -123,7 +123,7 @@ namespace Core.Tools.Bindings
                             return;
                         }
 
-                    foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                    foreach (MethodInfo method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                     {
                         if (method.Name != bindSource.MemberName || !typeof(TResult).IsAssignableFrom(method.ReturnType) ||
                             method.GetCustomAttributes(typeof(BindableAttribute), true).Length == 0)
@@ -196,7 +196,7 @@ namespace Core.Tools.Bindings
 
         private Func<TResult> BindMethod<TResult>(Object target, MethodInfo method, string parameters)
         {
-            var @params = method.GetParameters();
+            ParameterInfo[] @params = method.GetParameters();
             if (@params.Length == 0)
                 return (Func<TResult>) Delegate.CreateDelegate(typeof(Func<TResult>), target, method);
 
@@ -210,7 +210,7 @@ namespace Core.Tools.Bindings
                 }.GetValue;
 
             if (@params[0].ParameterType == typeof(int))
-                if (int.TryParse(parameters, out var result))
+                if (int.TryParse(parameters, out int result))
                     return new IntParamBinder<TResult>
                     {
                         Param = result,
@@ -218,7 +218,7 @@ namespace Core.Tools.Bindings
                     }.GetValue;
 
             if (@params[0].ParameterType == typeof(float))
-                if (float.TryParse(parameters, out var result))
+                if (float.TryParse(parameters, out float result))
                     return new SingleParamBinder<TResult>
                     {
                         Param = result,
@@ -226,7 +226,7 @@ namespace Core.Tools.Bindings
                     }.GetValue;
 
             if (@params[0].ParameterType == typeof(bool))
-                if (bool.TryParse(parameters, out var result))
+                if (bool.TryParse(parameters, out bool result))
                     return new BooleanParamBinder<TResult>
                     {
                         Param = result,
@@ -236,8 +236,8 @@ namespace Core.Tools.Bindings
 
             if (@params[0].ParameterType == typeof(Enum))
             {
-                var attributes = (BindableAttribute[]) method.GetCustomAttributes(typeof(BindableAttribute), true);
-                var result = (Enum) Enum.Parse(attributes[0].ArgumentType, parameters);
+                BindableAttribute[] attributes = (BindableAttribute[]) method.GetCustomAttributes(typeof(BindableAttribute), true);
+                Enum result = (Enum) Enum.Parse(attributes[0].ArgumentType, parameters);
 
                 return new EnumParamBinder<TResult>
                 {

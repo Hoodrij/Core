@@ -11,7 +11,7 @@ namespace Core.Tools.SerializableDictionary.Editor
         {
             if (property.isExpanded)
             {
-                var keysProp = property.FindPropertyRelative("_keys");
+                SerializedProperty keysProp = property.FindPropertyRelative("_keys");
                 return (keysProp.arraySize + 4) * EditorGUIUtility.singleLineHeight;
             }
 
@@ -20,32 +20,32 @@ namespace Core.Tools.SerializableDictionary.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var expanded = property.isExpanded;
-            var r = GetNextRect(ref position);
+            bool expanded = property.isExpanded;
+            Rect r = GetNextRect(ref position);
             property.isExpanded = EditorGUI.Foldout(r, property.isExpanded, label);
 
             if (expanded)
             {
-                var lvl = EditorGUI.indentLevel;
+                int lvl = EditorGUI.indentLevel;
                 EditorGUI.indentLevel = lvl + 1;
 
-                var keysProp = property.FindPropertyRelative("_keys");
-                var valuesProp = property.FindPropertyRelative("_values");
+                SerializedProperty keysProp = property.FindPropertyRelative("_keys");
+                SerializedProperty valuesProp = property.FindPropertyRelative("_values");
 
-                var cnt = keysProp.arraySize;
+                int cnt = keysProp.arraySize;
                 if (valuesProp.arraySize != cnt) valuesProp.arraySize = cnt;
 
-                for (var i = 0; i < cnt; i++)
+                for (int i = 0; i < cnt; i++)
                 {
                     r = GetNextRect(ref position);
                     //r = EditorGUI.IndentedRect(r);
-                    var w0 = EditorGUIUtility.labelWidth; // r.width / 2f;
-                    var w1 = r.width - w0;
-                    var r0 = new Rect(r.xMin, r.yMin, w0, r.height);
-                    var r1 = new Rect(r0.xMax, r.yMin, w1, r.height);
+                    float w0 = EditorGUIUtility.labelWidth; // r.width / 2f;
+                    float w1 = r.width - w0;
+                    Rect r0 = new Rect(r.xMin, r.yMin, w0, r.height);
+                    Rect r1 = new Rect(r0.xMax, r.yMin, w1, r.height);
 
-                    var keyProp = keysProp.GetArrayElementAtIndex(i);
-                    var valueProp = valuesProp.GetArrayElementAtIndex(i);
+                    SerializedProperty keyProp = keysProp.GetArrayElementAtIndex(i);
+                    SerializedProperty valueProp = valuesProp.GetArrayElementAtIndex(i);
 
                     DrawKey(r0, keyProp);
                     DrawValue(r1, valueProp);
@@ -54,8 +54,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                 EditorGUI.indentLevel = lvl;
 
                 r = GetNextRect(ref position);
-                var pRect = new Rect(r.xMax - 60f, r.yMin, 30f, EditorGUIUtility.singleLineHeight);
-                var mRect = new Rect(r.xMax - 30f, r.yMin, 30f, EditorGUIUtility.singleLineHeight);
+                Rect pRect = new Rect(r.xMax - 60f, r.yMin, 30f, EditorGUIUtility.singleLineHeight);
+                Rect mRect = new Rect(r.xMax - 30f, r.yMin, 30f, EditorGUIUtility.singleLineHeight);
 
                 if (GUI.Button(pRect, "+"))
                 {
@@ -92,8 +92,8 @@ namespace Core.Tools.SerializableDictionary.Editor
 
         private Rect GetNextRect(ref Rect position)
         {
-            var r = new Rect(position.xMin, position.yMin, position.width, EditorGUIUtility.singleLineHeight);
-            var h = EditorGUIUtility.singleLineHeight + 1f;
+            Rect r = new Rect(position.xMin, position.yMin, position.width, EditorGUIUtility.singleLineHeight);
+            float h = EditorGUIUtility.singleLineHeight + 1f;
             position = new Rect(position.xMin, position.yMin + h, position.width, position.height = h);
             return r;
         }
@@ -102,14 +102,14 @@ namespace Core.Tools.SerializableDictionary.Editor
         private static void AddKeyElement(SerializedProperty keysProp)
         {
             keysProp.arraySize++;
-            var prop = keysProp.GetArrayElementAtIndex(keysProp.arraySize - 1);
+            SerializedProperty prop = keysProp.GetArrayElementAtIndex(keysProp.arraySize - 1);
 
             switch (prop.propertyType)
             {
                 case SerializedPropertyType.Integer:
                 {
-                    var value = 0;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    int value = 0;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).intValue == value)
                         {
                             value++;
@@ -124,8 +124,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.Boolean:
                 {
-                    var value = false;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    bool value = false;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).boolValue == value)
                         {
                             value = true;
@@ -137,8 +137,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.Float:
                 {
-                    var value = 0f;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    float value = 0f;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).intValue == value)
                         {
                             value++;
@@ -158,8 +158,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.Color:
                 {
-                    var value = Color.black;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    Color value = Color.black;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).colorValue == value)
                         {
                             value = ToColor(ToInt(value) + 1);
@@ -179,8 +179,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.LayerMask:
                 {
-                    var value = -1;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    int value = -1;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).intValue == value)
                         {
                             value++;
@@ -195,13 +195,13 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.Enum:
                 {
-                    var value = 0;
+                    int value = 0;
                     if (keysProp.arraySize > 1)
                     {
-                        var first = keysProp.GetArrayElementAtIndex(0);
-                        var max = first.enumNames.Length - 1;
+                        SerializedProperty first = keysProp.GetArrayElementAtIndex(0);
+                        int max = first.enumNames.Length - 1;
 
-                        for (var i = 0; i < keysProp.arraySize - 1; i++)
+                        for (int i = 0; i < keysProp.arraySize - 1; i++)
                             if (keysProp.GetArrayElementAtIndex(i).enumValueIndex == value)
                             {
                                 value++;
@@ -217,8 +217,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.Vector2:
                 {
-                    var value = Vector2.zero;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    Vector2 value = Vector2.zero;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).vector2Value == value)
                         {
                             value.x++;
@@ -233,8 +233,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.Vector3:
                 {
-                    var value = Vector3.zero;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    Vector3 value = Vector3.zero;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).vector3Value == value)
                         {
                             value.x++;
@@ -249,8 +249,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.Vector4:
                 {
-                    var value = Vector4.zero;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    Vector4 value = Vector4.zero;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).vector4Value == value)
                         {
                             value.x++;
@@ -270,8 +270,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.ArraySize:
                 {
-                    var value = 0;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    int value = 0;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).arraySize == value)
                         {
                             value++;
@@ -286,8 +286,8 @@ namespace Core.Tools.SerializableDictionary.Editor
                     break;
                 case SerializedPropertyType.Character:
                 {
-                    var value = 0;
-                    for (var i = 0; i < keysProp.arraySize - 1; i++)
+                    int value = 0;
+                    for (int i = 0; i < keysProp.arraySize - 1; i++)
                         if (keysProp.GetArrayElementAtIndex(i).intValue == value)
                         {
                             value++;
@@ -325,10 +325,10 @@ namespace Core.Tools.SerializableDictionary.Editor
 
         public static Color ToColor(int value)
         {
-            var a = (float) ((value >> 24) & 0xFF) / 255f;
-            var r = (float) ((value >> 16) & 0xFF) / 255f;
-            var g = (float) ((value >> 8) & 0xFF) / 255f;
-            var b = (float) (value & 0xFF) / 255f;
+            float a = (float) ((value >> 24) & 0xFF) / 255f;
+            float r = (float) ((value >> 16) & 0xFF) / 255f;
+            float g = (float) ((value >> 8) & 0xFF) / 255f;
+            float b = (float) (value & 0xFF) / 255f;
             return new Color(r, g, b, a);
         }
 

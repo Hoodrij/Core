@@ -28,7 +28,7 @@ namespace Core
 
                 if (view != null) await view.Show();
 
-                var action = actions.Dequeue();
+                Func<Task> action = actions.Dequeue();
                 await action();
                 await TryHideView();
             }

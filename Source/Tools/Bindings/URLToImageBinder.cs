@@ -41,11 +41,11 @@ namespace Core.Tools.Bindings
 
         private IEnumerator FetchTexture(string url)
         {
-            var www = new WWW(url);
+            WWW www = new WWW(url);
             yield return www;
             //_sprite.color = Color.white;
 
-            var tex = www.texture;
+            Texture2D tex = www.texture;
             _sprite.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.one * 0.5f);
 
             if (_transparentOnNull)

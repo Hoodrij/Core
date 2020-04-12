@@ -15,7 +15,7 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var baseFloat = _getter();
+            float baseFloat = _getter();
 
             if (_widget != null)
                 _widget.material.SetFloat(_propertyName, baseFloat);

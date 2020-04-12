@@ -18,7 +18,7 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var equals = _getter() == _comparison;
+            bool equals = _getter() == _comparison;
 
             if (_equals != null) _equals.SetActive(equals);
             if (_notEquals != null) _notEquals.SetActive(!equals);

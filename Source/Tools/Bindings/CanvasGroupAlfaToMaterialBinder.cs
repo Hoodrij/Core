@@ -26,7 +26,7 @@ namespace Core.Tools.Bindings
             if (Math.Abs(_previousAlpha - _canvasGroup.alpha) < float.Epsilon)
                 return;
 
-            var color = _mesh.sharedMaterial.color;
+            Color color = _mesh.sharedMaterial.color;
             _previousAlpha = color.a = _canvasGroup.alpha;
 
             _mesh.sharedMaterial.SetColor(_alphaPropertyName, color);

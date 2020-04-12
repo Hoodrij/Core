@@ -21,15 +21,15 @@ namespace Core.Tools.Bindings
         {
             if (_widget != null)
             {
-                var color = _widget.color;
+                Color color = _widget.color;
                 color.a = _getter() ? _trueVal : _falseVal;
                 _widget.color = color;
             }
 
             if (_applyToChilds)
-                foreach (var item in GetComponentsInChildren<Graphic>())
+                foreach (Graphic item in GetComponentsInChildren<Graphic>())
                 {
-                    var col = item.color;
+                    Color col = item.color;
                     col.a = _getter() ? _trueVal : _falseVal;
                     item.color = col;
                 }

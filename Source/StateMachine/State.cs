@@ -15,7 +15,7 @@ namespace Core.StateMachine
 
         public bool Is(State other)
         {
-            var state = this;
+            State state = this;
             if (ReferenceEquals(state, other) || state?.Name == other?.Name) return true;
 
             return false;
@@ -24,7 +24,7 @@ namespace Core.StateMachine
         public bool IsChildOf(State other)
         {
             if (other == null) return true;
-            var state = Parent;
+            State state = Parent;
             while (!ReferenceEquals(state, null))
             {
                 if (ReferenceEquals(state, other) || state.Name == other?.Name) return true;
@@ -38,7 +38,7 @@ namespace Core.StateMachine
         public bool IsParentOf(State other)
         {
             if (other == null) return false;
-            var state = other.Parent;
+            State state = other.Parent;
             while (!ReferenceEquals(state, null))
             {
                 if (ReferenceEquals(state, this) || state.Name == Name) return true;

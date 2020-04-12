@@ -23,7 +23,7 @@ namespace Core.Ui
 
         private void Add(IEnumerable<UIRoot> setup)
         {
-            foreach (var root in setup)
+            foreach (UIRoot root in setup)
             {
                 if (root == null) continue;
                 loader.AddRoot(root);

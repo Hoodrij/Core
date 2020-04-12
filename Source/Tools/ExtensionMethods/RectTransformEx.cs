@@ -28,10 +28,10 @@ namespace Core.Tools.ExtensionMethods
 
         public static Bounds GetBoundsWithChildren(this RectTransform @this, bool recursive = true)
         {
-            var result = new Bounds(@this.localPosition, @this.GetSize());
+            Bounds result = new Bounds(@this.localPosition, @this.GetSize());
 
-            var layoutElementSize = GetLayoutElementSize(@this);
-            var layoutGroupSize = GetLayoutGroupSize(@this);
+            Vector2 layoutElementSize = GetLayoutElementSize(@this);
+            Vector2 layoutGroupSize = GetLayoutGroupSize(@this);
             if (layoutElementSize != Vector2.zero)
                 return new Bounds(@this.localPosition, layoutElementSize);
             if (layoutGroupSize != Vector2.zero)
@@ -49,10 +49,10 @@ namespace Core.Tools.ExtensionMethods
 
         public static Vector2 GetSize(this RectTransform @this)
         {
-            var size = @this.sizeDelta;
+            Vector2 size = @this.sizeDelta;
 
-            var layoutElementSize = GetLayoutElementSize(@this);
-            var layoutGroupSize = GetLayoutGroupSize(@this);
+            Vector2 layoutElementSize = GetLayoutElementSize(@this);
+            Vector2 layoutGroupSize = GetLayoutGroupSize(@this);
 
             if (layoutElementSize != Vector2.zero)
                 return layoutElementSize;
@@ -65,7 +65,7 @@ namespace Core.Tools.ExtensionMethods
 
         public static Vector2 GetLayoutGroupSize(this RectTransform @this)
         {
-            var layoutGroup = @this.GetComponent<LayoutGroup>();
+            LayoutGroup layoutGroup = @this.GetComponent<LayoutGroup>();
             if (layoutGroup != null) return new Vector2(layoutGroup.preferredWidth, layoutGroup.preferredHeight);
 
             return Vector2.zero;
@@ -73,7 +73,7 @@ namespace Core.Tools.ExtensionMethods
 
         public static Vector2 GetLayoutElementSize(this RectTransform @this)
         {
-            var layout = @this.GetComponent<LayoutElement>();
+            LayoutElement layout = @this.GetComponent<LayoutElement>();
             if (layout != null && !layout.ignoreLayout) return new Vector2(layout.minWidth, layout.minHeight);
 
             return Vector2.zero;
@@ -98,10 +98,10 @@ namespace Core.Tools.ExtensionMethods
         {
             if (rectTransform == null) return;
 
-            var size = rectTransform.rect.size;
+            Vector2 size = rectTransform.rect.size;
             Vector2 scale = rectTransform.localScale;
-            var deltaPivot = rectTransform.pivot - pivot;
-            var deltaPosition = new Vector3(deltaPivot.x * size.x * scale.x, deltaPivot.y * size.y * scale.y);
+            Vector2 deltaPivot = rectTransform.pivot - pivot;
+            Vector3 deltaPosition = new Vector3(deltaPivot.x * size.x * scale.x, deltaPivot.y * size.y * scale.y);
             rectTransform.pivot = pivot;
             rectTransform.localPosition -= deltaPosition;
         }

@@ -15,7 +15,7 @@ namespace Core.Ui
         {
             rootsToClose = new[] {GetType()};
 
-            var paramsAttribute = GetType().GetCustomAttribute<UIRootCloseParamsAttribute>();
+            UIRootCloseParamsAttribute paramsAttribute = GetType().GetCustomAttribute<UIRootCloseParamsAttribute>();
             if (paramsAttribute != null)
                 rootsToClose = rootsToClose
                     .Concat(paramsAttribute.RootsToClose)

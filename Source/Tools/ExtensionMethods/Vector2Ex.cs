@@ -6,8 +6,8 @@ namespace Core.Tools.ExtensionMethods
     {
         public static float ToAngle360(this Vector2 v2, Vector2 axis)
         {
-            var ang = Vector2.Angle(v2, axis);
-            var cross = Vector3.Cross(v2, axis);
+            float ang = Vector2.Angle(v2, axis);
+            Vector3 cross = Vector3.Cross(v2, axis);
 
             if (cross.z > 0)
                 ang = 360 - ang;
@@ -22,8 +22,8 @@ namespace Core.Tools.ExtensionMethods
 
         public static float ToAngleNegative180(this Vector2 v2, Vector2 axis)
         {
-            var ang = Vector2.Angle(v2, axis);
-            var cross = Vector3.Cross(v2, axis);
+            float ang = Vector2.Angle(v2, axis);
+            Vector3 cross = Vector3.Cross(v2, axis);
 
             if (cross.z > 0)
                 ang *= -1;

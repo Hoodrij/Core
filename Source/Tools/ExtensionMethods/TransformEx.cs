@@ -331,9 +331,9 @@ namespace Core.Tools.ExtensionMethods
 
         public static List<Transform> Childs(this Transform transform, bool recursive = false, bool includeInactive = false)
         {
-            var result = new List<Transform>();
+            List<Transform> result = new List<Transform>();
 
-            for (var i = 0; i < transform.childCount; i++)
+            for (int i = 0; i < transform.childCount; i++)
             {
                 if (transform.GetChild(i).gameObject.activeSelf || includeInactive)
                     result.Add(transform.GetChild(i));

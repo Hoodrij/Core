@@ -35,7 +35,7 @@ namespace Core.Ui
             Game.Models.Populate(this);
             this.data = data;
 
-            var closeEvent = GetComponent<UICloseEventComponent>();
+            UICloseEventComponent closeEvent = GetComponent<UICloseEventComponent>();
             closeEvent.ListenCloseClick(Close);
 
             OnOpen();
@@ -47,7 +47,7 @@ namespace Core.Ui
 
         public async void Close()
         {
-            var closeDelayer = GetComponent<UICloseDelayer>();
+            UICloseDelayer closeDelayer = GetComponent<UICloseDelayer>();
             if (closeDelayer != null)
             {
                 await closeDelayer.BeginClose();

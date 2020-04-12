@@ -17,7 +17,7 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var state = _revert ? !_getter() : _getter();
+            bool state = _revert ? !_getter() : _getter();
 
             if (_gameObject != null) _gameObject.SetActive(state);
         }

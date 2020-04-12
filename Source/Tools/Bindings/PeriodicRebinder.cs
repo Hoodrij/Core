@@ -27,7 +27,7 @@ namespace Core.Tools.Bindings
                 return;
 
             _timer += _periodSeconds;
-            foreach (var aBinder in _binders)
+            foreach (ABinder aBinder in _binders)
                 aBinder.Rebind();
         }
     }

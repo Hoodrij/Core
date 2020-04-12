@@ -11,24 +11,24 @@ namespace Core.Tools.ExtensionMethods
             if (go == null)
                 go = source.gameObject;
 
-            var newObj = go.AddComponent<T>();
-            var type = source.GetType();
+            T newObj = go.AddComponent<T>();
+            Type type = source.GetType();
 
-            var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default |
-                        BindingFlags.DeclaredOnly | BindingFlags.FlattenHierarchy;
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default |
+                                 BindingFlags.DeclaredOnly | BindingFlags.FlattenHierarchy;
 
             if (source is MonoBehaviour)
             {
-                var fields = type.GetFields(flags);
+                FieldInfo[] fields = type.GetFields(flags);
 
-                foreach (var finfo in fields)
+                foreach (FieldInfo finfo in fields)
                     finfo.SetValue(newObj, finfo.GetValue(source));
             }
             else
             {
-                var props = type.GetProperties(flags);
+                PropertyInfo[] props = type.GetProperties(flags);
 
-                foreach (var property in props)
+                foreach (PropertyInfo property in props)
                 {
                     if (!property.CanWrite || !property.CanRead)
                         continue;
@@ -38,7 +38,7 @@ namespace Core.Tools.ExtensionMethods
 
                     try
                     {
-                        var val = property.GetValue(source, null);
+                        object val = property.GetValue(source, null);
                         property.SetValue(newObj, val, null);
                     }
                     catch { }
@@ -61,11 +61,11 @@ namespace Core.Tools.ExtensionMethods
 
         public static T GetCopyOf<T>(this Component comp, T other) where T : Component
         {
-            var type = comp.GetType();
+            Type type = comp.GetType();
             if (type != other.GetType()) return null; // type mis-match
-            var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.CreateInstance;
-            var pinfos = type.GetProperties(flags);
-            foreach (var pinfo in pinfos)
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.CreateInstance;
+            PropertyInfo[] pinfos = type.GetProperties(flags);
+            foreach (PropertyInfo pinfo in pinfos)
                 if (pinfo.CanWrite)
                     try
                     {
@@ -73,8 +73,8 @@ namespace Core.Tools.ExtensionMethods
                     }
                     catch { } // In case of NotImplementedException being thrown. For some reason specifying that exception didn't seem to catch it, so I didn't catch anything specific.
 
-            var finfos = type.GetFields();
-            foreach (var finfo in finfos) finfo.SetValue(comp, finfo.GetValue(other));
+            FieldInfo[] finfos = type.GetFields();
+            foreach (FieldInfo finfo in finfos) finfo.SetValue(comp, finfo.GetValue(other));
 
             return comp as T;
         }
@@ -86,7 +86,7 @@ namespace Core.Tools.ExtensionMethods
 
         public static T GetOrAddComponent<T>(this GameObject go) where T : Component
         {
-            var result = go.GetComponent<T>();
+            T result = go.GetComponent<T>();
             if (result == null)
                 result = go.AddComponent<T>();
 

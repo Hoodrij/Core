@@ -23,7 +23,7 @@ namespace Core
 
         private void Add(IEnumerable<Model> setup)
         {
-            foreach (var model in setup)
+            foreach (Model model in setup)
             {
                 if (model == null) continue;
                 models.Add(model.GetType(), model);

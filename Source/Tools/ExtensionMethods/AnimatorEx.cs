@@ -6,7 +6,7 @@ namespace Core.Tools.ExtensionMethods
     {
         public static void SetSingleTrigger(this Animator animator, string triggerName)
         {
-            foreach (var p in animator.parameters)
+            foreach (AnimatorControllerParameter p in animator.parameters)
                 if (p.type == AnimatorControllerParameterType.Trigger)
                     animator.ResetTrigger(p.name);
 

@@ -21,18 +21,18 @@ namespace Core.Tools
 
         public void Add(object obj)
         {
-            var type = obj.GetType();
+            Type type = obj.GetType();
 
             objects[type] = obj;
         }
 
         public void Inject(object obj)
         {
-            var members = Reflector.Reflect(obj.GetType());
-            foreach (var member in members)
+            MemberInfo[] members = Reflector.Reflect(obj.GetType());
+            foreach (MemberInfo member in members)
             {
-                var type = Reflector.GetUnderlyingType(member);
-                var value = Get(type);
+                Type type = Reflector.GetUnderlyingType(member);
+                object value = Get(type);
 
                 switch (member.MemberType)
                 {
@@ -48,7 +48,7 @@ namespace Core.Tools
 
         private object Get(Type type)
         {
-            if (!objects.TryGetValue(type, out var obj)) Debug.LogError($"Cant find {type} in injector");
+            if (!objects.TryGetValue(type, out object obj)) Debug.LogError($"Cant find {type} in injector");
 
             return obj;
         }
@@ -68,31 +68,31 @@ namespace Core.Tools
             {
                 Assert.AreEqual(0, reusableList.Count, "Reusable list in Reflector was not empty!");
 
-                if (cachedFieldInfos.TryGetValue(type, out var cachedResult)) return cachedResult;
+                if (cachedFieldInfos.TryGetValue(type, out MemberInfo[] cachedResult)) return cachedResult;
 
-                var flags = BindingFlags.Public |
-                            BindingFlags.NonPublic |
-                            BindingFlags.Static |
-                            BindingFlags.Instance |
-                            BindingFlags.DeclaredOnly;
+                BindingFlags flags = BindingFlags.Public |
+                                     BindingFlags.NonPublic |
+                                     BindingFlags.Static |
+                                     BindingFlags.Instance |
+                                     BindingFlags.DeclaredOnly;
 
-                var fields =
+                IEnumerable<MemberInfo> fields =
                     from it in type.GetMembers(flags)
                     where it is PropertyInfo || it is FieldInfo
                     select it;
 
-                foreach (var baseType in GetBaseTypes(type))
+                foreach (Type baseType in GetBaseTypes(type))
                     fields = fields.Concat(from it in baseType.GetMembers(flags)
                         where it is PropertyInfo || it is FieldInfo
                         select it);
 
-                foreach (var field in fields)
+                foreach (MemberInfo field in fields)
                 {
-                    var hasInjectAttribute = field.IsDefined(injectAttributeType);
+                    bool hasInjectAttribute = field.IsDefined(injectAttributeType);
                     if (hasInjectAttribute) reusableList.Add(field);
                 }
 
-                var resultAsArray = reusableList.ToArray();
+                MemberInfo[] resultAsArray = reusableList.ToArray();
                 reusableList.Clear();
                 cachedFieldInfos[type] = resultAsArray;
                 return resultAsArray;
@@ -100,7 +100,7 @@ namespace Core.Tools
 
             private static List<Type> GetBaseTypes(Type type)
             {
-                var result = new List<Type>();
+                List<Type> result = new List<Type>();
                 if (type.BaseType != null)
                 {
                     result.Add(type.BaseType);

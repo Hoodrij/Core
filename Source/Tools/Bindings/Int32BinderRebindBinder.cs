@@ -13,7 +13,7 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var data = _getter();
+            int data = _getter();
 
             if (data != _data)
             {

@@ -21,7 +21,7 @@ namespace Core.Tools.Pool
             itemsInUse = 0;
             name = prefab.name;
 
-            for (var i = 0; i < initialCap; i++) AddInstance();
+            for (int i = 0; i < initialCap; i++) AddInstance();
         }
 
         #region Push item
@@ -65,7 +65,7 @@ namespace Core.Tools.Pool
             if (stack.Count == 0)
                 AddInstance();
 
-            var item = stack.Pop();
+            APoolable item = stack.Pop();
             item.OnPop();
 
             itemsInUse++;
@@ -76,7 +76,7 @@ namespace Core.Tools.Pool
 
         private void AddInstance()
         {
-            var item = Object.Instantiate(prefab, parent.transform);
+            APoolable item = Object.Instantiate(prefab, parent.transform);
             item.gameObject.SetActive(false);
             item.Pool = this;
             stack.Push(item);

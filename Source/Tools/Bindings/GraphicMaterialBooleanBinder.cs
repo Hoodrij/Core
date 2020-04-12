@@ -15,9 +15,9 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var mat = _getter() ? _true : _false;
+            Material mat = _getter() ? _true : _false;
             SetMaterial(_widget, mat);
-            for (var i = 0; i < _widgets.Length; ++i) SetMaterial(_widgets[i], mat);
+            for (int i = 0; i < _widgets.Length; ++i) SetMaterial(_widgets[i], mat);
         }
 
         private void SetMaterial(Graphic graphic, Material mat)

@@ -16,7 +16,7 @@ namespace Core
         {
             if (!Application.isPlaying) return;
 
-            var behaviour = new GameObject("Game.Life").AddComponent<LifeBehaviour>();
+            LifeBehaviour behaviour = new GameObject("Game.Life").AddComponent<LifeBehaviour>();
             behaviour.gameObject.hideFlags |= HideFlags.HideAndDontSave;
             Object.DontDestroyOnLoad(behaviour);
             behaviour.Life = this;

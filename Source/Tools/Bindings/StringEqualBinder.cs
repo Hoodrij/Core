@@ -12,10 +12,10 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var key = _getter();
+            string key = _getter();
 
             GameObject activeItem = null;
-            foreach (var i in _binds)
+            foreach (StringBindingPair i in _binds)
             {
                 if (i.Str == key)
                     activeItem = i.Obj;

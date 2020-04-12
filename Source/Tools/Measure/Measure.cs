@@ -18,7 +18,7 @@ namespace Core.Tools
 
         public static Measure Method(Action action)
         {
-            var measure = new Measure(new MeasureResult()
+            Measure measure = new Measure(new MeasureResult()
                 {
                     Action = action,
                     Name = action.Target.ToString(),
@@ -42,13 +42,13 @@ namespace Core.Tools
 
         public MeasureResult Run()
         {
-            var stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new Stopwatch();
             GC.Collect();
             float memoryAllocated = Profiler.GetTotalAllocatedMemoryLong() + GC.GetTotalMemory(false);
             
             stopwatch.Start();
 
-            for (var i = 0; i < result.Count; i++) 
+            for (int i = 0; i < result.Count; i++) 
                 result.Action();
 
             stopwatch.Stop();

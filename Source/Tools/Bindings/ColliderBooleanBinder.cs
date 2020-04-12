@@ -14,7 +14,7 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var isTrue = _getter();
+            bool isTrue = _getter();
 
             if (_true != null) _true.enabled = isTrue;
             if (_false != null) _false.enabled = !isTrue;

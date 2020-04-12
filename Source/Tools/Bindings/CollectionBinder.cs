@@ -29,10 +29,10 @@ namespace Core.Tools.Bindings
 
             _prefab.SetActive(false);
 
-            var collection = _getter.Invoke();
+            Collection collection = _getter.Invoke();
             if (collection.IsEmpty) //clear all items
             {
-                foreach (var item in _items)
+                foreach (KeyValuePair<object, GameObject> item in _items)
                     Destroy(item.Value);
                 _items.Clear();
             }
@@ -41,12 +41,12 @@ namespace Core.Tools.Bindings
                 if (collection.Comparer != null && collection.Comparer != _items.Comparer)
                     _items = new Dictionary<object, GameObject>(_items, collection.Comparer);
 
-                var index = 0;
-                var itemsKeys = new HashSet<object>(_items.Comparer);
-                foreach (var data in collection)
+                int index = 0;
+                HashSet<object> itemsKeys = new HashSet<object>(_items.Comparer);
+                foreach (object data in collection)
                 {
                     GameObject itemObj;
-                    var isNew = false;
+                    bool isNew = false;
                     //doesn't have -> create new one
                     if (!_items.TryGetValue(data, out itemObj))
                     {
@@ -69,8 +69,8 @@ namespace Core.Tools.Bindings
                 }
 
                 //clear items, who doesn't exists in collection
-                var itemsToRemove = _items.Keys.Where(key => !itemsKeys.Contains(key)).ToArray();
-                foreach (var itemKey in itemsToRemove)
+                object[] itemsToRemove = _items.Keys.Where(key => !itemsKeys.Contains(key)).ToArray();
+                foreach (object itemKey in itemsToRemove)
                 {
                     Destroy(_items[itemKey]);
                     _items.Remove(itemKey);

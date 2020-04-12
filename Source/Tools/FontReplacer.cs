@@ -19,8 +19,8 @@ namespace Core.Tools
 
         [MenuItem(MenuItemName)] public static void DisplayWindow()
         {
-            var window = GetWindow<FontReplacer>(true, "Replace Fonts");
-            var position = window.position;
+            FontReplacer window = GetWindow<FontReplacer>(true, "Replace Fonts");
+            Rect position = window.position;
             position.size = new Vector2(position.size.x, 151);
             position.center = new Rect(0f, 0f, Screen.width, Screen.height).center;
             window.position = position;
@@ -29,7 +29,7 @@ namespace Core.Tools
 
         public void OnEnable()
         {
-            var path = EditorPrefs.GetString(EditorPrefsKey + ".src");
+            string path = EditorPrefs.GetString(EditorPrefsKey + ".src");
             if (path != string.Empty)
                 _src = AssetDatabase.LoadAssetAtPath<Font>(path) ?? Resources.GetBuiltinResource<Font>(path);
 
@@ -67,21 +67,21 @@ namespace Core.Tools
 
         private static void ReplaceFonts(Font src, Font dest, bool includePrefabs)
         {
-            var sceneMatches = 0;
-            for (var i = 0; i < SceneManager.sceneCount; i++)
+            int sceneMatches = 0;
+            for (int i = 0; i < SceneManager.sceneCount; i++)
             {
-                var scene = SceneManager.GetSceneAt(i);
-                var gos = new List<GameObject>(scene.GetRootGameObjects());
-                foreach (var go in gos) sceneMatches += ReplaceFonts(src, dest, go.GetComponentsInChildren<Text>(true));
+                Scene scene = SceneManager.GetSceneAt(i);
+                List<GameObject> gos = new List<GameObject>(scene.GetRootGameObjects());
+                foreach (GameObject go in gos) sceneMatches += ReplaceFonts(src, dest, go.GetComponentsInChildren<Text>(true));
             }
 
             if (includePrefabs)
             {
-                var prefabMatches = 0;
-                var prefabs =
+                int prefabMatches = 0;
+                IEnumerable<GameObject> prefabs =
                     AssetDatabase.FindAssets("t:Prefab")
                         .Select(guid => AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(guid)));
-                foreach (var prefab in prefabs) prefabMatches += ReplaceFonts(src, dest, prefab.GetComponentsInChildren<Text>(true));
+                foreach (GameObject prefab in prefabs) prefabMatches += ReplaceFonts(src, dest, prefab.GetComponentsInChildren<Text>(true));
 
                 Debug.LogFormat("Replaced {0} font(s), {1} in scenes, {2} in prefabs", sceneMatches + prefabMatches, sceneMatches, prefabMatches);
             }
@@ -93,9 +93,9 @@ namespace Core.Tools
 
         private static int ReplaceFonts(Font src, Font dest, IEnumerable<Text> texts)
         {
-            var matches = 0;
-            var textsFiltered = src != null ? texts.Where(text => text.font == src) : texts;
-            foreach (var text in textsFiltered)
+            int matches = 0;
+            IEnumerable<Text> textsFiltered = src != null ? texts.Where(text => text.font == src) : texts;
+            foreach (Text text in textsFiltered)
             {
                 text.font = dest;
                 matches++;
@@ -106,7 +106,7 @@ namespace Core.Tools
 
         private static string GetAssetPath(Object assetObject, string defaultExtension)
         {
-            var path = AssetDatabase.GetAssetPath(assetObject);
+            string path = AssetDatabase.GetAssetPath(assetObject);
             if (path.StartsWith("Library/", System.StringComparison.InvariantCultureIgnoreCase))
                 path = assetObject.name + "." + defaultExtension;
             return path;

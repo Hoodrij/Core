@@ -24,7 +24,7 @@ namespace Core.Tools.ExtensionMethods
 
         public static T GetRandom<T>(this IEnumerable<T> list)
         {
-            var index = list.Count().RandomTo();
+            int index = list.Count().RandomTo();
             return list.ElementAt(index);
         }
     }

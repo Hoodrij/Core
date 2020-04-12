@@ -13,7 +13,7 @@ namespace Core.StateMachine
 
         protected void Set(TState newState)
         {
-            foreach (var state in GetPath(Current, newState))
+            foreach (TState state in GetPath(Current, newState))
             {
                 if (state.IsParentOf(Current) || state == Current) 
                     onExit.Fire(state);
@@ -35,7 +35,7 @@ namespace Core.StateMachine
             {
                 yield return fromState;
                 if (fromState.Parent != toState)
-                    foreach (var state in GetPath(toState, fromState.Parent as TState))
+                    foreach (TState state in GetPath(toState, fromState.Parent as TState))
                         yield return state;
             }
 
@@ -43,7 +43,7 @@ namespace Core.StateMachine
             if (toState.IsChildOf(fromState))
             {
                 if (toState.Parent != fromState)
-                    foreach (var state in GetPath(fromState, toState.Parent as TState))
+                    foreach (TState state in GetPath(fromState, toState.Parent as TState))
                         yield return state;
                 yield return toState;
             }
@@ -51,14 +51,14 @@ namespace Core.StateMachine
             // Into the parallel branch of a tree
             if (toState.OnOtherBranch(fromState))
             {
-                var commonParent = fromState;
+                TState commonParent = fromState;
                 while (!commonParent.IsParentOf(toState))
                 {
                     yield return commonParent;
                     commonParent = commonParent.Parent as TState;
                 }
 
-                foreach (var state in GetPath(commonParent, toState))
+                foreach (TState state in GetPath(commonParent, toState))
                     yield return state;
             }
         }

@@ -13,14 +13,14 @@ namespace Core.Tools.Bindings
 
         private void OnEnable()
         {
-            var color = _widget.color;
+            Color color = _widget.color;
             color.a = _onActive;
             _widget.color = color;
         }
 
         private void OnDisable()
         {
-            var color = _widget.color;
+            Color color = _widget.color;
             color.a = _onInactive;
             _widget.color = color;
         }

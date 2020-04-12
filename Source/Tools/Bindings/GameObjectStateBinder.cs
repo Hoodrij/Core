@@ -11,9 +11,9 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var state = _getter();
+            int state = _getter();
 
-            foreach (var stateObject in _stateObjects)
+            foreach (GameObject stateObject in _stateObjects)
                 if (stateObject != null && stateObject.activeSelf)
                     stateObject.SetActive(false);
 

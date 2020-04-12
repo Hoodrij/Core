@@ -14,14 +14,14 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var isTrue = _getter();
+            bool isTrue = _getter();
 
             if (_true != null)
-                foreach (var behaviour in _true)
+                foreach (Behaviour behaviour in _true)
                     behaviour.enabled = isTrue;
 
             if (_false != null)
-                foreach (var behaviour in _false)
+                foreach (Behaviour behaviour in _false)
                     behaviour.enabled = !isTrue;
         }
 

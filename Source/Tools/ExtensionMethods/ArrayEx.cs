@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Object = UnityEngine.Object;
 
@@ -33,7 +34,7 @@ namespace Core.Tools.ExtensionMethods
 
         public static Object[] Add(this Object[] @this, Object item)
         {
-            var result = new Object[@this.Length + 1];
+            Object[] result = new Object[@this.Length + 1];
             Array.Copy(@this, 0, result, 0, @this.Length);
             result[@this.Length] = item;
             return result;
@@ -41,7 +42,7 @@ namespace Core.Tools.ExtensionMethods
 
         public static Object[] Replace(this Object[] @this, Object item)
         {
-            var list = @this.ToList();
+            List<Object> list = @this.ToList();
             list.RemoveAll(i => i.GetType() == item.GetType());
             list.Add(item);
             return list.ToArray();

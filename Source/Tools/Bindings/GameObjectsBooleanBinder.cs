@@ -17,13 +17,13 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var isTrue = _getter();
+            bool isTrue = _getter();
 
-            foreach (var go in _true)
+            foreach (GameObject go in _true)
                 if (go != null)
                     go.SetActive(isTrue);
 
-            foreach (var go in _false)
+            foreach (GameObject go in _false)
                 if (go != null)
                     go.SetActive(!isTrue);
         }
@@ -32,11 +32,11 @@ namespace Core.Tools.Bindings
         {
             if (_disableObjectsOnAwake)
             {
-                foreach (var go in _true)
+                foreach (GameObject go in _true)
                     if (go != null)
                         go.SetActive(false);
 
-                foreach (var go in _false)
+                foreach (GameObject go in _false)
                     if (go != null)
                         go.SetActive(false);
             }

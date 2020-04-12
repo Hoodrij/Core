@@ -11,16 +11,16 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var baseEnum = _getter();
-            var valueName = Enum.GetName(baseEnum.GetType(), baseEnum);
+            Enum baseEnum = _getter();
+            string valueName = Enum.GetName(baseEnum.GetType(), baseEnum);
 
             //DON'T CHANGE! Done on purpose for case when one gameobject set for two enum states
             {
-                foreach (var bindingPair in _stateObjects)
+                foreach (EnumBindingPair bindingPair in _stateObjects)
                     if (bindingPair.TargetObject != null)
                         bindingPair.TargetObject.SetActive(false);
 
-                foreach (var bindingPair in _stateObjects)
+                foreach (EnumBindingPair bindingPair in _stateObjects)
                     if (bindingPair.TargetObject != null && bindingPair.EnumVal == valueName)
                         bindingPair.TargetObject.SetActive(true);
             }

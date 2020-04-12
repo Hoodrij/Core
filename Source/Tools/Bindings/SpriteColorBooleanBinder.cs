@@ -14,7 +14,7 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var color = _getter() ? _ableColor : _unableColor;
+            Color color = _getter() ? _ableColor : _unableColor;
             _widget.color = color;
         }
 

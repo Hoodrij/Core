@@ -48,10 +48,10 @@ namespace Core.Tools.Bindings
             if (_attachedBinders == null)
                 return;
 
-            for (var i = 0; i < _attachedBinders.Count; i++)
+            for (int i = 0; i < _attachedBinders.Count; i++)
             {
-                var binder = _attachedBinders[i];
-                var unityObject = binder.Target as Object;
+                ABinder binder = _attachedBinders[i];
+                Object unityObject = binder.Target as Object;
 
                 if (unityObject != null && !unityObject)
                 {

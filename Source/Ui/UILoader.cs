@@ -25,10 +25,10 @@ namespace Core.Ui
         {
             roots.Add(root);
 
-            var rootGO = new GameObject(root.GetType().Name, typeof(RectTransform));
+            GameObject rootGO = new GameObject(root.GetType().Name, typeof(RectTransform));
             rootGO.transform.SetParent(uiGO.transform, false);
 
-            var rectTransform = rootGO.GetComponent<RectTransform>();
+            RectTransform rectTransform = rootGO.GetComponent<RectTransform>();
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.anchorMax = Vector2.one;
             rectTransform.offsetMin = Vector2.zero;
@@ -46,7 +46,7 @@ namespace Core.Ui
             else
                 view = Game.Assets.Load<TView>(info.Path);
 
-            var root = GetRoot(info.RootType).Transform;
+            Transform root = GetRoot(info.RootType).Transform;
             return Object.Instantiate(view, root);
         }
 

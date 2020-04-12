@@ -12,9 +12,9 @@ namespace Core.Tools.Observables
         
         public void Fire()
         {
-            var toRemove = ListPool<object>.Get();
+            List<object> toRemove = ListPool<object>.Get();
         
-            foreach (var target in Listeners.Keys)
+            foreach (object target in Listeners.Keys)
             {
                 if (target == null || target.Equals(null))
                 {
@@ -50,9 +50,9 @@ namespace Core.Tools.Observables
 
         public void Fire(T arg)
         {
-            var toRemove = ListPool<object>.Get();
+            List<object> toRemove = ListPool<object>.Get();
 
-            foreach (var target in Listeners.Keys)
+            foreach (object target in Listeners.Keys)
             {
                 if (target == null || target.Equals(null))
                 {

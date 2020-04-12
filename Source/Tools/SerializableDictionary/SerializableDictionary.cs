@@ -145,7 +145,7 @@ namespace Core.Tools.SerializableDictionary
             {
                 if (_dict == null) _dict = new Dictionary<TKey, TValue>(_keys.Length);
                 else _dict.Clear();
-                for (var i = 0; i < _keys.Length; i++)
+                for (int i = 0; i < _keys.Length; i++)
                     if (i < _values.Length)
                         _dict[_keys[i]] = _values[i];
                     else
@@ -165,11 +165,11 @@ namespace Core.Tools.SerializableDictionary
             }
             else
             {
-                var cnt = _dict.Count;
+                int cnt = _dict.Count;
                 _keys = new TKey[cnt];
                 _values = new TValue[cnt];
-                var i = 0;
-                var e = _dict.GetEnumerator();
+                int i = 0;
+                Dictionary<TKey, TValue>.Enumerator e = _dict.GetEnumerator();
                 while (e.MoveNext())
                 {
                     _keys[i] = e.Current.Key;

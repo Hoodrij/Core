@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
+using Object = UnityEngine.Object;
 
 public static class ObjectEx
 {
@@ -15,9 +17,9 @@ public static class ObjectEx
     public static void logClear(this object o, string tag = "")
     {
         if (!IS.EDITOR) return;
-        var assembly = Assembly.GetAssembly(typeof(SceneView));
-        var type = assembly.GetType("UnityEditor.LogEntries");
-        var method = type.GetMethod("Clear");
+        Assembly assembly = Assembly.GetAssembly(typeof(SceneView));
+        Type type = assembly.GetType("UnityEditor.LogEntries");
+        MethodInfo method = type.GetMethod("Clear");
         method.Invoke(new object(), null);
 
         o.log(tag);
@@ -27,9 +29,9 @@ public static class ObjectEx
     {
         if (!IS.EDITOR) return;
         
-        var preloadedAssets = PlayerSettings.GetPreloadedAssets();
+        Object[] preloadedAssets = PlayerSettings.GetPreloadedAssets();
 
-        var newAssets = preloadedAssets
+        List<Object> newAssets = preloadedAssets
                 .Where(o => o != @this)
                 .Where(o => o != null)
                 .ToList()

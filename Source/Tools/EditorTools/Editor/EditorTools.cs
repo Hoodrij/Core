@@ -19,7 +19,7 @@ namespace Core.Tools.EditorTools.Editor
         {
             if (!IS.EDITOR) return;
 
-            foreach (var t in Selection.transforms)
+            foreach (Transform t in Selection.transforms)
             {
                 t.localPosition = Vector3.zero;
                 t.rotation = Quaternion.identity;
@@ -28,7 +28,7 @@ namespace Core.Tools.EditorTools.Editor
 
             EditorSceneManager.MarkAllScenesDirty();
 
-            var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+            PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
             if (prefabStage != null) EditorSceneManager.MarkSceneDirty(prefabStage.scene);
         }
 
@@ -37,11 +37,11 @@ namespace Core.Tools.EditorTools.Editor
         {
             if (!IS.EDITOR) return;
 
-            foreach (var go in Selection.gameObjects) go.SetActive(!go.activeSelf);
+            foreach (GameObject go in Selection.gameObjects) go.SetActive(!go.activeSelf);
 
             EditorSceneManager.MarkAllScenesDirty();
 
-            var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+            PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
             if (prefabStage != null) EditorSceneManager.MarkSceneDirty(prefabStage.scene);
         }
     }

@@ -14,7 +14,7 @@ namespace Core
 
         private void Add(IEnumerable<Service> setup)
         {
-            foreach (var service in setup)
+            foreach (Service service in setup)
             {
                 if (service == null) continue;
                 services.Add(service);

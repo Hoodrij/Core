@@ -9,7 +9,7 @@ namespace Core.Tools
 
         private Action<string> onError;
 
-        public Job()
+        protected Job()
         {
             Game.Models.Populate(this);
         }

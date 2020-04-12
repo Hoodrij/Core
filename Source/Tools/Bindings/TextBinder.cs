@@ -13,7 +13,7 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            var text = _getter();
+            string text = _getter();
 
             if (_makeUpperCase)
                 text = text.ToUpper();
