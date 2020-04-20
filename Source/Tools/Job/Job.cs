@@ -11,7 +11,7 @@ namespace Core.Tools
 
         protected Job()
         {
-            Game.Models.Populate(this);
+            Injector.Instance.Populate(this);
         }
 
         public async Task Run(Action<string> onError = null)
