@@ -12,22 +12,20 @@ namespace Core
 {
     public class Models : Unit
     {
-        [inject] IGameSetup Setup;
-        
         private Dictionary<Type, Model> models;
+
+        public Models(IGameSetup setup)
+        {
+            models = setup.Models().ToDictionary(model => model.GetType());
+            foreach (Model model in models.Values)
+            {
+                Injector.Instance.Add(model);
+            }
+        }
 
         protected override void OnStart()
         {
             "[Models] [OnStart]".log();
-
-            if (models == null || models.IsEmpty())
-            {
-                models = Setup.Models().ToDictionary(model => model.GetType());
-                foreach (Model model in models.Values)
-                {
-                    Injector.Instance.Add(model);
-                }
-            }
 
             foreach (Model model in models.Values)
             {

@@ -14,8 +14,8 @@ namespace Core
             {
                 Injector.Instance.Populate(this);
                 Life = Life.Eternal.Derive(GetType().Name);
-                OnStart();
                 Life.Eternal.Add(StartAction, null);
+                OnStart();
             }
             
             Life.Eternal.Add(StartAction, null);

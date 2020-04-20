@@ -19,10 +19,8 @@ namespace Core
         {
             if (!Application.isPlaying) return;
 
-            behaviour?.gameObject.Destroy();
-            
             behaviour = new GameObject("Core.Events").AddComponent<CoreEventsBehaviour>();
-            // behaviour.gameObject.hideFlags |= HideFlags.HideAndDontSave;
+            behaviour.gameObject.hideFlags |= HideFlags.HideAndDontSave;
             Object.DontDestroyOnLoad(behaviour);
             behaviour.Events = this;
             
@@ -32,6 +30,16 @@ namespace Core
             OnPause.Clear();
             OnResume.Clear();
             OnQuit.Clear();
+            
+            Life.Add(() =>
+            {
+                if (behaviour != null
+                    && behaviour.isActiveAndEnabled
+                    && behaviour.gameObject != null)
+                {
+                    behaviour?.gameObject.Destroy();
+                }
+            });
         }
     }
 

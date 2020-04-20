@@ -7,16 +7,18 @@ namespace Core
 {
     public class Services : Unit
     {
-        [inject] IGameSetup Setup;
         [inject] Events Events;
 
         private List<Service> services;
 
+        public Services(IGameSetup setup)
+        {
+            services = setup.Services().ToList();
+        }
+
         protected override void OnStart()
         {
             "[Services] [OnStart]".log();
-
-            services = services ?? Setup.Services().ToList();
             
             foreach (Service service in services)
             {

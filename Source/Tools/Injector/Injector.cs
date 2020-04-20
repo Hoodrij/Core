@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Core.Tools.ExtensionMethods;
+using UnityEngine;
 
 namespace Core.Tools
 {
@@ -17,11 +19,12 @@ namespace Core.Tools
         public void Add(object obj)
         {
             Type type = obj.GetType();
+            
             foreach (Type @interface in type.GetInterfaces())
             {
                 objects[@interface] = obj;
             }
-
+            
             objects[type] = obj;
         }
 
@@ -45,7 +48,13 @@ namespace Core.Tools
             }
         }
 
-        private object Get(Type type) => objects[type];
+        private object Get(Type type)
+        {
+            if (objects.TryGetValue(type, out var value))
+                return value;
+            
+            throw new KeyNotFoundException($"Cant find {type.Name.Color(Color.red)} in Injector");
+        }
 
         public T Get<T>() => (T) Get(typeof(T));
 
