@@ -6,14 +6,6 @@ namespace Core.Tools.ExtensionMethods
 {
     public static class ListEx
     {
-        public static void Set<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
-        {
-            if (dictionary.ContainsKey(key))
-                dictionary[key] = value;
-            else
-                dictionary.Add(key, value);
-        }
-        
         public static bool HasIndex<T>(this IEnumerable<T> list, int i)
         {
             return i > -1 && i < list.Count();

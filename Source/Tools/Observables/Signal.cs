@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Tools.ExtensionMethods;
 using Core.Tools.Pool;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -34,7 +33,10 @@ namespace Core.Tools.Observables
         
         public void Listen(Action action)
         {
-            Listeners.Set(action.Target, action);
+            if (Listeners.ContainsKey(action.Target))
+                Listeners[action.Target] = action;
+            else
+                Listeners.Add(action.Target, action);
         }
         
         public void Unsubscribe(Action action) => Listeners.Remove(action.Target);
