@@ -1,4 +1,5 @@
 using Core.Ui;
+using Core.Ui.Attributes;
 
 namespace Core.Samples.Ui
 {

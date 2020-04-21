@@ -1,4 +1,6 @@
-﻿namespace Core.Tests
+﻿using Core.Services;
+
+namespace Core.Tests
 {
     public class TestUpdateService : Service, IUpdateHandler
     {

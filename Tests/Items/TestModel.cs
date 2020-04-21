@@ -1,4 +1,6 @@
-﻿namespace Core.Tests
+﻿using Core.Models;
+
+namespace Core.Tests
 {
     public class TestModel : Model
     {
