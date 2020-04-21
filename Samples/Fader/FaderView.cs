@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Core.Fader;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
 

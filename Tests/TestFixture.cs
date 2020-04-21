@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Core.Abstract;
-using Core.Ui;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Core.Tests
 {
