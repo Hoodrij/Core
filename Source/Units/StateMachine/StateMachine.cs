@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core.StateMachine
 {
-    public class StateMachine<TState> where TState : State
+    public class StateMachine<TState> : Unit where TState : State
     {
         private readonly Signal<TState> onEnter = new Signal<TState>();
         private readonly Signal<TState> onExit = new Signal<TState>();
@@ -63,15 +63,6 @@ namespace Core.StateMachine
                 foreach (TState state in GetPath(commonParent, toState))
                     yield return state;
             }
-        }
-
-        public async Task Wait(TState state)
-        {
-            if (Current == state) return;
-
-            bool isWaiting = true;
-            ListenEnter(state, (() => isWaiting = false));
-            await new WaitWhile(() => isWaiting);
         }
 
         public void ListenEnter(TState enterState, Action action)

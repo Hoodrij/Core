@@ -1,17 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Core.Ui
 {
     internal class UILoader
     {
+        private Assets Assets;
+        
         private List<UIRoot> roots = new List<UIRoot>();
         private GameObject uiGO;
 
-        public UILoader()
+        public UILoader(Assets assets)
         {
-            // SetCanvas(Game.Assets.Spawn("BaseUI", true));
+            this.Assets = assets;
+            SetCanvas(Assets.Spawn("BaseUI", true));
         }
 
         public void SetCanvas(GameObject go)
@@ -35,18 +40,18 @@ namespace Core.Ui
             root.Transform = rectTransform;
         }
 
-        // public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
-        // {
-        //     TView view;
-        //
-        //     if (info.AsyncLoad)
-        //         view = await Game.Assets.LoadAsync<TView>(info.Path);
-        //     else
-        //         view = Game.Assets.Load<TView>(info.Path);
-        //
-        //     Transform root = GetRoot(info.RootType).Transform;
-        //     return Object.Instantiate(view, root);
-        // }
+        public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
+        {
+            TView view;
+        
+            if (info.AsyncLoad)
+                view = await Assets.LoadAsync<TView>(info.Path);
+            else
+                view = Assets.Load<TView>(info.Path);
+        
+            Transform root = GetRoot(info.RootType).Transform;
+            return Object.Instantiate(view, root);
+        }
 
         public UIRoot GetRoot(Type type)
         {

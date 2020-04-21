@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Tools;
 
 namespace Core.Ui
 {
@@ -16,6 +17,6 @@ namespace Core.Ui
             AsyncLoad = asyncLoad;
         }
 
-        // internal UIRoot Root => Game.UI.GetRoot(RootType);
+        internal UIRoot Root => Injector.Instance.Get<UI>().GetRoot(RootType);
     }
 }

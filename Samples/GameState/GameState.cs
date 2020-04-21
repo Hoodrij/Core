@@ -1,12 +1,7 @@
-using Core.StateMachine;
+﻿using Core.StateMachine;
 
 namespace Core.Samples.GameState
 {
-    public class GameStateModel : Model
-    {
-        public FadedStateMachine<GameState> FSM = new FadedStateMachine<GameState>();
-    }
-
     public class GameState : State
     {
         public static readonly GameState Game = new GameState("Game");

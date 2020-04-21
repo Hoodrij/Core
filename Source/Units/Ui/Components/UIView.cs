@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
+using Core.Tools;
 using Core.Tools.Bindings;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ namespace Core.Ui
     {
         protected TData Data => (TData) data;
 
-        // public static async Task<TView> Open(TData data) => await Game.UI.Open<TView>(data);
+        public static async Task<TView> Open(TData data) => await Injector.Instance.Get<UI>().Open<TView>(data);
         [Obsolete("Requires Data", true)] public new static void Open() { }
     }
 
@@ -17,8 +19,8 @@ namespace Core.Ui
     {
         internal static UIInfoAttribute Info => typeof(TView).GetCustomAttribute<UIInfoAttribute>();
 
-        // public static async Task<TView> Open() => await Game.UI.Open<TView>();
-        // public static TView Get() => (TView) Game.UI.Get<TView>();
+        public static async Task<TView> Open() => await Injector.Instance.Get<UI>().Open<TView>();
+        public static TView Get() => (TView) Injector.Instance.Get<UI>().Get<TView>();
     }
 
     [RequireComponent(typeof(UICloseEventComponent))]
@@ -31,7 +33,7 @@ namespace Core.Ui
 
         internal void Initialize(object data)
         {
-            // Models.Populate(this);
+            Injector.Instance.Populate(this);
             this.data = data;
 
             UICloseEventComponent closeEvent = GetComponent<UICloseEventComponent>();
