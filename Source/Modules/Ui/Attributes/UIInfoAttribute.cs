@@ -17,6 +17,6 @@ namespace Core.Ui.Attributes
             AsyncLoad = asyncLoad;
         }
 
-        internal UIRoot Root => Injector.Instance.Get<UI>().GetRoot(RootType);
+        internal UIRoot Root => UI.Instance.GetRoot(RootType);
     }
 }

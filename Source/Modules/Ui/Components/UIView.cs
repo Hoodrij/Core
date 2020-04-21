@@ -12,7 +12,7 @@ namespace Core.Ui.Components
     {
         protected TData Data => (TData) data;
 
-        public static async Task<TView> Open(TData data) => await Injector.Instance.Get<UI>().Open<TView>(data);
+        public static async Task<TView> Open(TData data) => await UI.Instance.Open<TView>(data);
         [Obsolete("Requires Data", true)] public new static void Open() { }
     }
 
@@ -20,8 +20,8 @@ namespace Core.Ui.Components
     {
         internal static UIInfoAttribute Info => typeof(TView).GetCustomAttribute<UIInfoAttribute>();
 
-        public static async Task<TView> Open() => await Injector.Instance.Get<UI>().Open<TView>();
-        public static TView Get() => (TView) Injector.Instance.Get<UI>().Get<TView>();
+        public static async Task<TView> Open() => await UI.Instance.Open<TView>();
+        public static TView Get() => (TView) UI.Instance.Get<TView>();
     }
 
     [RequireComponent(typeof(UICloseEventComponent))]

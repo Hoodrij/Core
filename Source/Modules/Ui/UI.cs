@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Assets;
+using Core.Tools;
 using Core.Ui.Components;
 
 namespace Core.Ui
@@ -30,5 +31,7 @@ namespace Core.Ui
         internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
         
         public void CloseAll() => controller.CloseAll();
+
+        internal static UI Instance => Injector.Instance.Get<UI>();
     }
 }
