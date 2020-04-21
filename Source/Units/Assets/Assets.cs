@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace Core
 {
-    public class Assets : IAssets
+    public class Assets : Unit, IAssets
     {
         public Object Load(string path)
         {
