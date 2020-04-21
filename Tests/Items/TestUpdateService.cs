@@ -10,5 +10,10 @@ namespace Core.Tests
         {
             UpdateCounter++;
         }
+        
+        protected override void OnStart()
+        {
+            
+        }
     }
 }
