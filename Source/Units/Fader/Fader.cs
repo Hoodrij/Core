@@ -6,14 +6,16 @@ using UnityEngine;
 
 namespace Core
 {
-    public class Fader
+    public class Fader : Unit
     {
+        [inject] Assets Assets;
+        
         private readonly Queue<Func<Task>> actions = new Queue<Func<Task>>();
         private IFaderView view;
 
         public Fader()
         {
-            // SetView(Game.Assets.Spawn<IFaderView>("BaseFaderView", true));
+            SetView(Assets.Spawn<IFaderView>("BaseFaderView", true));
 
             Worker();
         }
