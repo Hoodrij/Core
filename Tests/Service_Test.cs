@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using UnityEngine.TestTools;
-
-namespace Core.Tests
+﻿namespace Core.Tests
 {
     public class Service_Test : TestFixture
     {

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Core.Tools.ExtensionMethods;
 using Core.Tools.Observables;
-using UnityEngine;
 
 namespace Core.Tools
 {

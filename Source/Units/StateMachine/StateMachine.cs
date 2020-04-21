@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.Tools.Observables;
+using UnityEngine;
 
 namespace Core.StateMachine
 {
@@ -11,7 +13,7 @@ namespace Core.StateMachine
 
         private TState Current { get; set; }
 
-        protected void Set(TState newState)
+        public void Set(TState newState)
         {
             foreach (TState state in GetPath(Current, newState))
             {
@@ -61,6 +63,15 @@ namespace Core.StateMachine
                 foreach (TState state in GetPath(commonParent, toState))
                     yield return state;
             }
+        }
+
+        public async Task Wait(TState state)
+        {
+            if (Current == state) return;
+
+            bool isWaiting = true;
+            ListenEnter(state, (() => isWaiting = false));
+            await new WaitWhile(() => isWaiting);
         }
 
         public void ListenEnter(TState enterState, Action action)

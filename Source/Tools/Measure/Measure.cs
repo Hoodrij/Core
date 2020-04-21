@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
 using UnityEngine.Profiling;
-using Debug = UnityEngine.Debug;
 
 namespace Core.Tools
 {

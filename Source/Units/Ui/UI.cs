@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JetBrains.Annotations;
-using UnityEditor;
-using UnityEngine;
-
-namespace Core.Ui
+﻿namespace Core.Ui
 {
     public class UI
     {

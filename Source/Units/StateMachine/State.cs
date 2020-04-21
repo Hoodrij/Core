@@ -70,10 +70,7 @@ namespace Core.StateMachine
             return Is(other);
         }
 
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name;
 
         public override bool Equals(object obj)
         {

@@ -13,7 +13,7 @@ namespace Core.Tools.Bindings
 
         protected override void Bind(bool init)
         {
-            Action action = _getter();
+            Action action = _getter.Invoke();
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(() => { action.Invoke(); });
         }

@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace Core.Tests
+﻿namespace Core.Tests
 {
     public class UI_Tests : TestFixture
     {

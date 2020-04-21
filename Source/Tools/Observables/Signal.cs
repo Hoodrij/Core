@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core.Tools.ExtensionMethods;
 using Core.Tools.Pool;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Core.Tools.Observables
 {

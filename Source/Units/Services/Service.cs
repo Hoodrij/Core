@@ -1,9 +1,19 @@
+using Core.Tools;
+
 namespace Core
 {
     public abstract class Service
     {
-        protected internal Life Life { get; internal set; }
+        [inject] Lifecycle lifecycle;
 
-        protected internal abstract void OnStart();
+        protected Service()
+        {
+            Injector.Instance.Populate(this);
+                
+            if (this is IUpdateHandler iUpdate)
+            {
+                lifecycle.OnUpdate.Listen(iUpdate.Update);
+            }
+        }
     }
 }
