@@ -4,7 +4,7 @@ using Object = UnityEngine.Object;
 
 namespace Core.Assets
 {
-    public class SimpleAssets : Module, IAssets
+    public class Assets : Module, IAssets
     {
         public Object Load(string path)
         {
