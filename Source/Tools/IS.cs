@@ -28,7 +28,7 @@ public static class IS
 			false;
 #endif
 
-    public static bool UNITY_IOS =
+    public static bool IOS =
 #if IOS
 			true;
 #else

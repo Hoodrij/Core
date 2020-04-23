@@ -7,7 +7,7 @@ using Core.Ui.Components;
 
 namespace Core.Ui
 {
-    public class UI : Module
+    public class UI : Unit
     {
         [inject] IAssets Assets;
         

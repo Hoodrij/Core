@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Lifecycle
 {
-    public class Lifecycle : Module
+    public class Lifecycle : Unit
     {
         public readonly Signal OnUpdate = new Signal();
         public readonly Signal OnLateUpdate = new Signal();

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Core.Ui.Components
 {
-    public class UICloseDelayer : MonoBehaviour
+    public class UICloseDelayerComponent : MonoBehaviour
     {
         private bool isClosed;
         
-        internal async Task BeginClose()
+        internal async Task WaitClose()
         {
             Animator animator = GetComponent<Animator>();
             if (animator == null)

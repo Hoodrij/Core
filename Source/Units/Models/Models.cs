@@ -5,7 +5,7 @@ using Core.Tools;
 
 namespace Core.Models
 {
-    public class Models : Module
+    public class Models : Unit
     {
         private Dictionary<Type, Model> models;
 

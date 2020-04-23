@@ -7,12 +7,13 @@ using UnityEngine;
 
 namespace Core.Fader
 {
-    public class Fader : Module
+    public class Fader : Unit
     {
         [inject] IAssets Assets;
         
         private readonly Queue<Func<Task>> actions = new Queue<Func<Task>>();
         private IFaderView view;
+        
 
         public Fader()
         {

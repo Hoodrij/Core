@@ -2,9 +2,9 @@
 
 namespace Core
 {
-    public abstract class Module
+    public abstract class Unit
     {
-        protected Module()
+        protected Unit()
         {
             Injector.Instance.Add(this);
             Injector.Instance.Populate(this);

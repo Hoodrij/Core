@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Core.Services
 {
-    public class Services : Module
+    public class Services : Unit
     {
         private List<Service> services;
 

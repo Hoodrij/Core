@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Assets
 {
-    public class AddressableAssets : Module, IAssets
+    public class AddressableAssets : Unit, IAssets
     {
         public Object Load(string path)
         {
@@ -11,6 +11,11 @@ namespace Core.Assets
         }
 
         public T Load<T>(string path) where T : Component
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<Object> LoadAsync(string path)
         {
             throw new System.NotImplementedException();
         }

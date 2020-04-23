@@ -4,7 +4,7 @@ using Object = UnityEngine.Object;
 
 namespace Core.Assets
 {
-    public class Assets : Module, IAssets
+    public class Assets : Unit, IAssets
     {
         public Object Load(string path)
         {
@@ -14,6 +14,12 @@ namespace Core.Assets
         public T Load<T>(string path) where T : Component
         {
             return Resources.Load<T>(path);
+        }
+
+        public async Task<Object> LoadAsync(string path)
+        {
+            Object asset = await Resources.LoadAsync(path);
+            return asset;
         }
 
         public async Task<T> LoadAsync<T>(string path) where T : Component
