@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Core.Tools.ExtensionMethods;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -57,7 +56,7 @@ namespace Core.Tools
             result.Ticks = stopwatch.Elapsed.Duration().TotalMilliseconds / result.Count;;
             result.MemoryAlloc = Mathf.Clamp(memoryAllocated, 0, Single.MaxValue);
             
-            ($"{"[MEASURE]".Color(Color.blue)} {result.Name}. " +
+            ($"{"[MEASURE]".Bold()} {result.Name}. " +
                       $"\n [Duration: {result.Ticks} ms]" +
                       $"   [Memory : {result.MemoryAlloc}]").log();
 

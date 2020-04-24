@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Tools;
 
 namespace Core.Ui.Attributes
 {

@@ -1,12 +1,14 @@
-﻿namespace Core.Tests
+﻿using NUnit.Framework;
+
+namespace Core.Tests
 {
     public class Game_Tests : TestFixture
     {
-        // [Test] 
-        // public void Create()
-        // {
-        //     Assert.NotNull(game);
-        // }
+        [Test] 
+        public void Create()
+        {
+            Assert.IsTrue(true);
+        }
         
         // [Test] 
         // public void Game_Reset()
