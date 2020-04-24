@@ -30,7 +30,7 @@ namespace Core.Ui
             foreach (UIView openedView in opened.Where(openedView =>
                 info.Root.IsClosingOther(openedView.Info.Root)))
                 openedView.Close();
-        
+
             TView view = await loader.Load<TView>(info);
         
             view.Initialize(data);

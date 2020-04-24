@@ -1,9 +1,9 @@
 ﻿using Core.Tools.Observables;
 using UnityEngine;
 
-namespace Core.Lifecycle
+namespace Core
 {
-    public class Lifecycle : Unit
+    public class Life : Unit
     {
         public readonly Signal OnUpdate = new Signal();
         public readonly Signal OnLateUpdate = new Signal();
@@ -12,42 +12,42 @@ namespace Core.Lifecycle
         public readonly Signal OnResume = new Signal();
         public readonly Signal OnQuit = new Signal();
 
-        public Lifecycle ()
+        public Life ()
         {
             if (!Application.isPlaying) return;
 
-            LifecycleBehaviour behaviour = new GameObject("Core.Lifecycle").AddComponent<LifecycleBehaviour>();
+            LifeBehaviour behaviour = new GameObject("Core.Life").AddComponent<LifeBehaviour>();
             behaviour.gameObject.hideFlags |= HideFlags.HideAndDontSave;
             Object.DontDestroyOnLoad(behaviour);
-            behaviour.Lifecycle = this;
+            behaviour.Life = this;
         }
     }
 
-    public class LifecycleBehaviour : MonoBehaviour
+    public class LifeBehaviour : MonoBehaviour
     {
-        public Lifecycle Lifecycle { get; set; }
+        public Life Life { get; set; }
 
         private void Update()
         {
-            Lifecycle?.OnUpdate.Fire();
+            Life?.OnUpdate.Fire();
         }
 
         private void LateUpdate()
         {
-            Lifecycle?.OnLateUpdate.Fire();
+            Life?.OnLateUpdate.Fire();
         }
 
         private void FixedUpdate()
         {
-            Lifecycle?.OnFixedUpdate.Fire();
+            Life?.OnFixedUpdate.Fire();
         }
 
         private void OnApplicationFocus(bool focus)
         {
             if (focus)
-                Lifecycle?.OnResume.Fire();
+                Life?.OnResume.Fire();
             else
-                Lifecycle?.OnPause.Fire();
+                Life?.OnPause.Fire();
         }
 
         private void OnApplicationPause(bool pause)
@@ -55,14 +55,14 @@ namespace Core.Lifecycle
             if (!IS.EDITOR) return;
 
             if (pause)
-                Lifecycle?.OnPause.Fire();
+                Life?.OnPause.Fire();
             else
-                Lifecycle?.OnResume.Fire();
+                Life?.OnResume.Fire();
         }
 
         private void OnApplicationQuit()
         {
-            Lifecycle?.OnQuit.Fire();
+            Life?.OnQuit.Fire();
         }
     }
 }

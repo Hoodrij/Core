@@ -4,7 +4,7 @@ namespace Core.Services
 {
     public abstract class Service
     {
-        [inject] Lifecycle.Lifecycle lifecycle;
+        [inject] Life life;
 
         protected Service()
         {
@@ -12,7 +12,7 @@ namespace Core.Services
                 
             if (this is IUpdateHandler iUpdate)
             {
-                lifecycle.OnUpdate.Listen(iUpdate.Update);
+                life.OnUpdate.Listen(iUpdate.Update);
             }
         }
     }

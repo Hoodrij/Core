@@ -1,0 +1,22 @@
+{
+    "name": "Core.RemoteData",
+    "references": [
+        "GUID:d4f8f3098ca064117a9b67941bfedd91",
+        "GUID:d3a492092629bec469222914e6abab17"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.remote-config",
+            "expression": "1.0",
+            "define": "REMOTE_CONFIG"
+        }
+    ],
+    "noEngineReferences": false
+}
