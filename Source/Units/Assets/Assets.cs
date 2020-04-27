@@ -6,31 +6,19 @@ namespace Core.Assets
 {
     public class Assets : Unit, IAssets
     {
-        public Object Load(string path)
+        public async Task<Object> Load(string path)
         {
-            return Resources.Load(path);
+            return await Resources.LoadAsync(path);
         }
 
-        public T Load<T>(string path) where T : Component
+        public async Task<T> Load<T>(string path) where T : Component
         {
-            return Resources.Load<T>(path);
+            return await Resources.LoadAsync<T>(path) as T;
         }
 
-        public async Task<Object> LoadAsync(string path)
+        public async Task<T> Spawn<T>(string path, bool persistent = false) where T : class
         {
-            Object asset = await Resources.LoadAsync(path);
-            return asset;
-        }
-
-        public async Task<T> LoadAsync<T>(string path) where T : Component
-        {
-            Object asset = await Resources.LoadAsync<T>(path);
-            return asset as T;
-        }
-
-        public T Spawn<T>(string path, bool persistent = false) where T : class
-        {
-            Object prefab = Load(path);
+            Object prefab = await Load(path);
             GameObject go = Object.Instantiate(prefab) as GameObject;
 
             if (persistent) 
@@ -41,7 +29,7 @@ namespace Core.Assets
             return go.GetComponent(typeof(T)) as T;
         }
 
-        public GameObject Spawn(string path, bool persistent = false)
+        public Task<GameObject> Spawn(string path, bool persistent = false)
         {
             return Spawn<GameObject>(path, persistent);
         }

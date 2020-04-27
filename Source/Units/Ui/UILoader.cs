@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.Assets;
 using Core.Ui.Attributes;
@@ -14,25 +15,30 @@ namespace Core.Ui
         private IAssets Assets;
         
         private List<UIRoot> roots = new List<UIRoot>();
-        private GameObject uiGO;
+        private GameObject uiGo;
+        private bool isInitialized;
 
         public UILoader(IAssets assets)
         {
             this.Assets = assets;
-            SetCanvas(Assets.Spawn("BaseUI", true));
+
+            SpawnDefaultCanvas();
         }
 
-        public void SetCanvas(GameObject go)
+        private async void SpawnDefaultCanvas()
         {
-            uiGO = go;
+            uiGo = await Assets.Spawn("UI", true);
+            isInitialized = true;
         }
 
-        public void AddRoot(UIRoot root)
+        public async void AddRoot(UIRoot root)
         {
+            await new WaitUntil(() => isInitialized);
+            
             roots.Add(root);
 
             GameObject rootGO = new GameObject(root.GetType().Name, typeof(RectTransform));
-            rootGO.transform.SetParent(uiGO.transform, false);
+            rootGO.transform.SetParent(uiGo.transform, false);
 
             RectTransform rectTransform = rootGO.GetComponent<RectTransform>();
             rectTransform.anchorMin = Vector2.zero;
@@ -45,12 +51,9 @@ namespace Core.Ui
 
         public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
         {
-            TView view;
-        
-            if (info.AsyncLoad)
-                view = await Assets.LoadAsync<TView>(info.Path);
-            else
-                view = Assets.Load<TView>(info.Path);
+            await new WaitUntil(() => isInitialized);
+            
+            TView view = await Assets.Load<TView>(info.Path);
         
             Transform root = GetRoot(info.RootType).Transform;
             return Object.Instantiate(view, root);

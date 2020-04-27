@@ -13,13 +13,11 @@ namespace Core.Fader
         
         private readonly Queue<Func<Task>> actions = new Queue<Func<Task>>();
         private IFaderView view;
-        
 
-        public Fader()
+        public Fader ()
         {
-            SetView(Assets.Spawn<IFaderView>("BaseFaderView", true));
-
             Worker();
+            SpawnFaderView();
         }
 
         private async void Worker()
@@ -36,6 +34,11 @@ namespace Core.Fader
                 await action();
                 await TryHideView();
             }
+        }
+        
+         private async void SpawnFaderView()
+        {
+            SetView(await Assets.Spawn<IFaderView>("Fader", true));
         }
 
         public void SetView(IFaderView view)

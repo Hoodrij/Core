@@ -1,38 +1,35 @@
-﻿using System.Threading.Tasks;
+﻿#if ADDRESSABLES
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Core.Assets
 {
     public class AddressableAssets : Unit, IAssets
     {
-        public Object Load(string path)
+        public async Task<Object> Load(string path)
+        { 
+            return await Addressables.LoadAssetAsync<Object>(path) as Object;
+        }
+
+        public async Task<T> Load<T>(string path) where T : Component
         {
             throw new System.NotImplementedException();
         }
 
-        public T Load<T>(string path) where T : Component
+        public async Task<T> Spawn<T>(string path, bool persistent = false) where T : class
         {
+            // await Addressables.InstantiateAsync(path);
+            
             throw new System.NotImplementedException();
         }
 
-        public Task<Object> LoadAsync(string path)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<T> LoadAsync<T>(string path) where T : Component
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public T Spawn<T>(string path, bool persistent = false) where T : class
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public GameObject Spawn(string path, bool persistent = false)
+        public async Task<GameObject> Spawn(string path, bool persistent = false)
         {
             throw new System.NotImplementedException();
         }
     }
 }
+#endif

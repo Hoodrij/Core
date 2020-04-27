@@ -7,13 +7,11 @@ namespace Core.Ui.Attributes
     {
         public Type RootType { get; }
         public string Path { get; }
-        public bool AsyncLoad { get; }
 
-        public UIInfoAttribute(Type root, string path, bool asyncLoad = true)
+        public UIInfoAttribute(Type root, string path)
         {
             RootType = root;
             Path = path;
-            AsyncLoad = asyncLoad;
         }
 
         internal UIRoot Root => UI.Instance.GetRoot(RootType);
