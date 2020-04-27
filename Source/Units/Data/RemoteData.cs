@@ -7,7 +7,7 @@ namespace Core
 {
     public class RemoteData : Unit
     {
-        [inject] Life Life;
+        [Inject] Life Life;
         
         public int Version { get; private set; }
         public bool IsInitialized { get; private set; }

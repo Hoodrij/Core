@@ -2,7 +2,7 @@ namespace Core.StateMachine
 {
     public class FadedStateMachine<T> : StateMachine<T> where T : State
     {
-        [inject] Fader.Fader Fader;
+        [Inject] Fader.Fader Fader;
         
         public new void Set(T state)
         {

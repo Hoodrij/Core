@@ -35,7 +35,7 @@ namespace Core.Tools
 
             foreach (MemberInfo field in fields)
             {
-                bool hasInjectAttribute = field.IsDefined(typeof(injectAttribute));
+                bool hasInjectAttribute = field.IsDefined(typeof(InjectAttribute));
                 if (hasInjectAttribute) reusableList.Add(field);
             }
 

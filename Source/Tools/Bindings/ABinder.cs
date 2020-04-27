@@ -8,15 +8,14 @@ namespace Core.Tools.Bindings
 {
     public abstract class ABinder : MonoBehaviour
     {
-        [FormerlySerializedAs("_memberName")] [SerializeField] [FormerlySerializedAs("_property")]
-        private string memberName;
+        [SerializeField] private string _memberName;
 
-        [SerializeField] protected string @params;
-        [SerializeField] private Component target;
+        [SerializeField] protected string _params;
+        [SerializeField] private Component _target;
 
-        public Component Target => target;
+        public Component Target => _target;
 
-        public string MemberName => memberName;
+        public string MemberName => _memberName;
 
         public static void Bind(GameObject go)
         {
@@ -45,14 +44,14 @@ namespace Core.Tools.Bindings
 
         protected void Init<TArg>(ref Action<TArg> action, bool requireSetter = true)
         {
-            BindSource bindSource = new BindSource {Target = target, MemberName = memberName, Params = @params};
+            BindSource bindSource = new BindSource {Target = _target, MemberName = _memberName, Params = _params};
 
             Init(ref action, ref bindSource, requireSetter);
         }
 
         protected void Init<TResult>(ref Func<TResult> func, bool requireGetter = true)
         {
-            BindSource bindSource = new BindSource {Target = target, MemberName = memberName, Params = @params};
+            BindSource bindSource = new BindSource {Target = _target, MemberName = _memberName, Params = _params};
 
             Init(ref func, ref bindSource, requireGetter);
         }
@@ -105,7 +104,7 @@ namespace Core.Tools.Bindings
                         BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                     if (prop != null)
-                        if (prop.GetCustomAttributes(typeof(BindableAttribute), true).Length > 0)
+                        if (prop.GetCustomAttributes(typeof(BindAttribute), true).Length > 0)
                         {
                             MethodInfo propGetter = prop.GetGetMethod(true);
 
@@ -126,7 +125,7 @@ namespace Core.Tools.Bindings
                     foreach (MethodInfo method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                     {
                         if (method.Name != bindSource.MemberName || !typeof(TResult).IsAssignableFrom(method.ReturnType) ||
-                            method.GetCustomAttributes(typeof(BindableAttribute), true).Length == 0)
+                            method.GetCustomAttributes(typeof(BindAttribute), true).Length == 0)
                             continue;
 
                         action = BindMethod<TResult>(bindSource.Target, method, bindSource.Params);
@@ -156,7 +155,7 @@ namespace Core.Tools.Bindings
 
         protected virtual void OnEnable()
         {
-            if (target is IBindersNotifier target2)
+            if (_target is IBindersNotifier target2)
             {
                 target2.AttachBinder(this);
 
@@ -171,13 +170,13 @@ namespace Core.Tools.Bindings
 
         protected virtual void OnDisable()
         {
-            if (target is IBindersNotifier target2)
+            if (_target is IBindersNotifier target2)
                 target2.DetachBinder(this);
         }
 
         protected virtual void OnDestroy()
         {
-            if (target is IBindersNotifier target2)
+            if (_target is IBindersNotifier target2)
                 target2.DetachBinder(this);
         }
 
@@ -188,7 +187,7 @@ namespace Core.Tools.Bindings
 
         private void RebindOnPropertyChanged(string prop)
         {
-            if (prop != "*" && prop != memberName)
+            if (prop != "*" && prop != _memberName)
                 return;
 
             SafeBind(false);
@@ -236,7 +235,7 @@ namespace Core.Tools.Bindings
 
             if (@params[0].ParameterType == typeof(Enum))
             {
-                BindableAttribute[] attributes = (BindableAttribute[]) method.GetCustomAttributes(typeof(BindableAttribute), true);
+                BindAttribute[] attributes = (BindAttribute[]) method.GetCustomAttributes(typeof(BindAttribute), true);
                 Enum result = (Enum) Enum.Parse(attributes[0].ArgumentType, parameters);
 
                 return new EnumParamBinder<TResult>

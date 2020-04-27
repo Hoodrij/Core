@@ -9,7 +9,7 @@ namespace Core.Ui
 {
     public class UI : Unit
     {
-        [inject] IAssets Assets;
+        [Inject] IAssets Assets;
         
         private readonly UILoader loader;
         private readonly UIController controller;

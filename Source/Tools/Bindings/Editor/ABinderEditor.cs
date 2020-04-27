@@ -26,7 +26,7 @@ namespace Core.Tools.Bindings.Editor
                 EditorGUILayout.HelpBox("ABinder type must have BindTo Attrbiute on it. Add one to " + binder.GetType().Name, MessageType.Error);
                 return;
             }
-
+            
             var componentProp = serializedObject.FindProperty("_target");
             var propertyProp = serializedObject.FindProperty("_memberName");
             var paramsProp = serializedObject.FindProperty("_params");
@@ -85,10 +85,10 @@ namespace Core.Tools.Bindings.Editor
                         var @params = methodInfo.GetParameters();
                         if (@params.Length == 1)
                         {
-                            var desc = methodInfo.GetCustomAttributes(typeof(BindableDescAttribute), true);
+                            var desc = methodInfo.GetCustomAttributes(typeof(BindDescAttribute), true);
                             if (desc != null && desc.Length > 0)
                             {
-                                var bdesc = (BindableDescAttribute) desc[0];
+                                var bdesc = (BindDescAttribute) desc[0];
                                 EditorGUILayout.HelpBox(bdesc.Description, bdesc.IsWarning ? MessageType.Warning : MessageType.Info);
                             }
 
@@ -114,7 +114,7 @@ namespace Core.Tools.Bindings.Editor
 
                             else if (@params[0].ParameterType == typeof(Enum))
                             {
-                                var type = ((BindableAttribute[]) methodInfo.GetCustomAttributes(typeof(BindableAttribute), true))[0].ArgumentType;
+                                var type = ((BindAttribute[]) methodInfo.GetCustomAttributes(typeof(BindAttribute), true))[0].ArgumentType;
                                 paramsProp.stringValue = EditorGUILayout.EnumPopup(ObjectNames.NicifyVariableName(type.Name), (Enum) Enum.Parse(type, paramsProp.stringValue == "" ? Enum.GetNames(type)[0] : paramsProp.stringValue)).ToString();
                             }
                         }
@@ -123,7 +123,7 @@ namespace Core.Tools.Bindings.Editor
                             paramsProp.stringValue = "";
                         }
 
-                        var attr = ((BindableAttribute[]) methodInfo.GetCustomAttributes(typeof(BindableAttribute), true))[0];
+                        var attr = ((BindAttribute[]) methodInfo.GetCustomAttributes(typeof(BindAttribute), true))[0];
                         _memberType = attr.ReturnType ?? methodInfo.ReturnType;
 
                         if (_memberType == typeof(Enum)) //Try to get real enum type
@@ -142,7 +142,7 @@ namespace Core.Tools.Bindings.Editor
                     {
                         paramsProp.stringValue = "";
 
-                        var attr = ((BindableAttribute[]) propertyInfo.GetCustomAttributes(typeof(BindableAttribute), true))[0];
+                        var attr = ((BindAttribute[]) propertyInfo.GetCustomAttributes(typeof(BindAttribute), true))[0];
                         _memberType = attr.ReturnType ?? propertyInfo.PropertyType;
 
                         if (_memberType == typeof(Enum)) //Try to get real enum type

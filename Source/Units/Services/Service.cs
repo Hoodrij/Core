@@ -4,7 +4,7 @@ namespace Core.Services
 {
     public abstract class Service
     {
-        [inject] Life life;
+        [Inject] Life life;
 
         protected Service()
         {

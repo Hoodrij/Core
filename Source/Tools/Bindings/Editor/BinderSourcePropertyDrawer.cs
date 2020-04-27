@@ -124,7 +124,7 @@ namespace Core.Tools.Bindings.Editor
 
                             else if (@params[0].ParameterType == typeof(Enum))
                             {
-                                var type = ((BindableAttribute[]) method.GetCustomAttributes(typeof(BindableAttribute), true))[0].ArgumentType;
+                                var type = ((BindAttribute[]) method.GetCustomAttributes(typeof(BindAttribute), true))[0].ArgumentType;
                                 paramsProp.stringValue = EditorGUILayout.EnumPopup(ObjectNames.NicifyVariableName(type.Name), (Enum) Enum.Parse(type, paramsProp.stringValue == "" ? Enum.GetNames(type)[0] : paramsProp.stringValue)).ToString();
                             }
                         }
@@ -171,12 +171,12 @@ namespace Core.Tools.Bindings.Editor
                     {
                         foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                         {
-                            var attrs = propertyInfo.GetCustomAttributes(typeof(BindableAttribute), true);
+                            var attrs = propertyInfo.GetCustomAttributes(typeof(BindAttribute), true);
 
                             if (attrs.Length == 0)
                                 continue;
 
-                            if (!bindType.IsAssignableFrom(propertyInfo.PropertyType) && !bindType.IsAssignableFrom(((BindableAttribute) attrs[0]).ReturnType))
+                            if (!bindType.IsAssignableFrom(propertyInfo.PropertyType) && !bindType.IsAssignableFrom(((BindAttribute) attrs[0]).ReturnType))
                                 continue;
 
                             properties.Add(component);
@@ -190,7 +190,7 @@ namespace Core.Tools.Bindings.Editor
                     type = component.GetType();
                     do
                     {
-                        foreach (var methodInfo in component.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(methodInfo => bindType.IsAssignableFrom(methodInfo.ReturnType) && methodInfo.GetCustomAttributes(typeof(BindableAttribute), true).Length > 0))
+                        foreach (var methodInfo in component.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(methodInfo => bindType.IsAssignableFrom(methodInfo.ReturnType) && methodInfo.GetCustomAttributes(typeof(BindAttribute), true).Length > 0))
                         {
                             properties.Add(component);
                             propertyNames.Add(methodInfo.Name);

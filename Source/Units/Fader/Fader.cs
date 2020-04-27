@@ -9,7 +9,7 @@ namespace Core.Fader
 {
     public class Fader : Unit
     {
-        [inject] IAssets Assets;
+        [Inject] IAssets Assets;
         
         private readonly Queue<Func<Task>> actions = new Queue<Func<Task>>();
         private IFaderView view;
