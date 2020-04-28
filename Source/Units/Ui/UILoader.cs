@@ -12,14 +12,14 @@ namespace Core.Ui
 {
     internal class UILoader
     {
-        private IAssets Assets;
+        private IAssets assets;
         
         private List<UIRoot> roots = new List<UIRoot>();
         private GameObject uiGo;
 
         public UILoader(IAssets assets)
         {
-            this.Assets = assets;
+            this.assets = assets;
 
             uiGo = Object.Instantiate(Resources.Load<GameObject>("UI"));
         }
@@ -42,7 +42,7 @@ namespace Core.Ui
 
         public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
         {
-            TView view = await Assets.Load<TView>(info.Path);
+            TView view = await assets.Load<TView>(info.Path);
         
             Transform root = GetRoot(info.RootType).Transform;
             return Object.Instantiate(view, root);

@@ -8,7 +8,7 @@ namespace Core.Assets
     {
         public async Task<Object> Load(string path)
         {
-            return await Resources.LoadAsync(path);
+            return await Resources.LoadAsync(path) as GameObject;
         }
 
         public async Task<T> Load<T>(string path) where T : Component
