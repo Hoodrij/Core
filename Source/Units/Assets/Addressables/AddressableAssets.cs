@@ -1,5 +1,4 @@
 ﻿#if ADDRESSABLES
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,26 +8,26 @@ namespace Core.Assets
 {
     public class AddressableAssets : Unit, IAssets
     {
-        public async Task<Object> Load(string path)
-        { 
-            return await Addressables.LoadAssetAsync<Object>(path) as Object;
-        }
-
         public async Task<T> Load<T>(string path) where T : Component
         {
-            throw new System.NotImplementedException();
-        }
+            bool isCompleted = false;
+            T result = null;
+            Addressables.LoadAssetAsync<T>(path).Completed += handle =>
+            {
+                result = handle.Result;
+                isCompleted = true;
+            };
+            await new WaitUntil(() => isCompleted);
 
-        public async Task<T> Spawn<T>(string path, bool persistent = false) where T : class
-        {
-            // await Addressables.InstantiateAsync(path);
-            
-            throw new System.NotImplementedException();
+            return result;
         }
-
-        public async Task<GameObject> Spawn(string path, bool persistent = false)
+        
+        public async Task<Object> Load(string path)
         {
-            throw new System.NotImplementedException();
+            AsyncOperationHandle<Object> asyncOperationHandle = Addressables.LoadAssetAsync<Object>(path);
+            await new WaitUntil(() => asyncOperationHandle.IsDone);
+
+            return asyncOperationHandle.Result;
         }
     }
 }

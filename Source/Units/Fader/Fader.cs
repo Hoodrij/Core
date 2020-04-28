@@ -1,23 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Core.Assets;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Core.Fader
 {
     public class Fader : Unit
     {
-        [Inject] IAssets Assets;
-        
         private readonly Queue<Func<Task>> actions = new Queue<Func<Task>>();
         private IFaderView view;
 
         public Fader ()
         {
             Worker();
-            SpawnFaderView();
+            
+            SetView(Object.Instantiate(
+                    Resources.Load<GameObject>("Fader"))
+                    .GetComponent<IFaderView>());
         }
 
         private async void Worker()
@@ -34,11 +35,6 @@ namespace Core.Fader
                 await action();
                 await TryHideView();
             }
-        }
-        
-         private async void SpawnFaderView()
-        {
-            SetView(await Assets.Spawn<IFaderView>("Fader", true));
         }
 
         public void SetView(IFaderView view)

@@ -16,25 +16,16 @@ namespace Core.Ui
         
         private List<UIRoot> roots = new List<UIRoot>();
         private GameObject uiGo;
-        private bool isInitialized;
 
         public UILoader(IAssets assets)
         {
             this.Assets = assets;
 
-            SpawnDefaultCanvas();
-        }
-
-        private async void SpawnDefaultCanvas()
-        {
-            uiGo = await Assets.Spawn("UI", true);
-            isInitialized = true;
+            uiGo = Object.Instantiate(Resources.Load<GameObject>("UI"));
         }
 
         public async void AddRoot(UIRoot root)
         {
-            await new WaitUntil(() => isInitialized);
-            
             roots.Add(root);
 
             GameObject rootGO = new GameObject(root.GetType().Name, typeof(RectTransform));
@@ -51,8 +42,6 @@ namespace Core.Ui
 
         public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
         {
-            await new WaitUntil(() => isInitialized);
-            
             TView view = await Assets.Load<TView>(info.Path);
         
             Transform root = GetRoot(info.RootType).Transform;

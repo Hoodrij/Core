@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public static class Awaiters
+public static class Await
 {
     private static readonly WaitForUpdate _waitForUpdate = new WaitForUpdate();
     private static readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
