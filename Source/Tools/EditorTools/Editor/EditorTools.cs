@@ -43,5 +43,16 @@ namespace Core.Tools.EditorTools.Editor
             PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
             if (prefabStage != null) EditorSceneManager.MarkSceneDirty(prefabStage.scene);
         }
+        
+        [MenuItem(TOOLS_OTHER + "Run GAME &a")]
+        private static void RunGame()
+        {
+            if (!IS.EDITOR) return;
+
+            if (!Application.isPlaying)
+                EditorSceneManager.OpenScene("Assets/Game.unity");
+
+            EditorApplication.ExecuteMenuItem("Edit/Play");
+        }
     }
 }
