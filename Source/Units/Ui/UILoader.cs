@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Assets;
-using Core.Ui.Attributes;
+using Core.Ui;
 using Core.Ui.Components;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -20,7 +20,7 @@ namespace Core.Ui
         public UILoader(IAssets assets)
         {
             this.assets = assets;
-
+            
             uiGo = Object.Instantiate(Resources.Load<GameObject>("UI"));
         }
 
@@ -43,7 +43,7 @@ namespace Core.Ui
         public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
         {
             TView view = await assets.Load<TView>(info.Path);
-        
+            
             Transform root = GetRoot(info.RootType).Transform;
             return Object.Instantiate(view, root);
         }

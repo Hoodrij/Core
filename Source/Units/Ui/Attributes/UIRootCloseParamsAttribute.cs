@@ -1,6 +1,6 @@
 using System;
 
-namespace Core.Ui.Attributes
+namespace Core.Ui
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class UIRootCloseParamsAttribute : Attribute

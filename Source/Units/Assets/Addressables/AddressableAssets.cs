@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Core.Assets
 {
@@ -10,15 +9,13 @@ namespace Core.Assets
     {
         public async Task<Object> Load(string path)
         {
-            AsyncOperationHandle<Object> asyncOperationHandle = Addressables.LoadAssetAsync<Object>(path);
-            await new WaitUntil(() => asyncOperationHandle.IsDone);
-
-            return asyncOperationHandle.Result;
+            return await Addressables.LoadAssetAsync<Object>(path).Task;
         }
         
         public async Task<T> Load<T>(string path) where T : Component
         {
-            return (await Load(path) as GameObject)?.GetComponent<T>();
+            GameObject gameObject = await Addressables.LoadAssetAsync<GameObject>(path).Task;
+            return gameObject.GetComponent<T>();
         }
     }
 }

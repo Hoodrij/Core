@@ -23,9 +23,7 @@ public static class ObjectEx
     
     public static void log(this object o, string tag = "")
     {
-#if UNITY_EDITOR
         Debug.Log(tag + o);
-#endif
     }
 
     public static void logClear(this object o, string tag = "")

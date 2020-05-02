@@ -3,10 +3,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Core.Tools;
 using Core.Tools.Bindings;
-using Core.Ui.Attributes;
+using Core.Ui.Components;
 using UnityEngine;
 
-namespace Core.Ui.Components
+namespace Core.Ui
 {
     [DisallowMultipleComponent]
     public abstract class UIView : APropertyBindableBehaviour
@@ -35,10 +35,11 @@ namespace Core.Ui.Components
             {
                 await closeDelayer.WaitClose();
             }
-            CloseAction();
+            CloseAction?.Invoke();
         }
     }
     
+
 #region Extended generics
 
     public abstract class UIView<TView> : UIView where TView : UIView

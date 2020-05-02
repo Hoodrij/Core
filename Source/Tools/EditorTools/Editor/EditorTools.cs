@@ -1,6 +1,7 @@
 ﻿using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -50,7 +51,10 @@ namespace Core.Tools.EditorTools.Editor
             if (!IS.EDITOR) return;
 
             if (!Application.isPlaying)
-                EditorSceneManager.OpenScene("Assets/Game.unity");
+            {
+                string scenePath = SceneUtility.GetScenePathByBuildIndex(0);
+                EditorSceneManager.OpenScene(scenePath);
+            }
 
             EditorApplication.ExecuteMenuItem("Edit/Play");
         }

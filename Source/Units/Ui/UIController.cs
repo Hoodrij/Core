@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Ui.Attributes;
-using Core.Ui.Components;
 using UnityEngine;
 
 namespace Core.Ui

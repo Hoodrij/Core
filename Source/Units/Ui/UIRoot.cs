@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Core.Ui.Attributes;
+using Core.Ui;
 using UnityEngine;
 
 namespace Core.Ui

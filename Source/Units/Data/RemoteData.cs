@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public class RemoteData : Unit
+    public abstract class RemoteData : Unit
     {
         [Inject] Life Life;
         

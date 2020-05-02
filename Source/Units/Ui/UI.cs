@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Assets;
 using Core.Tools;
-using Core.Ui.Components;
 
 namespace Core.Ui
 {
     public class UI : Unit
     {
         [Inject] IAssets Assets;
-        
+
         private readonly UILoader loader;
         private readonly UIController controller;
 
