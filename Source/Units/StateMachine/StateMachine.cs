@@ -65,6 +65,8 @@ namespace Core.StateMachine
 
         public void ListenEnter(TState enterState, Action action)
         {
+            if (Current == enterState) action();
+            
             onEnter.Listen(state =>
             {
                 if (!state.Is(enterState)) return;
