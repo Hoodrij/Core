@@ -1,0 +1,17 @@
+{
+    "name": "Core.ProceduralUI.Editor",
+    "references": [
+        "GUID:5d290d6aa9648a443b22c7ede50c6070"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
