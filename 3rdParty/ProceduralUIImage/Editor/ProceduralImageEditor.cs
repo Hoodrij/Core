@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
-using System;
 
 namespace UnityEditor.UI
 {

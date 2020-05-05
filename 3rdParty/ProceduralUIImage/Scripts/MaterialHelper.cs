@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace UnityEngine.UI.ProceduralImage
+﻿namespace UnityEngine.UI.ProceduralImage
 {
 	public class MaterialHelper {
 		/// <summary>

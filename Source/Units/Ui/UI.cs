@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Core.Assets;
 using Core.Tools;
+using Core.Ui;
 
-namespace Core.Ui
+namespace Core.Units
 {
     public class UI : Unit
     {

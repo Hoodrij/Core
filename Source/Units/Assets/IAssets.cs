@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Core.Assets
+namespace Core.Units
 {
     public interface IAssets
     {

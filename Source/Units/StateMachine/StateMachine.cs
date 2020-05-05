@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Core.StateMachine;
 using Core.Tools.Observables;
 
-namespace Core.StateMachine
+namespace Core.Units
 {
     public class StateMachine<TState> : Unit where TState : State
     {

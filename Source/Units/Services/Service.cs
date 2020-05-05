@@ -1,10 +1,11 @@
 using Core.Tools;
+using Core.Units;
 
 namespace Core.Services
 {
     public abstract class Service
     {
-        [Inject] Life life;
+        [Inject] Units.Life life;
 
         protected Service()
         {

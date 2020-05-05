@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace Core.Assets
+namespace Core.Units
 {
     public class AddressableAssets : Unit, IAssets
     {

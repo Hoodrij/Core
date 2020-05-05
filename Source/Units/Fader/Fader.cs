@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Fader;
 using Core.Tools.ExtensionMethods;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Core.Fader
+namespace Core.Units
 {
     public class Fader : Unit
     {
@@ -39,6 +40,9 @@ namespace Core.Fader
 
         public void SetView(IFaderView view)
         {
+            if (view is Component viewComp)
+                viewComp.gameObject.name = "Fader";
+            
             this.view = view;
         }
 

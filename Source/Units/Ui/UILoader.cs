@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using Core.Assets;
-using Core.Ui;
-using Core.Ui.Components;
+using Core.Units;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -22,6 +19,7 @@ namespace Core.Ui
             this.assets = assets;
             
             uiGo = Object.Instantiate(Resources.Load<GameObject>("UI"));
+            uiGo.name = "UI";
         }
 
         public async void AddRoot(UIRoot root)

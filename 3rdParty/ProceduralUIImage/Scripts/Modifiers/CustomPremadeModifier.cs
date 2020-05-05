@@ -1,4 +1,4 @@
-using UnityEngine;
+
 /* Uncomment this to work from it as a base for your own modifier
  * 
  * 

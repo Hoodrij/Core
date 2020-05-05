@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
 namespace Core.Tools.Bindings

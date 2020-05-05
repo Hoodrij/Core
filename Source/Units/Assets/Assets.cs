@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Core.Assets
+namespace Core.Units
 {
     public class Assets : Unit, IAssets
     {

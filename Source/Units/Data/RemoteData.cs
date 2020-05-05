@@ -1,5 +1,6 @@
 ﻿#if REMOTE_CONFIG
 using System.Threading.Tasks;
+using Core.Units;
 using Unity.RemoteConfig;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Core
 {
     public abstract class RemoteData : Unit
     {
-        [Inject] Life Life;
+        [Inject] Units.Life Life;
         
         public int Version { get; private set; }
         public bool IsInitialized { get; private set; }

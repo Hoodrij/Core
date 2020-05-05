@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Services;
 
-namespace Core.Services
+namespace Core.Units
 {
     public class Services : Unit
     {

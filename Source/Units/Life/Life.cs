@@ -1,7 +1,8 @@
-﻿using Core.Tools.Observables;
+﻿using Core.Life;
+using Core.Tools.Observables;
 using UnityEngine;
 
-namespace Core
+namespace Core.Units
 {
     public class Life : Unit
     {
@@ -20,49 +21,6 @@ namespace Core
             behaviour.gameObject.hideFlags |= HideFlags.HideAndDontSave;
             Object.DontDestroyOnLoad(behaviour);
             behaviour.Life = this;
-        }
-    }
-
-    public class LifeBehaviour : MonoBehaviour
-    {
-        public Life Life { get; set; }
-
-        private void Update()
-        {
-            Life?.OnUpdate.Fire();
-        }
-
-        private void LateUpdate()
-        {
-            Life?.OnLateUpdate.Fire();
-        }
-
-        private void FixedUpdate()
-        {
-            Life?.OnFixedUpdate.Fire();
-        }
-
-        private void OnApplicationFocus(bool focus)
-        {
-            if (focus)
-                Life?.OnResume.Fire();
-            else
-                Life?.OnPause.Fire();
-        }
-
-        private void OnApplicationPause(bool pause)
-        {
-            if (!IS.EDITOR) return;
-
-            if (pause)
-                Life?.OnPause.Fire();
-            else
-                Life?.OnResume.Fire();
-        }
-
-        private void OnApplicationQuit()
-        {
-            Life?.OnQuit.Fire();
         }
     }
 }

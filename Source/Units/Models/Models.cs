@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Models;
 using Core.Tools;
 
-namespace Core.Models
+namespace Core.Units
 {
     public class Models : Unit
     {
