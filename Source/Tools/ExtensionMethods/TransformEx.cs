@@ -308,9 +308,14 @@ namespace Core.Tools.ExtensionMethods
 
 
         ///////////////////////////////// ROTATION
-        public static void MyRotate(this Transform t, Vector3 rotation)
+        public static void SetRotation(this Transform t, Vector3 rotation)
         {
             t.eulerAngles = new Vector3(rotation.x, rotation.y, rotation.z);
+        }
+        
+        public static void RotateBy(this Transform t, Vector3 rotation)
+        {
+            t.eulerAngles = t.eulerAngles + new Vector3(rotation.x, rotation.y, rotation.z);
         }
 
         public static void RotateX(this Transform t, float x)

@@ -20,7 +20,15 @@ namespace Core.Tools.Bindings
 
         private void Awake()
         {
+            if (_button == null)
+                _button = GetComponent<Button>();
+
             Init(ref _getter);
+        }
+
+        protected void Reset()
+        {
+            _button = GetComponent<Button>();
         }
     }
 }

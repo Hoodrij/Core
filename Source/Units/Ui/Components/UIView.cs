@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Core.Ui
 {
     [DisallowMultipleComponent]
-    public abstract class UIView : APropertyBindableBehaviour
+    public abstract class UIView : ABindableBehaviour
     {
         internal UIInfoAttribute Info => GetType().GetCustomAttribute<UIInfoAttribute>();
         internal Action CloseAction;

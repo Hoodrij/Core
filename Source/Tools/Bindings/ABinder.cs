@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Core.Tools.ExtensionMethods;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -177,6 +178,12 @@ namespace Core.Tools.Bindings
         {
             if (_target is IBindersNotifier target2)
                 target2.DetachBinder(this);
+        }
+
+        private void OnValidate()
+        {
+            if (_target == null)
+                _target = this.GetComponentInParent<ABindableBehaviour>(true);
         }
 
         private void SafeBind(bool init)

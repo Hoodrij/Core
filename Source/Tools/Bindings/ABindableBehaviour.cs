@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace Core.Tools.Bindings
 {
-    public abstract class APropertyBindableBehaviour : MonoBehaviour, IBindersNotifier
+    public abstract class ABindableBehaviour : MonoBehaviour, IBindersNotifier
     {
         private readonly List<ABinder> _attachedBinders = new List<ABinder>();
         protected bool _readyForBind;

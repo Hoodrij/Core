@@ -16,9 +16,9 @@ namespace Core.Units
         public Life ()
         {
             if (!Application.isPlaying) return;
-
+            
             LifeBehaviour behaviour = new GameObject("Core.Life").AddComponent<LifeBehaviour>();
-            behaviour.gameObject.hideFlags |= HideFlags.HideAndDontSave;
+            // behaviour.gameObject.hideFlags |= HideFlags.HideAndDontSave;
             Object.DontDestroyOnLoad(behaviour);
             behaviour.Life = this;
         }
