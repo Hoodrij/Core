@@ -11,7 +11,7 @@ namespace Core.Units
             return await Resources.LoadAsync(path) as GameObject;
         }
 
-        public async Task<T> Load<T>(string path) where T : Component
+        public async Task<T> Load<T>(string path) where T : Object
         {
             return await Resources.LoadAsync<T>(path) as T;
         }
