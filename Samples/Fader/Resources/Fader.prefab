@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -86,7 +87,7 @@ GameObject:
   - component: {fileID: 6186596271343651358}
   - component: {fileID: 8564509813609335107}
   m_Layer: 5
-  m_Name: BaseFaderView
+  m_Name: Fader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,7 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f0d8655e2e345d69c05d1097212505f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 913256594759313199}
 --- !u!225 &6186596271343651358
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -249,4 +249,4 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
