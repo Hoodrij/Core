@@ -5,7 +5,7 @@ using Core.Tools.Observables;
 
 namespace Core.Units
 {
-    public class StateMachine<TState> : Unit where TState : State
+    public class StateMachine<TState> where TState : State
     {
         private readonly Signal<TState> onEnter = new Signal<TState>();
         private readonly Signal<TState> onExit = new Signal<TState>();

@@ -7,11 +7,11 @@ namespace Core.Tools
 {
     internal class Injector
     {
-        /// <summary>
-        /// Used inside of Core only
-        /// </summary>
-        internal static Injector Instance => instance;
-        private static readonly Injector instance = new Injector();
+#region internal Singleton (for Core only)
+
+        internal static Injector Instance { get; } = new Injector();
+
+#endregion
 
         private readonly Dictionary<Type, object> objects = new Dictionary<Type, object>();
 
