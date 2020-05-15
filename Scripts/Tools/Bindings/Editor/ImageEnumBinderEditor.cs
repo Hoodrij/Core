@@ -50,8 +50,10 @@ namespace Core.Tools.Bindings.Editor
 
                     try
                     {
-                        enumPropVal.stringValue = EditorGUILayout.EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
-                        sprite.objectReferenceValue = EditorGUILayout.ObjectField(sprite.objectReferenceValue, typeof(Sprite), true);
+                        enumPropVal.stringValue = EditorGUILayout
+                            .EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
+                        sprite.objectReferenceValue =
+                            EditorGUILayout.ObjectField(sprite.objectReferenceValue, typeof(Sprite), true);
                     }
                     catch
                     {

@@ -52,7 +52,8 @@ namespace Core.Tools.Bindings.Editor
 
                     try
                     {
-                        enumPropVal.stringValue = EditorGUILayout.EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
+                        enumPropVal.stringValue = EditorGUILayout
+                            .EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
                         triggerName.stringValue = EditorGUILayout.TextField(string.Empty, triggerName.stringValue);
                     }
                     catch

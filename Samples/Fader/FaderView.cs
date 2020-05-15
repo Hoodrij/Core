@@ -13,7 +13,7 @@ namespace Core.Samples.Fader
             Shown,
             Hiding,
         }
-        
+
         private Animator animator;
         private State state;
 
@@ -31,7 +31,7 @@ namespace Core.Samples.Fader
         public async Task Hide()
         {
             if (state != State.Shown) return;
-            
+
             state = State.Hiding;
             animator.SetSingleTrigger("hide");
             await new WaitUntil(() => state == State.Idle);
@@ -42,7 +42,7 @@ namespace Core.Samples.Fader
         {
             state = State.Shown;
         }
-        
+
         // animation event
         private void OnAnimHidden()
         {

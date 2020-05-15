@@ -32,7 +32,7 @@ namespace Core.Tools
             onError?.Invoke(errorMessage);
         }
     }
-    
+
     public enum JobState
     {
         IDLE,

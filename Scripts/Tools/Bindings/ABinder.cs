@@ -37,7 +37,8 @@ namespace Core.Tools.Bindings
             if (Target == null)
                 return name + "->" + GetType().Name;
 
-            return name + "->" + GetType().Name + " On " + Target.name + "->" + Target.GetType().Name + "." + MemberName;
+            return name + "->" + GetType().Name + " On " + Target.name + "->" + Target.GetType().Name + "." +
+                   MemberName;
         }
 
         protected abstract void Bind(bool init);
@@ -73,7 +74,8 @@ namespace Core.Tools.Bindings
 
                         if (propSetter != null)
                         {
-                            action = (Action<TArg>) Delegate.CreateDelegate(typeof(Action<TArg>), bindSource.Target, propSetter);
+                            action = (Action<TArg>) Delegate.CreateDelegate(typeof(Action<TArg>), bindSource.Target,
+                                propSetter);
                             return;
                         }
                     }
@@ -110,21 +112,25 @@ namespace Core.Tools.Bindings
 
                             if (propGetter.ReturnType == typeof(Enum) && typeof(TResult) != typeof(Enum))
                             {
-                                Func<Enum> delegat = (Func<Enum>) Delegate.CreateDelegate(typeof(Func<Enum>), bindSource.Target, propGetter);
+                                Func<Enum> delegat = (Func<Enum>) Delegate.CreateDelegate(typeof(Func<Enum>),
+                                    bindSource.Target, propGetter);
 
                                 action = () => (TResult) (object) delegat();
                             }
                             else
                             {
-                                action = (Func<TResult>) Delegate.CreateDelegate(typeof(Func<TResult>), bindSource.Target, propGetter);
+                                action = (Func<TResult>) Delegate.CreateDelegate(typeof(Func<TResult>),
+                                    bindSource.Target, propGetter);
                             }
 
                             return;
                         }
 
-                    foreach (MethodInfo method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                    foreach (MethodInfo method in type.GetMethods(
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                     {
-                        if (method.Name != bindSource.MemberName || !typeof(TResult).IsAssignableFrom(method.ReturnType) ||
+                        if (method.Name != bindSource.MemberName ||
+                            !typeof(TResult).IsAssignableFrom(method.ReturnType) ||
                             method.GetCustomAttributes(typeof(BindAttribute), true).Length == 0)
                             continue;
 
@@ -211,7 +217,8 @@ namespace Core.Tools.Bindings
                 return new StringParamBinder<TResult>
                 {
                     Param = parameters,
-                    Function = (Func<string, TResult>) Delegate.CreateDelegate(typeof(Func<string, TResult>), target, method)
+                    Function = (Func<string, TResult>) Delegate.CreateDelegate(typeof(Func<string, TResult>), target,
+                        method)
                 }.GetValue;
 
             if (@params[0].ParameterType == typeof(int))
@@ -219,7 +226,8 @@ namespace Core.Tools.Bindings
                     return new IntParamBinder<TResult>
                     {
                         Param = result,
-                        Function = (Func<int, TResult>) Delegate.CreateDelegate(typeof(Func<int, TResult>), target, method)
+                        Function = (Func<int, TResult>) Delegate.CreateDelegate(typeof(Func<int, TResult>), target,
+                            method)
                     }.GetValue;
 
             if (@params[0].ParameterType == typeof(float))
@@ -227,7 +235,8 @@ namespace Core.Tools.Bindings
                     return new SingleParamBinder<TResult>
                     {
                         Param = result,
-                        Function = (Func<float, TResult>) Delegate.CreateDelegate(typeof(Func<float, TResult>), target, method)
+                        Function = (Func<float, TResult>) Delegate.CreateDelegate(typeof(Func<float, TResult>), target,
+                            method)
                     }.GetValue;
 
             if (@params[0].ParameterType == typeof(bool))
@@ -247,7 +256,8 @@ namespace Core.Tools.Bindings
                 return new EnumParamBinder<TResult>
                 {
                     Param = result,
-                    Function = (Func<Enum, TResult>) Delegate.CreateDelegate(typeof(Func<Enum, TResult>), target, method)
+                    Function = (Func<Enum, TResult>) Delegate.CreateDelegate(typeof(Func<Enum, TResult>), target,
+                        method)
                 }.GetValue;
             }
 
@@ -255,7 +265,8 @@ namespace Core.Tools.Bindings
                 return new ObjectParamBinder<TResult>
                 {
                     Param = gameObject,
-                    Function = (Func<Object, TResult>) Delegate.CreateDelegate(typeof(Func<Object, TResult>), target, method)
+                    Function = (Func<Object, TResult>) Delegate.CreateDelegate(typeof(Func<Object, TResult>), target,
+                        method)
                 }.GetValue;
 
             return null;

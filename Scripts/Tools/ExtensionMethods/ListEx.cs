@@ -12,7 +12,7 @@ namespace Core.Tools.ExtensionMethods
             else
                 dictionary.Add(key, value);
         }
-        
+
         public static bool HasIndex<T>(this IEnumerable<T> list, int i)
         {
             return i > -1 && i < list.Count();

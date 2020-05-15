@@ -9,7 +9,9 @@ namespace Core.Tools.Bindings.Editor
     {
         private ConditionalFieldAttribute _attribute;
         private bool _toShow = true;
-        private ConditionalFieldAttribute Attribute => _attribute ?? (_attribute = attribute as ConditionalFieldAttribute);
+
+        private ConditionalFieldAttribute Attribute =>
+            _attribute ?? (_attribute = attribute as ConditionalFieldAttribute);
 
         private string PropertyToCheck => Attribute != null ? _attribute.PropertyToCheck : null;
 
@@ -66,7 +68,9 @@ namespace Core.Tools.Bindings.Editor
                     element = element.Substring(0, element.IndexOf("[", StringComparison.Ordinal));
                 }
 
-                parent = i == 0 ? property.serializedObject.FindProperty(element) : parent.FindPropertyRelative(element);
+                parent = i == 0
+                    ? property.serializedObject.FindProperty(element)
+                    : parent.FindPropertyRelative(element);
 
                 if (index >= 0) parent = parent.GetArrayElementAtIndex(index);
             }

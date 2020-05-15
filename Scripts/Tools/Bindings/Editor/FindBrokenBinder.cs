@@ -109,7 +109,8 @@ namespace Core.Tools.Bindings.Editor
 
         private bool BinderIsNormal(object component, BinderData data)
         {
-            var field = data.type.GetField(data._field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var field = data.type.GetField(data._field,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             return field.GetValue(component) != null;
         }
 

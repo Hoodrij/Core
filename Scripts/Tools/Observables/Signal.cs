@@ -9,11 +9,11 @@ namespace Core.Tools.Observables
     public class Signal
     {
         protected Dictionary<object, Action> Listeners { get; } = new Dictionary<object, Action>();
-        
+
         public void Fire()
         {
             List<object> toRemove = ListPool<object>.Get();
-        
+
             foreach (object target in Listeners.Keys)
             {
                 if (target == null || target.Equals(null))
@@ -21,21 +21,21 @@ namespace Core.Tools.Observables
                     toRemove.Add(target);
                     continue;
                 }
-        
+
                 if (target is MonoBehaviour monoBeh && !monoBeh.gameObject.activeInHierarchy) continue;
-        
+
                 Listeners[target].Invoke();
             }
-        
+
             toRemove.ForEach(o => Listeners.Remove(o));
             ListPool<object>.Release(toRemove);
         }
-        
+
         public void Listen(Action action)
         {
             Listeners.Set(action.Target, action);
         }
-        
+
         public void Unsubscribe(Action action) => Listeners.Remove(action.Target);
 
         public void Clear() => Listeners.Clear();
@@ -72,7 +72,7 @@ namespace Core.Tools.Observables
         }
 
         public void Unsubscribe(Action<T> action) => Listeners.Remove(action.Target);
-        
+
         public void Clear() => Listeners.Clear();
     }
 }

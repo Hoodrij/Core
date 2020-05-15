@@ -16,10 +16,10 @@ namespace Core.Units
         {
             foreach (TState state in GetPath(Current, newState))
             {
-                if (state.IsParentOf(Current) || state == Current) 
+                if (state.IsParentOf(Current) || state == Current)
                     onExit.Fire(state);
 
-                if (state.IsChildOf(Current) || state.OnOtherBranch(Current) || newState == Current) 
+                if (state.IsChildOf(Current) || state.OnOtherBranch(Current) || newState == Current)
                     onEnter.Fire(state);
             }
 
@@ -67,7 +67,7 @@ namespace Core.Units
         public void ListenEnter(TState enterState, Action action)
         {
             if (Current == enterState) action();
-            
+
             onEnter.Listen(state =>
             {
                 if (!state.Is(enterState)) return;

@@ -43,22 +43,23 @@ namespace Core.Tools
             Stopwatch stopwatch = new Stopwatch();
             GC.Collect();
             float memoryAllocated = Profiler.GetTotalAllocatedMemoryLong() + GC.GetTotalMemory(false);
-            
+
             stopwatch.Start();
 
-            for (int i = 0; i < result.Count; i++) 
+            for (int i = 0; i < result.Count; i++)
                 result.Action();
 
             stopwatch.Stop();
             memoryAllocated = Profiler.GetTotalAllocatedMemoryLong() + GC.GetTotalMemory(false) - memoryAllocated;
             memoryAllocated /= result.Count;
-            
-            result.Ticks = stopwatch.Elapsed.Duration().TotalMilliseconds / result.Count;;
+
+            result.Ticks = stopwatch.Elapsed.Duration().TotalMilliseconds / result.Count;
+            ;
             result.MemoryAlloc = Mathf.Clamp(memoryAllocated, 0, Single.MaxValue);
-            
+
             ($"{"[MEASURE]".Bold()} {result.Name}. " +
-                      $"\n [Duration: {result.Ticks} ms]" +
-                      $"   [Memory : {result.MemoryAlloc}]").log();
+             $"\n [Duration: {result.Ticks} ms]" +
+             $"   [Memory : {result.MemoryAlloc}]").log();
 
             return result;
         }

@@ -7,23 +7,23 @@ namespace Core.Tools
 {
     internal class Injector
     {
-#region internal Singleton (for Core only)
+        #region internal Singleton (for Core only)
 
         internal static Injector Instance { get; } = new Injector();
 
-#endregion
+        #endregion
 
         private readonly Dictionary<Type, object> objects = new Dictionary<Type, object>();
 
         public void Add(object obj)
         {
             Type type = obj.GetType();
-            
+
             foreach (Type @interface in type.GetInterfaces())
             {
                 objects[@interface] = obj;
             }
-            
+
             objects[type] = obj;
         }
 
@@ -51,7 +51,7 @@ namespace Core.Tools
         {
             if (objects.TryGetValue(type, out var value))
                 return value;
-            
+
             throw new KeyNotFoundException($"Cant find {type.Name.Color(Color.red)} in Injector");
         }
 

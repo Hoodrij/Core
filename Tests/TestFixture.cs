@@ -5,17 +5,15 @@ namespace Core.Tests
     public class TestFixture
     {
         // protected static Game game;
-        
-        [SetUp]
-        public void Setup()
+
+        [SetUp] public void Setup()
         {
             // if (game != null) 
             //     return;
             // game = new Game(new TestGameSetup());
         }
 
-        [TearDown]
-        public void Cleanup()
+        [TearDown] public void Cleanup()
         {
             // Game.Reset();
         }

@@ -10,7 +10,7 @@ namespace Core.Tools.Observables
             base.Listen(action);
         }
     }
-    
+
     public class Command<T> : Signal<T>
     {
         public new void Listen(Action<T> action)

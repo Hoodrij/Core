@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace Core.Tools.EditorTools.Editor
@@ -44,7 +45,7 @@ namespace Core.Tools.EditorTools.Editor
             PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
             if (prefabStage != null) EditorSceneManager.MarkSceneDirty(prefabStage.scene);
         }
-        
+
         [MenuItem(TOOLS_OTHER + "Run GAME &a")]
         private static void RunGame()
         {

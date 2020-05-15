@@ -7,7 +7,7 @@ namespace Core.Ui.Components
     public class UICloseDelayerComponent : MonoBehaviour
     {
         private bool isClosed;
-        
+
         internal async Task WaitClose()
         {
             Animator animator = GetComponent<Animator>();
@@ -15,7 +15,7 @@ namespace Core.Ui.Components
             {
                 return;
             }
-   
+
             animator.SetSingleTrigger("Close");
 
             await new WaitUntil(() => isClosed);

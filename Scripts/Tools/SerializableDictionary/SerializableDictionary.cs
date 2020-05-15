@@ -10,7 +10,9 @@ namespace Core.Tools.SerializableDictionary
 
     [Serializable] public abstract class DrawableDictionary { }
 
-    [Serializable] public class SerializableDictionary<TKey, TValue> : DrawableDictionary, IDictionary<TKey, TValue>, ISerializationCallbackReceiver
+    [Serializable]
+    public class SerializableDictionary<TKey, TValue> : DrawableDictionary, IDictionary<TKey, TValue>,
+        ISerializationCallbackReceiver
     {
         #region Fields
 

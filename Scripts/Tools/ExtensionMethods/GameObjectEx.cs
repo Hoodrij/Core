@@ -14,7 +14,8 @@ namespace Core.Tools.ExtensionMethods
             T newObj = go.AddComponent<T>();
             Type type = source.GetType();
 
-            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default |
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
+                                 BindingFlags.Default |
                                  BindingFlags.DeclaredOnly | BindingFlags.FlattenHierarchy;
 
             if (source is MonoBehaviour)
@@ -63,7 +64,9 @@ namespace Core.Tools.ExtensionMethods
         {
             Type type = comp.GetType();
             if (type != other.GetType()) return null; // type mis-match
-            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.CreateInstance;
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
+                                 BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.Static |
+                                 BindingFlags.CreateInstance;
             PropertyInfo[] pinfos = type.GetProperties(flags);
             foreach (PropertyInfo pinfo in pinfos)
                 if (pinfo.CanWrite)

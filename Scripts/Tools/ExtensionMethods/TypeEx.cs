@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace Core.Tools.ExtensionMethods
 {
-	public static class TypeEx
-	{
-		public static IEnumerable<KeyValuePair<PropertyInfo, T>> GetAllPropertiesWithAttribute<T>(this Type type)
+    public static class TypeEx
+    {
+        public static IEnumerable<KeyValuePair<PropertyInfo, T>> GetAllPropertiesWithAttribute<T>(this Type type)
             where T : Attribute
         {
             PropertyInfo[] properties = type.GetProperties();
@@ -15,7 +15,7 @@ namespace Core.Tools.ExtensionMethods
             {
                 T attribute = property.GetCustomAttribute<T>();
                 if (attribute == null) continue;
-                
+
                 yield return new KeyValuePair<PropertyInfo, T>(property, attribute);
             }
         }
@@ -28,7 +28,7 @@ namespace Core.Tools.ExtensionMethods
             {
                 T attribute = property.GetCustomAttribute<T>();
                 if (attribute == null) continue;
-                
+
                 yield return new KeyValuePair<FieldInfo, T>(property, attribute);
             }
         }
@@ -47,8 +47,8 @@ namespace Core.Tools.ExtensionMethods
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             foreach (Assembly assembly in assemblies)
-                foreach (Type type in assembly.GetTypes())
-                    yield return type;
+            foreach (Type type in assembly.GetTypes())
+                yield return type;
         }
 
         public static bool HasAttribute<T>(this Type type) where T : Attribute
@@ -58,11 +58,8 @@ namespace Core.Tools.ExtensionMethods
 
         public static IEnumerable<Type> GetLeafChildrenNotAbstractClasses(this Type type)
         {
-            return GetAllTypes().
-                Where(type.IsAssignableFrom).
-                Where(t => t.IsClass).
-                Where(t => !t.IsAbstract).
-                Where(t => t.IsLeafType());
+            return GetAllTypes().Where(type.IsAssignableFrom).Where(t => t.IsClass).Where(t => !t.IsAbstract)
+                .Where(t => t.IsLeafType());
         }
 
         public static bool IsLeafType(this Type type)
@@ -70,7 +67,7 @@ namespace Core.Tools.ExtensionMethods
             return GetAllTypes().Count(type.IsAssignableFrom) == 1;
         }
 
-        public static FieldInfo [] GetAllInstanceFields(this Type type)
+        public static FieldInfo[] GetAllInstanceFields(this Type type)
         {
             return type.GetFields(GetAllInstanceFlags());
         }
@@ -84,8 +81,9 @@ namespace Core.Tools.ExtensionMethods
         {
             return type.GetMethods(GetAllInstanceFlags());
         }
-        
-        public static IEnumerable<MethodInfo> GetAllMethodsWithAttribute<T>(this Type type, bool recursive = true) where T : Attribute
+
+        public static IEnumerable<MethodInfo> GetAllMethodsWithAttribute<T>(this Type type, bool recursive = true)
+            where T : Attribute
         {
             foreach (MethodInfo method in type.GetAllInstanceMethods())
             {
@@ -94,10 +92,10 @@ namespace Core.Tools.ExtensionMethods
                     yield return method;
                 }
             }
-            
+
             if (recursive && type.BaseType != null)
                 foreach (MethodInfo methodInfo in type.BaseType.GetAllMethodsWithAttribute<T>(recursive))
                     yield return methodInfo;
         }
-	}
+    }
 }

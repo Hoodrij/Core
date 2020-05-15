@@ -4,10 +4,12 @@ namespace Core.Tools.ExtensionMethods
 {
     public static class SpriteEx
     {
-        public static Sprite GetCroppedSprite(this Sprite baseSprite, float xOffset, float yOffset, float width, float height, Vector2 pivot)
+        public static Sprite GetCroppedSprite(this Sprite baseSprite, float xOffset, float yOffset, float width,
+            float height, Vector2 pivot)
         {
             Texture2D baseTexture = baseSprite.texture;
-            Rect textureRect = new Rect(baseSprite.textureRect.position.x + xOffset, baseSprite.textureRect.position.y + yOffset, width, height);
+            Rect textureRect = new Rect(baseSprite.textureRect.position.x + xOffset,
+                baseSprite.textureRect.position.y + yOffset, width, height);
             Sprite newSprite = Sprite.Create(baseTexture, textureRect, pivot, 16);
 
             return newSprite;

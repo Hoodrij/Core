@@ -23,10 +23,12 @@ namespace Core.Tools.Bindings.Editor
 
             if (binder.GetType().GetCustomAttributes(typeof(BindToAttribute), true).Length == 0)
             {
-                EditorGUILayout.HelpBox("ABinder type must have BindTo Attrbiute on it. Add one to " + binder.GetType().Name, MessageType.Error);
+                EditorGUILayout.HelpBox(
+                    "ABinder type must have BindTo Attrbiute on it. Add one to " + binder.GetType().Name,
+                    MessageType.Error);
                 return;
             }
-            
+
             var componentProp = serializedObject.FindProperty("_target");
             var propertyProp = serializedObject.FindProperty("_memberName");
             var paramsProp = serializedObject.FindProperty("_params");
@@ -45,7 +47,9 @@ namespace Core.Tools.Bindings.Editor
             if (_propertyNames.Count == 0)
             {
                 GUI.color = Color.red;
-                EditorGUILayout.LabelField(componentProp.objectReferenceValue != null ? "Target Has No Bindable Properties" : "Choose Target First!!!");
+                EditorGUILayout.LabelField(componentProp.objectReferenceValue != null
+                    ? "Target Has No Bindable Properties"
+                    : "Choose Target First!!!");
                 GUI.color = Color.white;
             }
             else
@@ -79,7 +83,8 @@ namespace Core.Tools.Bindings.Editor
 
                 while (bindTargetType != typeof(object))
                 {
-                    var methodInfo = bindTargetType.GetMethod(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    var methodInfo = bindTargetType.GetMethod(memberName,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     if (methodInfo != null)
                     {
                         var @params = methodInfo.GetParameters();
@@ -89,33 +94,49 @@ namespace Core.Tools.Bindings.Editor
                             if (desc != null && desc.Length > 0)
                             {
                                 var bdesc = (BindDescAttribute) desc[0];
-                                EditorGUILayout.HelpBox(bdesc.Description, bdesc.IsWarning ? MessageType.Warning : MessageType.Info);
+                                EditorGUILayout.HelpBox(bdesc.Description,
+                                    bdesc.IsWarning ? MessageType.Warning : MessageType.Info);
                             }
 
                             if (@params[0].ParameterType == typeof(string))
                             {
-                                paramsProp.stringValue = EditorGUILayout.TextField(ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue);
+                                paramsProp.stringValue = EditorGUILayout.TextField(
+                                    ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue);
                             }
 
                             else if (@params[0].ParameterType == typeof(int))
                             {
-                                paramsProp.stringValue = EditorGUILayout.IntField(ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue == "" ? 0 : int.Parse(paramsProp.stringValue)).ToString();
+                                paramsProp.stringValue = EditorGUILayout
+                                    .IntField(ObjectNames.NicifyVariableName(@params[0].Name),
+                                        paramsProp.stringValue == "" ? 0 : int.Parse(paramsProp.stringValue))
+                                    .ToString();
                             }
 
                             else if (@params[0].ParameterType == typeof(float))
                             {
-                                paramsProp.stringValue = EditorGUILayout.FloatField(ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue == "" ? 0.0f : float.Parse(paramsProp.stringValue)).ToString();
+                                paramsProp.stringValue = EditorGUILayout
+                                    .FloatField(ObjectNames.NicifyVariableName(@params[0].Name),
+                                        paramsProp.stringValue == "" ? 0.0f : float.Parse(paramsProp.stringValue))
+                                    .ToString();
                             }
 
                             else if (@params[0].ParameterType == typeof(bool))
                             {
-                                paramsProp.stringValue = EditorGUILayout.Toggle(ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue != "" && bool.Parse(paramsProp.stringValue)).ToString();
+                                paramsProp.stringValue = EditorGUILayout
+                                    .Toggle(ObjectNames.NicifyVariableName(@params[0].Name),
+                                        paramsProp.stringValue != "" && bool.Parse(paramsProp.stringValue)).ToString();
                             }
 
                             else if (@params[0].ParameterType == typeof(Enum))
                             {
-                                var type = ((BindAttribute[]) methodInfo.GetCustomAttributes(typeof(BindAttribute), true))[0].ArgumentType;
-                                paramsProp.stringValue = EditorGUILayout.EnumPopup(ObjectNames.NicifyVariableName(type.Name), (Enum) Enum.Parse(type, paramsProp.stringValue == "" ? Enum.GetNames(type)[0] : paramsProp.stringValue)).ToString();
+                                var type = ((BindAttribute[]) methodInfo.GetCustomAttributes(typeof(BindAttribute),
+                                    true))[0].ArgumentType;
+                                paramsProp.stringValue = EditorGUILayout
+                                    .EnumPopup(ObjectNames.NicifyVariableName(type.Name),
+                                        (Enum) Enum.Parse(type,
+                                            paramsProp.stringValue == ""
+                                                ? Enum.GetNames(type)[0]
+                                                : paramsProp.stringValue)).ToString();
                             }
                         }
                         else
@@ -137,7 +158,8 @@ namespace Core.Tools.Bindings.Editor
                         break;
                     }
 
-                    var propertyInfo = bindTargetType.GetProperty(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    var propertyInfo = bindTargetType.GetProperty(memberName,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     if (propertyInfo != null)
                     {
                         paramsProp.stringValue = "";
@@ -180,7 +202,8 @@ namespace Core.Tools.Bindings.Editor
 
             var componentProp = serializedObject.FindProperty("_target");
 
-            BindSourcePropertyDrawer.UpdateMethods(componentProp, bindType, out _properties, out _propertyNames, out _propertyNamesNice);
+            BindSourcePropertyDrawer.UpdateMethods(componentProp, bindType, out _properties, out _propertyNames,
+                out _propertyNamesNice);
         }
 
         protected virtual void DrawBinderProperties()

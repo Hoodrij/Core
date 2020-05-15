@@ -60,7 +60,8 @@ namespace Core.Tools
             }
 
             GUI.color = Color.green;
-            if (GUILayout.Button("Replace All", GUILayout.Height(EditorGUIUtility.singleLineHeight * 2f))) ReplaceFonts(_src, _dest, _includePrefabs);
+            if (GUILayout.Button("Replace All", GUILayout.Height(EditorGUIUtility.singleLineHeight * 2f)))
+                ReplaceFonts(_src, _dest, _includePrefabs);
 
             GUI.color = Color.white;
         }
@@ -72,7 +73,8 @@ namespace Core.Tools
             {
                 Scene scene = SceneManager.GetSceneAt(i);
                 List<GameObject> gos = new List<GameObject>(scene.GetRootGameObjects());
-                foreach (GameObject go in gos) sceneMatches += ReplaceFonts(src, dest, go.GetComponentsInChildren<Text>(true));
+                foreach (GameObject go in gos)
+                    sceneMatches += ReplaceFonts(src, dest, go.GetComponentsInChildren<Text>(true));
             }
 
             if (includePrefabs)
@@ -81,9 +83,11 @@ namespace Core.Tools
                 IEnumerable<GameObject> prefabs =
                     AssetDatabase.FindAssets("t:Prefab")
                         .Select(guid => AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(guid)));
-                foreach (GameObject prefab in prefabs) prefabMatches += ReplaceFonts(src, dest, prefab.GetComponentsInChildren<Text>(true));
+                foreach (GameObject prefab in prefabs)
+                    prefabMatches += ReplaceFonts(src, dest, prefab.GetComponentsInChildren<Text>(true));
 
-                Debug.LogFormat("Replaced {0} font(s), {1} in scenes, {2} in prefabs", sceneMatches + prefabMatches, sceneMatches, prefabMatches);
+                Debug.LogFormat("Replaced {0} font(s), {1} in scenes, {2} in prefabs", sceneMatches + prefabMatches,
+                    sceneMatches, prefabMatches);
             }
             else
             {

@@ -4,12 +4,11 @@ namespace Core.Tests
 {
     public class Game_Tests : TestFixture
     {
-        [Test] 
-        public void Create()
+        [Test] public void Create()
         {
             Assert.IsTrue(true);
         }
-        
+
         // [Test] 
         // public void Game_Reset()
         // {

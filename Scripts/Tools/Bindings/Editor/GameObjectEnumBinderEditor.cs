@@ -50,8 +50,10 @@ namespace Core.Tools.Bindings.Editor
 
                     try
                     {
-                        enumPropVal.stringValue = EditorGUILayout.EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
-                        go.objectReferenceValue = EditorGUILayout.ObjectField(go.objectReferenceValue, typeof(GameObject), true);
+                        enumPropVal.stringValue = EditorGUILayout
+                            .EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
+                        go.objectReferenceValue =
+                            EditorGUILayout.ObjectField(go.objectReferenceValue, typeof(GameObject), true);
                     }
                     catch
                     {

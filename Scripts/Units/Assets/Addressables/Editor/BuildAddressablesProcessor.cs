@@ -14,13 +14,13 @@ namespace Core.Units
         private static void PreExport()
         {
             Debug.Log("BuildAddressablesProcessor.PreExport start");
-            AddressableAssetSettings.CleanPlayerContent(AddressableAssetSettingsDefaultObject.Settings.ActivePlayerDataBuilder);
+            AddressableAssetSettings.CleanPlayerContent(AddressableAssetSettingsDefaultObject.Settings
+                .ActivePlayerDataBuilder);
             AddressableAssetSettings.BuildPlayerContent();
             Debug.Log("BuildAddressablesProcessor.PreExport done");
         }
 
-        [InitializeOnLoadMethod]
-        private static void Initialize()
+        [InitializeOnLoadMethod] private static void Initialize()
         {
             BuildPlayerWindow.RegisterBuildPlayerHandler(BuildPlayerHandler);
         }
@@ -33,6 +33,7 @@ namespace Core.Units
             {
                 PreExport();
             }
+
             BuildPlayerWindow.DefaultBuildMethods.BuildPlayer(options);
         }
     }

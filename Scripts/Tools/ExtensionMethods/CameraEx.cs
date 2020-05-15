@@ -18,7 +18,8 @@ namespace Core.Tools.ExtensionMethods
         private static Bounds OrthographicBounds(this Camera cam, Func<Transform, Vector3> positionGetter)
         {
             float height = cam.orthographicSize * 2;
-            return new Bounds(positionGetter(cam.transform), new Vector2(height * Screen.width / Screen.height, height));
+            return new Bounds(positionGetter(cam.transform),
+                new Vector2(height * Screen.width / Screen.height, height));
         }
 
         public static Vector2 GetSize(this Camera cam)

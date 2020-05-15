@@ -9,8 +9,7 @@ using UnityEngine;
 
 namespace Core.Ui
 {
-    [DisallowMultipleComponent]
-    public abstract class UIView : ABindableBehaviour
+    [DisallowMultipleComponent] public abstract class UIView : ABindableBehaviour
     {
         internal UIInfoAttribute Info => GetType().GetCustomAttribute<UIInfoAttribute>();
         internal Action CloseAction;
@@ -36,12 +35,13 @@ namespace Core.Ui
             {
                 await closeDelayer.WaitClose();
             }
+
             CloseAction?.Invoke();
         }
     }
-    
 
-#region Extended generics
+
+    #region Extended generics
 
     public abstract class UIView<TView> : UIView where TView : UIView
     {
@@ -50,7 +50,7 @@ namespace Core.Ui
         public static async Task<TView> Open() => await UI.Instance.Open<TView>();
         public static TView Get() => (TView) UI.Instance.Get<TView>();
     }
-    
+
     public abstract class UIView<TView, TData> : UIView<TView> where TView : UIView
     {
         protected TData Data => (TData) data;
@@ -59,5 +59,5 @@ namespace Core.Ui
         [Obsolete("Requires Data", true)] public new static void Open() { }
     }
 
-#endregion
+    #endregion
 }

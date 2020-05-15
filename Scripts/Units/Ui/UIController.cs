@@ -24,25 +24,25 @@ namespace Core.Ui
         internal async Task<TView> Open<TView>(object data = null) where TView : UIView
         {
             UIInfoAttribute info = UIView<TView>.Info;
-        
+
             foreach (UIView openedView in opened.Where(openedView =>
                 info.Root.IsClosingOther(openedView.Info.Root)))
                 openedView.Close();
 
             TView view = await loader.Load<TView>(info);
-        
+
             view.Initialize(data);
             opened.Add(view);
-        
+
             view.CloseAction = () =>
             {
                 if (view == null) return;
-        
+
                 opened.Remove(view);
                 view.OnClose();
                 Object.Destroy(view.gameObject);
             };
-        
+
             return view;
         }
 

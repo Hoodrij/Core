@@ -10,17 +10,17 @@ public static class ObjectEx
     {
         return $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{text}</color>";
     }
-    
+
     public static string Bold(this object text)
     {
         return $"<b>{text}</b>";
     }
-    
+
     public static string Italic(this object text)
     {
         return $"<i>{text}</i>";
     }
-    
+
     public static void log(this object o, string tag = "")
     {
         Debug.Log(tag + o);

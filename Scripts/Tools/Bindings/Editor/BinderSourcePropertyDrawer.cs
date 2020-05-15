@@ -68,7 +68,9 @@ namespace Core.Tools.Bindings.Editor
                 if (_propertyNames.Count == 0)
                 {
                     GUI.color = Color.red;
-                    EditorGUILayout.LabelField(componentProp.objectReferenceValue != null ? "Target Has No Bindable Properties" : "Choose Target First!!!");
+                    EditorGUILayout.LabelField(componentProp.objectReferenceValue != null
+                        ? "Target Has No Bindable Properties"
+                        : "Choose Target First!!!");
                     GUI.color = Color.white;
                 }
                 else
@@ -96,7 +98,8 @@ namespace Core.Tools.Bindings.Editor
                         paramsProp.stringValue = "";
                     }
 
-                    var method = componentProp.objectReferenceValue.GetType().GetMethod(propertyProp.stringValue, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    var method = componentProp.objectReferenceValue.GetType().GetMethod(propertyProp.stringValue,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     if (method != null)
                     {
                         var @params = method.GetParameters();
@@ -104,28 +107,44 @@ namespace Core.Tools.Bindings.Editor
                         {
                             if (@params[0].ParameterType == typeof(string))
                             {
-                                paramsProp.stringValue = EditorGUILayout.TextField(ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue);
+                                paramsProp.stringValue = EditorGUILayout.TextField(
+                                    ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue);
                             }
 
                             else if (@params[0].ParameterType == typeof(int))
                             {
-                                paramsProp.stringValue = EditorGUILayout.IntField(ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue == "" ? 0 : int.Parse(paramsProp.stringValue)).ToString();
+                                paramsProp.stringValue = EditorGUILayout
+                                    .IntField(ObjectNames.NicifyVariableName(@params[0].Name),
+                                        paramsProp.stringValue == "" ? 0 : int.Parse(paramsProp.stringValue))
+                                    .ToString();
                             }
 
                             else if (@params[0].ParameterType == typeof(float))
                             {
-                                paramsProp.stringValue = EditorGUILayout.FloatField(ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue == "" ? 0.0f : float.Parse(paramsProp.stringValue)).ToString();
+                                paramsProp.stringValue = EditorGUILayout
+                                    .FloatField(ObjectNames.NicifyVariableName(@params[0].Name),
+                                        paramsProp.stringValue == "" ? 0.0f : float.Parse(paramsProp.stringValue))
+                                    .ToString();
                             }
 
                             else if (@params[0].ParameterType == typeof(bool))
                             {
-                                paramsProp.stringValue = EditorGUILayout.Toggle(ObjectNames.NicifyVariableName(@params[0].Name), paramsProp.stringValue != "" && bool.Parse(paramsProp.stringValue)).ToString();
+                                paramsProp.stringValue = EditorGUILayout
+                                    .Toggle(ObjectNames.NicifyVariableName(@params[0].Name),
+                                        paramsProp.stringValue != "" && bool.Parse(paramsProp.stringValue)).ToString();
                             }
 
                             else if (@params[0].ParameterType == typeof(Enum))
                             {
-                                var type = ((BindAttribute[]) method.GetCustomAttributes(typeof(BindAttribute), true))[0].ArgumentType;
-                                paramsProp.stringValue = EditorGUILayout.EnumPopup(ObjectNames.NicifyVariableName(type.Name), (Enum) Enum.Parse(type, paramsProp.stringValue == "" ? Enum.GetNames(type)[0] : paramsProp.stringValue)).ToString();
+                                var type =
+                                    ((BindAttribute[]) method.GetCustomAttributes(typeof(BindAttribute), true))[0]
+                                    .ArgumentType;
+                                paramsProp.stringValue = EditorGUILayout
+                                    .EnumPopup(ObjectNames.NicifyVariableName(type.Name),
+                                        (Enum) Enum.Parse(type,
+                                            paramsProp.stringValue == ""
+                                                ? Enum.GetNames(type)[0]
+                                                : paramsProp.stringValue)).ToString();
                             }
                         }
                         else
@@ -149,7 +168,8 @@ namespace Core.Tools.Bindings.Editor
             UpdateMethods(componentProp, _bindType, out _properties, out _propertyNames, out _propertyNamesNice);
         }
 
-        public static void UpdateMethods(SerializedProperty componentProp, Type bindType, out List<Component> properties, out List<string> propertyNames, out string[] propertyNamesNice)
+        public static void UpdateMethods(SerializedProperty componentProp, Type bindType,
+            out List<Component> properties, out List<string> propertyNames, out string[] propertyNamesNice)
         {
             if (componentProp.objectReferenceValue == null)
             {
@@ -169,19 +189,22 @@ namespace Core.Tools.Bindings.Editor
                     var type = component.GetType();
                     do
                     {
-                        foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                        foreach (var propertyInfo in type.GetProperties(
+                            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                         {
                             var attrs = propertyInfo.GetCustomAttributes(typeof(BindAttribute), true);
 
                             if (attrs.Length == 0)
                                 continue;
 
-                            if (!bindType.IsAssignableFrom(propertyInfo.PropertyType) && !bindType.IsAssignableFrom(((BindAttribute) attrs[0]).ReturnType))
+                            if (!bindType.IsAssignableFrom(propertyInfo.PropertyType) &&
+                                !bindType.IsAssignableFrom(((BindAttribute) attrs[0]).ReturnType))
                                 continue;
 
                             properties.Add(component);
                             propertyNames.Add(propertyInfo.Name);
-                            nicedNames.Add(ObjectNames.NicifyVariableName(component.GetType().Name + " - " + propertyInfo.Name));
+                            nicedNames.Add(
+                                ObjectNames.NicifyVariableName(component.GetType().Name + " - " + propertyInfo.Name));
                         }
 
                         type = type.BaseType;
@@ -190,16 +213,24 @@ namespace Core.Tools.Bindings.Editor
                     type = component.GetType();
                     do
                     {
-                        foreach (var methodInfo in component.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(methodInfo => bindType.IsAssignableFrom(methodInfo.ReturnType) && methodInfo.GetCustomAttributes(typeof(BindAttribute), true).Length > 0))
+                        foreach (var methodInfo in component.GetType()
+                            .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(
+                                methodInfo =>
+                                    bindType.IsAssignableFrom(methodInfo.ReturnType) &&
+                                    methodInfo.GetCustomAttributes(typeof(BindAttribute), true).Length > 0))
                         {
                             properties.Add(component);
                             propertyNames.Add(methodInfo.Name);
 
                             var @params = methodInfo.GetParameters();
                             if (@params.Length == 0)
-                                nicedNames.Add(ObjectNames.NicifyVariableName(component.GetType().Name + " - " + methodInfo.Name + "( )"));
+                                nicedNames.Add(
+                                    ObjectNames.NicifyVariableName(
+                                        component.GetType().Name + " - " + methodInfo.Name + "( )"));
                             else
-                                nicedNames.Add(ObjectNames.NicifyVariableName(component.GetType().Name + " - " + methodInfo.Name + "( " + @params[0].Name + " )"));
+                                nicedNames.Add(ObjectNames.NicifyVariableName(
+                                    component.GetType().Name + " - " + methodInfo.Name + "( " + @params[0].Name +
+                                    " )"));
                         }
 
                         type = type.BaseType;

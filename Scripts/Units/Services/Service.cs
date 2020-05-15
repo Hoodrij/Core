@@ -10,7 +10,7 @@ namespace Core.Services
         protected Service()
         {
             Injector.Instance.Populate(this);
-                
+
             if (this is IUpdateHandler iUpdate)
             {
                 life.OnUpdate.Listen(iUpdate.Update);

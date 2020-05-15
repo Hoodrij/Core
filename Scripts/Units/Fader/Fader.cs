@@ -13,13 +13,13 @@ namespace Core.Units
         private readonly Queue<Func<Task>> actions = new Queue<Func<Task>>();
         private IFaderView view;
 
-        public Fader ()
+        public Fader()
         {
             Worker();
-            
+
             SetView(Object.Instantiate(
                     Resources.Load<GameObject>("Fader"))
-                    .GetComponent<IFaderView>());
+                .GetComponent<IFaderView>());
         }
 
         private async void Worker()
@@ -42,7 +42,7 @@ namespace Core.Units
         {
             if (view is Component viewComp)
                 viewComp.gameObject.name = "Fader";
-            
+
             this.view = view;
         }
 
@@ -50,7 +50,7 @@ namespace Core.Units
         {
             actions.Enqueue(action);
         }
-        
+
         private async Task TryHideView()
         {
             if (view == null) return;

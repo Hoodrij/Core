@@ -17,18 +17,19 @@ namespace Core.Units
         {
             loader = new UILoader(Assets);
             controller = new UIController(loader);
-            
+
             foreach (UIRoot root in setup)
             {
                 loader.AddRoot(root);
             }
         }
 
-        internal async Task<TView> Open<TView>(object data = null) where TView : UIView => await controller.Open<TView>(data);
-        
+        internal async Task<TView> Open<TView>(object data = null) where TView : UIView =>
+            await controller.Open<TView>(data);
+
         internal TView Get<TView>() where TView : UIView => controller.Get<TView>();
         internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
-        
+
         public void CloseAll() => controller.CloseAll();
 
         internal static UI Instance => Injector.Instance.Get<UI>();

@@ -13,10 +13,10 @@ namespace Core.Units
         public readonly Signal OnResume = new Signal();
         public readonly Signal OnQuit = new Signal();
 
-        public Life ()
+        public Life()
         {
             if (!Application.isPlaying) return;
-            
+
             LifeBehaviour behaviour = new GameObject("Core.Life").AddComponent<LifeBehaviour>();
             // behaviour.gameObject.hideFlags |= HideFlags.HideAndDontSave;
             Object.DontDestroyOnLoad(behaviour);

@@ -34,13 +34,15 @@ namespace Core.Tools.Pool
 
                 if (stack.Contains(item))
                 {
-                    Debug.LogError("Tried to pool already pooled object. Ignoring...Check for duplicate return to pool" + name);
+                    Debug.LogError(
+                        "Tried to pool already pooled object. Ignoring...Check for duplicate return to pool" + name);
                     return;
                 }
 
                 if (!item.gameObject.activeSelf)
                 {
-                    Debug.LogError("Tried to pool inactive object. Ignoring...Check for duplicate return to pool" + name);
+                    Debug.LogError(
+                        "Tried to pool inactive object. Ignoring...Check for duplicate return to pool" + name);
                     return;
                 }
 

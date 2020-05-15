@@ -48,7 +48,8 @@ namespace Core.Tools.Bindings.Editor
                             enumPropVal.stringValue = names[0];
                     }
 
-                    enumPropVal.stringValue = EditorGUILayout.EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
+                    enumPropVal.stringValue = EditorGUILayout
+                        .EnumPopup((Enum) Enum.Parse(_memberType, enumPropVal.stringValue)).ToString();
                     color.colorValue = EditorGUILayout.ColorField(color.colorValue);
                 }
                 GUILayout.EndHorizontal();

@@ -23,25 +23,37 @@ namespace Core.Tools.Bindings.Editor
         {
             var drawerType = typeof(PropertyDrawer);
 
-            _drawerTypeForTypeFieldInfo = drawerType.GetField("s_DrawerTypeForType", BindingFlags.NonPublic | BindingFlags.Static);
-            _propertyDrawersFieldInfo = drawerType.GetField("s_PropertyDrawers", BindingFlags.NonPublic | BindingFlags.Static);
-            _builtinAttributesFieldInfo = drawerType.GetField("s_BuiltinAttributes", BindingFlags.NonPublic | BindingFlags.Static);
-            _attributePathFieldInfo = drawerType.GetField("m_Attribute", BindingFlags.NonPublic | BindingFlags.Instance);
+            _drawerTypeForTypeFieldInfo =
+                drawerType.GetField("s_DrawerTypeForType", BindingFlags.NonPublic | BindingFlags.Static);
+            _propertyDrawersFieldInfo =
+                drawerType.GetField("s_PropertyDrawers", BindingFlags.NonPublic | BindingFlags.Static);
+            _builtinAttributesFieldInfo =
+                drawerType.GetField("s_BuiltinAttributes", BindingFlags.NonPublic | BindingFlags.Static);
+            _attributePathFieldInfo =
+                drawerType.GetField("m_Attribute", BindingFlags.NonPublic | BindingFlags.Instance);
             _getDrawerMwthodInfo = drawerType.GetMethod("GetDrawer", BindingFlags.NonPublic | BindingFlags.Static);
 
             var serializedPropertyType = typeof(SerializedProperty);
 
-            _arrayIndexLessPropertyPathPropertyInfo = serializedPropertyType.GetProperty("arrayIndexLessPropertyPath", BindingFlags.NonPublic | BindingFlags.Instance);
-            _intptrFieldInfo = serializedPropertyType.GetField("m_Property", BindingFlags.NonPublic | BindingFlags.Instance);
+            _arrayIndexLessPropertyPathPropertyInfo = serializedPropertyType.GetProperty("arrayIndexLessPropertyPath",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            _intptrFieldInfo =
+                serializedPropertyType.GetField("m_Property", BindingFlags.NonPublic | BindingFlags.Instance);
 
             var serializedObjectType = typeof(SerializedObject);
 
-            _objIntptrFieldInfo = serializedObjectType.GetField("m_Property", BindingFlags.NonPublic | BindingFlags.Instance);
+            _objIntptrFieldInfo =
+                serializedObjectType.GetField("m_Property", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
-        public static Dictionary<Type, Type> s_DrawerTypeForType => (Dictionary<Type, Type>) _drawerTypeForTypeFieldInfo.GetValue(null);
-        public static Dictionary<string, PropertyDrawer> s_PropertyDrawers => (Dictionary<string, PropertyDrawer>) _propertyDrawersFieldInfo.GetValue(null);
-        public static Dictionary<string, PropertyAttribute> s_BuiltinAttributes => (Dictionary<string, PropertyAttribute>) _builtinAttributesFieldInfo.GetValue(null);
+        public static Dictionary<Type, Type> s_DrawerTypeForType =>
+            (Dictionary<Type, Type>) _drawerTypeForTypeFieldInfo.GetValue(null);
+
+        public static Dictionary<string, PropertyDrawer> s_PropertyDrawers =>
+            (Dictionary<string, PropertyDrawer>) _propertyDrawersFieldInfo.GetValue(null);
+
+        public static Dictionary<string, PropertyAttribute> s_BuiltinAttributes =>
+            (Dictionary<string, PropertyAttribute>) _builtinAttributesFieldInfo.GetValue(null);
 
         public static PropertyDrawer GetDrawer(this SerializedProperty property)
         {
@@ -232,7 +244,8 @@ namespace Core.Tools.Bindings.Editor
             if (property.serializedObject.targetObject == null)
                 return string.Empty;
 
-            return "" + property.serializedObject.targetObject.GetInstanceID() + "_" + property.GetArrayIndexLessPropertyPath();
+            return "" + property.serializedObject.targetObject.GetInstanceID() + "_" +
+                   property.GetArrayIndexLessPropertyPath();
         }
 
         private static PropertyAttribute GetFieldAttribute(FieldInfo field)
@@ -282,7 +295,8 @@ namespace Core.Tools.Bindings.Editor
                 }
                 else
                 {
-                    fieldInfo = type.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    fieldInfo = type.GetField(name,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     if (fieldInfo == null)
                         return null;
                     type = fieldInfo.FieldType;

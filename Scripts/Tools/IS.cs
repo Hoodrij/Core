@@ -13,7 +13,7 @@ public static class IS
 #else
 			false;
 #endif
-    
+
     public static bool ON_DEVICE =
 #if UNITY_ANDROID || UNITY_IOS
         true;

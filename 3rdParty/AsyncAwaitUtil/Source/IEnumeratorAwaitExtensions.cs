@@ -296,7 +296,8 @@ public static class IEnumeratorAwaitExtensions
             {
                 // NOTE: This only works with scripting engine 4.6
                 // And could easily stop working with unity updates
-                FieldInfo field = enumerator.GetType().GetField("$this", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo field = enumerator.GetType().GetField("$this",
+                    BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
                 if (field == null) continue;
 

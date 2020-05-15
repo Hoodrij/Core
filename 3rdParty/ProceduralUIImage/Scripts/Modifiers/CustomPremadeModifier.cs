@@ -1,4 +1,3 @@
-
 /* Uncomment this to work from it as a base for your own modifier
  * 
  * 
@@ -16,3 +15,4 @@ public class CustomPremadeModifier : ProceduralImageModifier {
 	
 }
 */
+

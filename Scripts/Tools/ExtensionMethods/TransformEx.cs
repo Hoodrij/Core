@@ -312,7 +312,7 @@ namespace Core.Tools.ExtensionMethods
         {
             t.eulerAngles = new Vector3(rotation.x, rotation.y, rotation.z);
         }
-        
+
         public static void RotateBy(this Transform t, Vector3 rotation)
         {
             t.eulerAngles = t.eulerAngles + new Vector3(rotation.x, rotation.y, rotation.z);
@@ -334,7 +334,8 @@ namespace Core.Tools.ExtensionMethods
         }
 
 
-        public static List<Transform> Childs(this Transform transform, bool recursive = false, bool includeInactive = false)
+        public static List<Transform> Childs(this Transform transform, bool recursive = false,
+            bool includeInactive = false)
         {
             List<Transform> result = new List<Transform>();
 
