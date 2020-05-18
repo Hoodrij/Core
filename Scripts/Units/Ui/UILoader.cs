@@ -41,6 +41,7 @@ namespace Core.Ui
         public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
         {
             TView view = await assets.Load<TView>(info.Path);
+            await new WaitForEndOfFrame();
 
             Transform root = GetRoot(info.RootType).Transform;
             return Object.Instantiate(view, root);

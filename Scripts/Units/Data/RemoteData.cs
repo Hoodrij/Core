@@ -29,20 +29,6 @@ namespace Core.Units
             if (configResponse.status != ConfigRequestStatus.Success)
                 return;
 
-            // Conditionally update settings, depending on the response's origin:
-            switch (configResponse.requestOrigin)
-            {
-                case ConfigOrigin.Default:
-                    Debug.Log("No settings loaded this session; using default values.");
-                    break;
-                case ConfigOrigin.Cached:
-                    Debug.Log("No settings loaded this session; using cached values from a previous session.");
-                    break;
-                case ConfigOrigin.Remote:
-                    Debug.Log("New settings loaded this session; update values accordingly.");
-                    break;
-            }
-
             Version = ConfigManager.appConfig.GetInt("version");
 
             string dataJson = ConfigManager.appConfig.GetJson("data");
