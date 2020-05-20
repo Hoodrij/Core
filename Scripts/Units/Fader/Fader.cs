@@ -16,9 +16,13 @@ namespace Core.Units
         public Fader()
         {
             Worker();
-
+        }
+        
+        public Fader WithSampleView()
+        {
             SetView(Object.Instantiate(Resources.Load<GameObject>("SampleFader"))
                 .GetComponent<IFaderView>());
+            return this;
         }
 
         private async void Worker()
@@ -37,10 +41,12 @@ namespace Core.Units
             }
         }
 
-        public void SetView(IFaderView view)
+        public async void SetView(IFaderView view)
         {
             if (this.view != null && this.view is Component oldView)
             {
+                await new WaitUntil(() => actions.IsEmpty());
+                await this.view.Hide();
                 oldView.gameObject.Destroy();
             }
             

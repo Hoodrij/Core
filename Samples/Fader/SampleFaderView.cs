@@ -32,10 +32,11 @@ namespace Core.Samples.Fader
 
         public async Task Hide()
         {
-            if (state != State.Shown) return;
-
-            state = State.Hiding;
-            animator.SetSingleTrigger("hide");
+            if (state == State.Shown)
+            {
+                state = State.Hiding;
+                animator.SetSingleTrigger("hide");
+            }
             await new WaitUntil(() => state == State.Idle);
         }
 
