@@ -98,5 +98,15 @@ namespace Core.Tools.ExtensionMethods
         {
             return new Vector3(v.x.RandomTo(), v.y.RandomTo(), v.z.RandomTo());
         }
+        
+        public static Vector3 ClampMagnitude(this Vector3 v, float length)
+        {
+            if (v.magnitude > length)
+            {
+                v = v.normalized * length;    
+            }
+            
+            return v;
+        }
     }
 }

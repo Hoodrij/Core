@@ -17,8 +17,7 @@ namespace Core.Units
         {
             Worker();
 
-            SetView(Object.Instantiate(
-                    Resources.Load<GameObject>("Fader"))
+            SetView(Object.Instantiate(Resources.Load<GameObject>("SampleFader"))
                 .GetComponent<IFaderView>());
         }
 
@@ -40,6 +39,11 @@ namespace Core.Units
 
         public void SetView(IFaderView view)
         {
+            if (this.view != null && this.view is Component oldView)
+            {
+                oldView.gameObject.Destroy();
+            }
+            
             if (view is Component viewComp)
                 viewComp.gameObject.name = "Fader";
 
