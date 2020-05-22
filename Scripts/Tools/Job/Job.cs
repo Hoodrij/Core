@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Core.Scripts.Tools.Job;
 
 namespace Core.Tools
 {
@@ -31,6 +32,8 @@ namespace Core.Tools
 
             onError?.Invoke(errorMessage);
         }
+        
+        public static Job As(Func<Task> action) => new AnonymousJob(action);
     }
 
     public enum JobState
