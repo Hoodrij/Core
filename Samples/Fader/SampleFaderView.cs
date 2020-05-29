@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
 using Core.Fader;
-using Core.Samples.Ui;
 using Core.Tools.ExtensionMethods;
-using Core.Ui;
 using UnityEngine;
 
 namespace Core.Samples.Fader
