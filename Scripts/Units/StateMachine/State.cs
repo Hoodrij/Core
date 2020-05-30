@@ -2,6 +2,7 @@ using System;
 
 namespace Core.StateMachine
 {
+    [Serializable]
     public class State : IEquatable<State>
     {
         public State Parent { get; }

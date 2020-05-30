@@ -1,7 +1,9 @@
-﻿using Core.StateMachine;
+﻿using System;
+using Core.StateMachine;
 
 namespace Core.Samples.GameState
 {
+    [Serializable]
     public class SampleState : State
     {
         public static readonly SampleState Game = new SampleState("Game");

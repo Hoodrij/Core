@@ -2,7 +2,8 @@
 
 namespace Core.Tools.Observables
 {
-    [Serializable] public class Observable<T>
+    [Serializable] 
+    public class Observable<T>
     {
         public T Value
         {
@@ -36,11 +37,6 @@ namespace Core.Tools.Observables
             return observable.Value;
         }
 
-        public static implicit operator Observable<T>(T observable)
-        {
-            return new Observable<T>(observable);
-        }
-
         public bool Equals(Observable<T> other)
         {
             return other.value.Equals(value);
@@ -48,9 +44,7 @@ namespace Core.Tools.Observables
 
         public override bool Equals(object other)
         {
-            return other != null
-                   && other is Observable<T>
-                   && ((Observable<T>) other).value.Equals(value);
+            return other is Observable<T> observable && observable.value.Equals(value);
         }
 
         public override int GetHashCode()

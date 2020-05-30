@@ -13,7 +13,7 @@ namespace Core.Tools
 
         #endregion
 
-        private readonly Dictionary<Type, object> objects = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> container = new Dictionary<Type, object>();
 
         public void Add(object obj)
         {
@@ -21,10 +21,10 @@ namespace Core.Tools
 
             foreach (Type @interface in type.GetInterfaces())
             {
-                objects[@interface] = obj;
+                container[@interface] = obj;
             }
 
-            objects[type] = obj;
+            container[type] = obj;
         }
 
         public void Populate(object obj)
@@ -49,14 +49,15 @@ namespace Core.Tools
 
         private object Get(Type type)
         {
-            if (objects.TryGetValue(type, out var value))
+            if (container.TryGetValue(type, out var value))
                 return value;
 
-            throw new KeyNotFoundException($"Cant find {type.Name.Color(Color.red)} in Injector");
+            Debug.LogError($"[Injector] Cant find {type.Name.Color(Color.red)}");
+            return null;
         }
 
         public T Get<T>() => (T) Get(typeof(T));
 
-        public void Clear() => objects.Clear();
+        public void Clear() => container.Clear();
     }
 }
