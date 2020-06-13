@@ -13,7 +13,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private bool _revert;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _button.interactable = _revert ? !_getter() : _getter();
         }

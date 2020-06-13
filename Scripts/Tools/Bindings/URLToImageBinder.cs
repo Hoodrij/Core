@@ -16,7 +16,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private bool _transparentOnNull;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             if (string.IsNullOrEmpty(_getter()))
                 return;

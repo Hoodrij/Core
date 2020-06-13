@@ -12,7 +12,7 @@ namespace Core.Tools.Bindings
         private Action<bool> _setter;
         [SerializeField] private Toggle _toggle;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _toggle.isOn = _revert ? !_getter() : _getter();
         }

@@ -31,10 +31,10 @@ namespace Core.Ui
 
             TView view = await loader.Load<TView>(info);
 
-            view.Initialize(data);
             opened.Add(view);
+            view.Open(data);
 
-            view.CloseAction = () =>
+            view.CloseInstructions = () =>
             {
                 if (view == null) return;
 

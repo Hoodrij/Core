@@ -8,7 +8,7 @@ namespace Core.Tools.Bindings
         private Func<Quaternion> _getter;
         [SerializeField] private RectTransform _targetRect;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _targetRect.rotation = _getter();
         }

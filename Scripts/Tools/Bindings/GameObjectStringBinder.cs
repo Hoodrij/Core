@@ -16,7 +16,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private GameObject _notEquals;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             bool equals = _getter() == _comparison;
 

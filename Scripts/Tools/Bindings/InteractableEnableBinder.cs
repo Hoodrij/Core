@@ -11,7 +11,7 @@ namespace Core.Tools.Bindings
         [SerializeField] private bool _revert;
         [SerializeField] private Selectable _selectable;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _selectable.interactable = _revert ? !_getter() : _getter();
         }

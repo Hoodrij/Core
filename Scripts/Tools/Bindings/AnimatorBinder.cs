@@ -14,7 +14,7 @@ namespace Core.Tools.Bindings
         [SerializeField] private bool _isInverse;
         [SerializeField] private string _variableName;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             if (_isBoolean)
                 Coroutine(WaitAnimatorInitialization(SetBool));

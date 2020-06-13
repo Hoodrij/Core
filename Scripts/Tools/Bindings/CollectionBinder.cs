@@ -22,7 +22,7 @@ namespace Core.Tools.Bindings
         [Tooltip("Methot to setup data to component from item (Item, Data, IsNew)")] [SerializeField]
         private SetupEvent _setupEvent;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             if (_container == null || _prefab == null || _getter == null)
                 return;

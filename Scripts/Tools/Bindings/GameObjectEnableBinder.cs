@@ -15,7 +15,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private bool _revert;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             bool state = _revert ? !_getter() : _getter();
 

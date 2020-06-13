@@ -11,7 +11,7 @@ namespace Core.Tools.Bindings
         [SerializeField] private Renderer _rendererWidget;
 
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             Enum baseEnum = _getter();
             string valueName = Enum.GetName(baseEnum.GetType(), baseEnum);

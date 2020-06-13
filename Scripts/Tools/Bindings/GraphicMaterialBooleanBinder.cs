@@ -13,7 +13,7 @@ namespace Core.Tools.Bindings
 
         private Func<bool> _getter;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             Material mat = _getter() ? _true : _false;
             SetMaterial(_widget, mat);

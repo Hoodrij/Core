@@ -13,7 +13,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private Slider _slider;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             if (_inset)
                 return;

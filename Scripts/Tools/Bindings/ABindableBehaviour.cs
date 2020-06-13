@@ -8,9 +8,8 @@ namespace Core.Tools.Bindings
     public abstract class ABindableBehaviour : MonoBehaviour, IBindersNotifier
     {
         private readonly List<ABinder> _attachedBinders = new List<ABinder>();
-        protected bool _readyForBind;
 
-        public bool ReadyForBind => _readyForBind;
+        public bool ReadyForBind { get; private set; }
 
         public void AttachBinder(ABinder binder)
         {
@@ -22,28 +21,18 @@ namespace Core.Tools.Bindings
             _attachedBinders.Remove(binder);
         }
 
-        public void MakeBindReadyAndRebindAll()
+        public void SetBindReady(bool isReady)
         {
-            _readyForBind = true;
-            RaisePropertyChanged("*");
-        }
-
-        public void MakeBindReady()
-        {
-            _readyForBind = true;
-        }
-
-        public void MakeBindUnready()
-        {
-            _readyForBind = false;
+            ReadyForBind = isReady;
         }
 
         protected void RebindAll()
         {
+            ReadyForBind = true;
             RaisePropertyChanged("*");
         }
 
-        protected void RaisePropertyChanged(string propertyName)
+        private void RaisePropertyChanged(string propertyName)
         {
             if (_attachedBinders == null)
                 return;
@@ -60,14 +49,7 @@ namespace Core.Tools.Bindings
                     continue;
                 }
 
-                try
-                {
-                    ABinder.Internal.RebindOn(binder, propertyName);
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogException(ex);
-                }
+                binder.RebindOnPropertyChanged(propertyName);
             }
         }
     }

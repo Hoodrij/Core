@@ -9,7 +9,7 @@
 
         public static bool ToBool(this int i)
         {
-            return i == 0;
+            return i == 1;
         }
     }
 }

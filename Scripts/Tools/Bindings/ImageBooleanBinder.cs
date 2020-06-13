@@ -15,7 +15,7 @@ namespace Core.Tools.Bindings
         [SerializeField] private Sprite _unableSprite;
         [SerializeField] private Image _widget;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _widget.sprite = _getter() ? _ableSprite : _unableSprite;
         }

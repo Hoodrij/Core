@@ -11,7 +11,7 @@ namespace Core.Tools.Bindings
 
         private Func<int> _getter;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             int data = _getter();
 
@@ -24,7 +24,7 @@ namespace Core.Tools.Bindings
 
         private void Update()
         {
-            Bind(false);
+            Bind();
         }
 
         private void Awake()

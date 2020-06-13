@@ -11,7 +11,7 @@ namespace Core.Tools.Bindings
 
         private Func<Action> _getter;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             Action action = _getter.Invoke();
             _button.onClick.RemoveAllListeners();

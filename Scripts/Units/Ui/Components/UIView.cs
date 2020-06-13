@@ -13,11 +13,11 @@ namespace Core.Ui
     public abstract class UIView : ABindableBehaviour
     {
         internal UIInfoAttribute Info => GetType().GetCustomAttribute<UIInfoAttribute>();
-        internal Action CloseAction;
+        internal Action CloseInstructions;
 
         internal object data;
 
-        internal void Initialize(object data)
+        internal void Open(object data)
         {
             Injector.Instance.Populate(this);
             this.data = data;
@@ -25,9 +25,6 @@ namespace Core.Ui
             OnOpen();
             RebindAll();
         }
-
-        protected virtual void OnOpen() { }
-        internal virtual void OnClose() { }
 
         public async void Close()
         {
@@ -37,10 +34,12 @@ namespace Core.Ui
                 await closeDelayer.WaitClose();
             }
 
-            CloseAction?.Invoke();
+            CloseInstructions.Invoke();
         }
+        
+        protected virtual void OnOpen() { }
+        internal virtual void OnClose() { }
     }
-
 
     #region Extended generics
 

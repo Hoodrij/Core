@@ -12,7 +12,7 @@ namespace Core.Tools.Bindings
 
         [Header("Use this")] [SerializeField] private Renderer _widget;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             float baseFloat = _getter();
 

@@ -10,7 +10,7 @@ namespace Core.Tools.Bindings
 
         private Func<bool> _getter;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _collider.enabled = _getter();
         }

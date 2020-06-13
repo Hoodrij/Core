@@ -10,7 +10,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private Image _sprite;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _sprite.fillAmount = _getter();
         }

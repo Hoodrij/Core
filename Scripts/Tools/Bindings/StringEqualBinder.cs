@@ -10,7 +10,7 @@ namespace Core.Tools.Bindings
 
         private Func<string> _getter;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             string key = _getter();
 

@@ -10,7 +10,7 @@ namespace Core.Tools.Bindings
         private Action<bool> _setter;
         [SerializeField] private Slider _slider;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             //if( init )
             //	_slider.Set( _getter( ) ? 1 : 0, false );

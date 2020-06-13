@@ -12,7 +12,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private SpriteRenderer _widget;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             Color color = _getter() ? _ableColor : _unableColor;
             _widget.color = color;

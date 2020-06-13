@@ -15,7 +15,7 @@ namespace Core.Tools.Bindings
         [SerializeField] private bool _override;
         [SerializeField] private Image _sprite;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             if (_override)
                 _sprite.overrideSprite = _getter();

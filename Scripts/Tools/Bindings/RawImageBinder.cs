@@ -10,7 +10,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private RawImage _texture;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _texture.texture = _getter();
         }

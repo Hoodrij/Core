@@ -9,7 +9,7 @@ namespace Core.Tools.Bindings
         private Func<Color> _getter;
         [SerializeField] private Graphic _widget;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _widget.color = _getter();
         }

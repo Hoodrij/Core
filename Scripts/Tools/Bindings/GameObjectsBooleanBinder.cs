@@ -15,7 +15,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private GameObject[] _true;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             bool isTrue = _getter();
 

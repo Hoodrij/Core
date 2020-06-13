@@ -26,7 +26,7 @@ namespace Core.Tools.Bindings
                 _input.onValueChanged.AddListener(OnValueChanged);
         }
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             _inget = true;
             _input.text = _getter();

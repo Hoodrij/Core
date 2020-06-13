@@ -17,7 +17,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private Graphic _widget;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             if (_widget != null)
             {

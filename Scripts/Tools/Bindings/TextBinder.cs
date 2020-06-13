@@ -11,7 +11,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private bool _makeUpperCase;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             string text = _getter();
 

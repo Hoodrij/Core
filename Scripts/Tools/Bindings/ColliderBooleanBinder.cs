@@ -12,7 +12,7 @@ namespace Core.Tools.Bindings
 
         [SerializeField] private Collider _true;
 
-        protected override void Bind(bool init)
+        protected override void Bind()
         {
             bool isTrue = _getter();
 

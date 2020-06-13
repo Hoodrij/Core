@@ -29,7 +29,7 @@ namespace Core.Tools.Bindings
 
         [ContextMenu("Rebind")] public void Rebind()
         {
-            SafeBind(false);
+            Bind();
         }
 
         public override string ToString()
@@ -41,7 +41,7 @@ namespace Core.Tools.Bindings
                    MemberName;
         }
 
-        protected abstract void Bind(bool init);
+        protected abstract void Bind();
 
         protected void Init<TArg>(ref Action<TArg> action, bool requireSetter = true)
         {
@@ -161,17 +161,17 @@ namespace Core.Tools.Bindings
 
         protected virtual void OnEnable()
         {
-            if (_target is IBindersNotifier target2)
+            if (_target is IBindersNotifier target)
             {
-                target2.AttachBinder(this);
+                target.AttachBinder(this);
 
-                if (target2.ReadyForBind)
-                    SafeBind(true);
+                if (target.ReadyForBind)
+                    Bind();
 
                 return;
             }
 
-            SafeBind(true);
+            Bind();
         }
 
         protected virtual void OnDisable()
@@ -192,17 +192,12 @@ namespace Core.Tools.Bindings
                 _target = this.GetComponentInParent<ABindableBehaviour>(true);
         }
 
-        private void SafeBind(bool init)
-        {
-            Bind(init);
-        }
-
-        private void RebindOnPropertyChanged(string prop)
+        internal void RebindOnPropertyChanged(string prop)
         {
             if (prop != "*" && prop != _memberName)
                 return;
 
-            SafeBind(false);
+            Bind();
         }
 
         private Func<TResult> BindMethod<TResult>(Object target, MethodInfo method, string parameters)
@@ -277,14 +272,6 @@ namespace Core.Tools.Bindings
             public Component Target;
             public string MemberName;
             public string Params;
-        }
-
-        public static class Internal
-        {
-            public static void RebindOn(ABinder binder, string propertyName)
-            {
-                binder.RebindOnPropertyChanged(propertyName);
-            }
         }
 
         #region | SubTypes |
