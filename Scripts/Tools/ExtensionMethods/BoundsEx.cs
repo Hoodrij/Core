@@ -5,6 +5,12 @@ namespace Core.Tools.ExtensionMethods
 {
     public static class BoundsEx
     {
+        public static Bounds Clear(this Bounds bounds)
+        {
+            bounds.SetMinMax(Vector3.zero, Vector3.zero);
+            return bounds; 
+        } 
+            
         public static Vector3 GetRandomPoint(this Bounds bounds, string seed = "random")
         {
             if (seed == "random")
