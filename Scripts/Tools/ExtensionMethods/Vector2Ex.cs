@@ -4,6 +4,11 @@ namespace Core.Tools.ExtensionMethods
 {
     public static class Vector2Ex
     {
+         public static Vector2 Rotate(this Vector2 v, float degrees) 
+         {
+             return Quaternion.Euler(0, 0, degrees) * v;
+         }
+         
         public static float ToAngle360(this Vector2 v2, Vector2 axis)
         {
             float ang = Vector2.Angle(v2, axis);
