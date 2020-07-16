@@ -2,21 +2,29 @@ using System;
 
 namespace Core.Tools.Observables
 {
-    public class Command : Signal
+    public class Command
     {
-        public new void Listen(Action action)
+        private readonly Signal signal = new Signal();
+        
+        public void Listen(Action action)
         {
-            Listeners.Clear();
-            base.Listen(action);
+            signal.Clear();
+            signal.Listen(action);
         }
+        
+        public void Fire() => signal.Fire();
     }
 
-    public class Command<T> : Signal<T>
+    public class Command<T>
     {
-        public new void Listen(Action<T> action)
+        private readonly Signal<T> signal = new Signal<T>();
+        
+        public void Listen(Action<T> action)
         {
-            Listeners.Clear();
-            base.Listen(action);
+            signal.Clear();
+            signal.Listen(action);
         }
+        
+        public void Fire(T t) => signal.Fire(t);
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Reflection;
 using Core.Tools.ExtensionMethods;
 using Core.Tools.Pool;
 using UnityEngine;
@@ -8,71 +11,43 @@ namespace Core.Tools.Observables
 {
     public class Signal
     {
-        protected Dictionary<object, Action> Listeners { get; } = new Dictionary<object, Action>();
-
+        private readonly HashSet<WeakAction> listeners = new HashSet<WeakAction>();
+    
         public void Fire()
         {
-            List<object> toRemove = ListPool<object>.Get();
-
-            foreach (object target in Listeners.Keys)
+            listeners.RemoveWhere(weakAction => !weakAction.IsAlive);
+    
+            foreach (WeakAction weakAction in listeners)
             {
-                if (target == null || target.Equals(null))
-                {
-                    toRemove.Add(target);
-                    continue;
-                }
-
-                if (target is MonoBehaviour monoBeh && !monoBeh.gameObject.activeInHierarchy) continue;
-
-                Listeners[target].Invoke();
+                weakAction.Invoke();
             }
-
-            toRemove.ForEach(o => Listeners.Remove(o));
-            ListPool<object>.Release(toRemove);
         }
-
-        public void Listen(Action action)
-        {
-            Listeners.Set(action.Target, action);
-        }
-
-        public void Unsubscribe(Action action) => Listeners.Remove(action.Target);
-
-        public void Clear() => Listeners.Clear();
+    
+        public void Listen(Action action) => listeners.Add(new WeakAction(action));
+    
+        public void Unsubscribe(Action action) => listeners.RemoveWhere(weakAction => weakAction.Equals(action));
+    
+        public void Clear() => listeners.Clear();
     }
 
     public class Signal<T>
     {
-        protected Dictionary<object, Action<T>> Listeners { get; } = new Dictionary<object, Action<T>>();
+        private readonly HashSet<WeakAction<T>> listeners = new HashSet<WeakAction<T>>();
 
-        public void Fire(T arg)
+        public void Fire(T t)
         {
-            List<object> toRemove = ListPool<object>.Get();
+            listeners.RemoveWhere(weakAction => !weakAction.IsAlive);
 
-            foreach (object target in Listeners.Keys)
+            foreach (WeakAction<T> weakAction in listeners)
             {
-                if (target == null || target.Equals(null))
-                {
-                    toRemove.Add(target);
-                    continue;
-                }
-
-                if (target is MonoBehaviour monoBeh && !monoBeh.gameObject.activeInHierarchy) continue;
-
-                Listeners[target].Invoke(arg);
+                weakAction.Invoke(t);
             }
-
-            toRemove.ForEach(o => Listeners.Remove(o));
-            ListPool<object>.Release(toRemove);
         }
 
-        public void Listen(Action<T> action)
-        {
-            Listeners.Add(action.Target, action);
-        }
+        public void Listen(Action<T> action) => listeners.Add(new WeakAction<T>(action));
 
-        public void Unsubscribe(Action<T> action) => Listeners.Remove(action.Target);
+        public void Unsubscribe(Action<T> action) => listeners.RemoveWhere(weakAction => weakAction.Equals(action));
 
-        public void Clear() => Listeners.Clear();
+        public void Clear() => listeners.Clear();
     }
 }
