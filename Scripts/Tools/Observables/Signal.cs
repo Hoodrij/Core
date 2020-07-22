@@ -12,6 +12,7 @@ namespace Core.Tools.Observables
     public class Signal
     {
         private readonly HashSet<WeakAction> listeners = new HashSet<WeakAction>();
+        public int ListenersCount => listeners.Count;
     
         public void Fire()
         {
