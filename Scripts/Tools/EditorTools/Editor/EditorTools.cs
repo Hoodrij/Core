@@ -40,10 +40,13 @@ namespace Core.Tools.EditorTools.Editor
 
             foreach (GameObject go in Selection.gameObjects) go.SetActive(!go.activeSelf);
 
-            EditorSceneManager.MarkAllScenesDirty();
-
-            PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
-            if (prefabStage != null) EditorSceneManager.MarkSceneDirty(prefabStage.scene);
+            if (!Application.isPlaying)
+            {
+                EditorSceneManager.MarkAllScenesDirty();
+                
+                PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                if (prefabStage != null) EditorSceneManager.MarkSceneDirty(prefabStage.scene);
+            }
         }
 
         [MenuItem(TOOLS_OTHER + "Run GAME &a")]
