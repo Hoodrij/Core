@@ -1,15 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Core.StateMachine;
-using Core.Tools.Observables;
 
 namespace Core.Units
 {
     public class StateMachine<TState> where TState : State
     {
-        private readonly Signal<TState> onEnter = new Signal<TState>();
-        private readonly Signal<TState> onExit = new Signal<TState>();
-
         private TState Current { get; set; }
 
         public void Set(TState newState)
@@ -17,10 +12,10 @@ namespace Core.Units
             foreach (TState state in GetPath(Current, newState))
             {
                 if (state.IsParentOf(Current) || state == Current)
-                    onExit.Fire(state);
+                    state.Exit();
 
                 if (state.IsChildOf(Current) || state.OnOtherBranch(Current) || newState == Current)
-                    onEnter.Fire(state);
+                    state.Enter();
             }
 
             Current = newState;
@@ -62,26 +57,6 @@ namespace Core.Units
                 foreach (TState state in GetPath(commonParent, toState))
                     yield return state;
             }
-        }
-
-        public void ListenEnter(TState enterState, Action action)
-        {
-            if (Current == enterState) action();
-
-            onEnter.Listen(state =>
-            {
-                if (!state.Is(enterState)) return;
-                action();
-            });
-        }
-
-        public void ListenExit(TState exitState, Action action)
-        {
-            onExit.Listen(state =>
-            {
-                if (!state.Is(exitState)) return;
-                action();
-            });
         }
     }
 }

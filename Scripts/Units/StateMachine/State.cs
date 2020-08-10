@@ -1,4 +1,5 @@
 using System;
+using Core.Tools.Observables;
 
 namespace Core.StateMachine
 {
@@ -7,13 +8,24 @@ namespace Core.StateMachine
     {
         public State Parent { get; }
         public string Name { get; }
+        
+        private Signal onEnter = new Signal();
+        private Signal onExit = new Signal();
 
         public State(string name, State parent = null)
         {
             Name = name;
             Parent = parent;
         }
+        
+        internal void Enter() => onEnter.Fire();
+        internal void Exit() => onExit.Fire();
+        
+        public void ListenEnter(Action action) => onEnter.Listen(action);
+        public void ListenExit(Action action) => onExit.Listen(action);
 
+#region Comparers
+        
         public bool Is(State other)
         {
             State state = this;
@@ -90,5 +102,7 @@ namespace Core.StateMachine
         {
             return !IsParentOf(other) && !IsChildOf(other) && !Is(other);
         }
+
+#endregion
     }
 }
