@@ -10,7 +10,7 @@ namespace Core.Units
 {
     public class Fader : Unit
     {
-        private readonly Queue<Func<Task>> actions = new Queue<Func<Task>>();
+        private readonly Queue<Func<Task>> queue = new Queue<Func<Task>>();
         private IFaderView view;
 
         public Fader()
@@ -31,11 +31,11 @@ namespace Core.Units
             {
                 await new WaitForEndOfFrame();
 
-                if (actions.IsEmpty()) continue;
+                if (queue.IsEmpty()) continue;
 
                 if (view != null) await view.Show();
 
-                Func<Task> action = actions.Dequeue();
+                Func<Task> action = queue.Dequeue();
                 await action();
                 await TryHideView();
             }
@@ -45,7 +45,7 @@ namespace Core.Units
         {
             if (this.view != null && this.view is Component oldView)
             {
-                await new WaitUntil(() => actions.IsEmpty());
+                await new WaitUntil(() => queue.IsEmpty());
                 await this.view.Hide();
                 oldView.gameObject.Destroy();
             }
@@ -56,15 +56,15 @@ namespace Core.Units
             this.view = view;
         }
 
-        public void AddAction(Func<Task> action)
+        public void Enqueue(Func<Task> action)
         {
-            actions.Enqueue(action);
+            queue.Enqueue(action);
         }
 
         private async Task TryHideView()
         {
             if (view == null) return;
-            if (actions.IsEmpty()) await view.Hide();
+            if (queue.IsEmpty()) await view.Hide();
         }
     }
 }

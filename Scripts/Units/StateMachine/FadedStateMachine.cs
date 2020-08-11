@@ -9,7 +9,7 @@ namespace Core.Units
 
         public new void Set(T state)
         {
-            Fader.AddAction(async () => base.Set(state));
+            Fader.Enqueue(async () => base.Set(state));
         }
 
         public void SetStateWithoutFade(T state)

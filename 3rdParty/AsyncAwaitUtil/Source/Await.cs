@@ -3,15 +3,9 @@ using UnityEngine;
 
 public static class Await
 {
-    private static readonly WaitForUpdate _waitForUpdate = new WaitForUpdate();
-    private static readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
-    private static readonly WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
-
-    public static WaitForUpdate NextFrame => _waitForUpdate;
-
-    public static WaitForFixedUpdate FixedUpdate => _waitForFixedUpdate;
-
-    public static WaitForEndOfFrame EndOfFrame => _waitForEndOfFrame;
+    public static WaitForUpdate NextFrame { get; } = new WaitForUpdate();
+    public static WaitForFixedUpdate FixedUpdate { get; } = new WaitForFixedUpdate();
+    public static WaitForEndOfFrame EndOfFrame { get; } = new WaitForEndOfFrame();
 
     public static WaitForSeconds Seconds(float seconds)
     {
