@@ -18,6 +18,7 @@ namespace Core.ECS
             
             foreach(Component component in GetComponents<Component>())
             {
+                if (component is Entity) continue;
                 Register(component);
             }
         }
@@ -28,17 +29,14 @@ namespace Core.ECS
             if (component is AComponent aComponent)
             {
                 aComponent.Entity = this;
-                World?.RegisterComponent((dynamic) aComponent);
             }
+            World?.RegisterComponent((dynamic) component);
         }
         
         internal void Remove(Component component)
         {
             map.Remove(component.GetType());
-            if (component is AComponent aComponent)
-            {
-                World?.UnregisterComponent(aComponent);
-            }
+            World?.UnregisterComponent(component);
         }
 
         public T Get<T>() where T : Component

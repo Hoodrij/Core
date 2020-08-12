@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Core.ECS
 {
@@ -8,19 +9,19 @@ namespace Core.ECS
         // object == List<AComponent>
         private readonly Dictionary<Type, object> componentsMap = new Dictionary<Type, object>();
         
-        internal void RegisterComponent<T>(T comp) where T : AComponent
+        internal void RegisterComponent<T>(T comp) where T : Component
         {
             List<T> list = GetComponentsList<T>();
             list.Add(comp);
         }
         
-        internal void UnregisterComponent<T>(T comp) where T : AComponent
+        internal void UnregisterComponent<T>(T comp) where T : Component
         {
             List<T> list = GetComponentsList<T>();
             list.Remove(comp);
         }
 
-        internal List<T> GetComponentsList<T>() where T : AComponent
+        internal List<T> GetComponentsList<T>() where T : Component
         {
             Type type = typeof(T);
             if (!componentsMap.ContainsKey(type))
