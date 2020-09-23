@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Core.Scripts.Tools.Injector;
 using UnityEngine;
 
 namespace Core.Tools
@@ -29,22 +30,7 @@ namespace Core.Tools
 
         public void Populate(object obj)
         {
-            MemberInfo[] members = Reflector.Reflect(obj.GetType());
-            foreach (MemberInfo member in members)
-            {
-                Type type = Reflector.GetUnderlyingType(member);
-                object value = Get(type);
-
-                switch (member.MemberType)
-                {
-                    case MemberTypes.Field:
-                        ((FieldInfo) member).SetValue(obj, value);
-                        break;
-                    case MemberTypes.Property:
-                        ((PropertyInfo) member).SetValue(obj, value, null);
-                        break;
-                }
-            }
+            Reflector.Populate<InjectAttribute>(obj, Get);
         }
 
         private object Get(Type type)

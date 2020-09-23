@@ -2,19 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEngine.Assertions;
+using Core.Tools.ExtensionMethods;
 
-namespace Core.Tools
+namespace Core.Scripts.Tools.Injector 
 {
     internal static class Reflector
     {
         private static readonly Dictionary<Type, MemberInfo[]> cachedFieldInfos = new Dictionary<Type, MemberInfo[]>();
+        private static readonly Dictionary<Type, MethodInfo[]> cachedMethodInfos = new Dictionary<Type, MethodInfo[]>();
         private static readonly List<MemberInfo> reusableList = new List<MemberInfo>(1024);
 
-        public static MemberInfo[] Reflect(Type type)
+        public static void Populate<T>(object obj, Func<Type, object> getter) where T : Attribute
         {
-            Assert.AreEqual(0, reusableList.Count, "Reusable list in Reflector was not empty!");
+            MemberInfo[] members = GetMembers<T>(obj.GetType());
+            foreach (MemberInfo member in members)
+            {
+                Type type = GetUnderlyingType(member);
+                object value = getter(type);
 
+                switch (member.MemberType)
+                {
+                    case MemberTypes.Field:
+                        ((FieldInfo) member).SetValue(obj, value);
+                        break;
+                    case MemberTypes.Property:
+                        ((PropertyInfo) member).SetValue(obj, value, null);
+                        break;
+                }
+            }
+        }
+    
+        public static MemberInfo[] GetMembers<T>(Type type) where T : Attribute
+        {
             if (cachedFieldInfos.TryGetValue(type, out MemberInfo[] cachedResult)) return cachedResult;
 
             BindingFlags flags = BindingFlags.Public |
@@ -35,7 +54,7 @@ namespace Core.Tools
 
             foreach (MemberInfo field in fields)
             {
-                bool hasInjectAttribute = field.IsDefined(typeof(InjectAttribute));
+                bool hasInjectAttribute = field.IsDefined(typeof(T));
                 if (hasInjectAttribute) reusableList.Add(field);
             }
 
@@ -43,6 +62,15 @@ namespace Core.Tools
             reusableList.Clear();
             cachedFieldInfos[type] = resultAsArray;
             return resultAsArray;
+        }
+    
+        public static MethodInfo[] GetMethods<T>(Type type) where T : Attribute
+        {
+            if (cachedMethodInfos.TryGetValue(type, out MethodInfo[] cachedResult)) return cachedResult;
+
+            MethodInfo[] methodInfos = type.GetAllMethodsWithAttribute<T>(false).ToArray();
+            cachedMethodInfos[type] = methodInfos;
+            return methodInfos;
         }
 
         private static List<Type> GetBaseTypes(Type type)
@@ -57,7 +85,7 @@ namespace Core.Tools
             return result;
         }
 
-        public static Type GetUnderlyingType(MemberInfo member)
+        private static Type GetUnderlyingType(MemberInfo member)
         {
             switch (member.MemberType)
             {
