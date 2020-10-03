@@ -1,6 +1,7 @@
 ﻿#if REMOTE_CONFIG
 using System.Threading.Tasks;
 using Unity.RemoteConfig;
+using UnityAsync;
 using UnityEngine;
 
 namespace Core.Units
@@ -39,7 +40,7 @@ namespace Core.Units
 
         public async Task WaitInit()
         {
-            await new WaitUntil(() => IsInitialized);
+            await Wait.Until(() => IsInitialized);// UnityEngine.WaitUntil(() => IsInitialized);
         }
     }
 }

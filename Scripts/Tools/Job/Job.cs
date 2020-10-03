@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.Scripts.Tools.Job;
 
@@ -6,41 +7,22 @@ namespace Core.Tools
 {
     public abstract class Job
     {
-        public JobState State { get; private set; } = JobState.IDLE;
-
-        private Action<string> onError;
-
+        private CancellationTokenSource tokenSource;
+        internal CancellationToken Token => tokenSource.Token;
+        
         protected Job()
         {
             Injector.Instance.Populate(this);
         }
 
-        public async Task Run(Action<string> onError = null)
+        public async Task Run(CancellationTokenSource tokenSource = null)
         {
-            this.onError = onError;
-            State = JobState.RUNNING;
-
+            this.tokenSource = tokenSource ?? new CancellationTokenSource();
             await Run();
-            State = JobState.SUCCESS;
-        }
-
-        protected abstract Task Run();
-
-        protected void ReportError(string errorMessage)
-        {
-            State = JobState.ERROR;
-
-            onError?.Invoke(errorMessage);
         }
         
-        public static Job As(Func<Task> action) => new AnonymousJob(action);
-    }
+        protected abstract Task Run();
 
-    public enum JobState
-    {
-        IDLE,
-        RUNNING,
-        SUCCESS,
-        ERROR
+        public static Job As(Func<Task> action) => new AnonymousJob(action);
     }
 }

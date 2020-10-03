@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using Core.Fader;
 using Core.Tools.ExtensionMethods;
+using UnityAsync;
 using UnityEngine;
+using WaitUntil = UnityEngine.WaitUntil;
 
 namespace Core.Samples.Fader
 {
@@ -25,7 +27,7 @@ namespace Core.Samples.Fader
         public async Task Show()
         {
             animator.SetSingleTrigger("show");
-            await new WaitUntil(() => state == State.Shown);
+            await this.WaitUntil(() => state == State.Shown);
         }
 
         public async Task Hide()
@@ -35,7 +37,7 @@ namespace Core.Samples.Fader
                 state = State.Hiding;
                 animator.SetSingleTrigger("hide");
             }
-            await new WaitUntil(() => state == State.Idle);
+            await this.WaitUntil(() => state == State.Idle);
         }
 
         // animation event

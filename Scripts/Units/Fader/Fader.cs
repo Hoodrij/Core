@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Fader;
 using Core.Tools.ExtensionMethods;
+using UnityAsync;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -45,7 +46,7 @@ namespace Core.Units
         {
             if (this.view != null && this.view is Component oldView)
             {
-                await new WaitUntil(() => queue.IsEmpty());
+                await Wait.Until(() => queue.IsEmpty());
                 await this.view.Hide();
                 oldView.gameObject.Destroy();
             }

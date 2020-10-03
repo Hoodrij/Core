@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.Tools.Observables;
+using UnityAsync;
 
 namespace Core.Tools
 {
@@ -19,6 +21,7 @@ namespace Core.Tools
         private readonly Queue<Job> queue = new Queue<Job>();
         private int initialTasksCount;
         private Mode mode = Mode.MultipleShot;
+        private CancellationTokenSource tokenSource;
 
         public JobSequence Add(Job job)
         {
@@ -41,20 +44,27 @@ namespace Core.Tools
         public async Task<JobSequence> Run()
         {
             initialTasksCount = queue.Count;
+            tokenSource = new CancellationTokenSource();
             await ExecutionRoutine();
 
             return this;
         }
+        
+        public void Cancel()
+        {
+            tokenSource.Cancel();
+            queue.Clear();
+        }
 
         private async Task ExecutionRoutine()
         {
-            while (queue.Count > 0)
+            while (queue.Count > 0 && !tokenSource.IsCancellationRequested)
             {
-                await queue.Dequeue().Run();
+                await queue.Dequeue().Run(tokenSource);
                 onProgressChanged.Fire(Progress);
 
                 if (mode == Mode.OneByFrame)
-                    await new WaitForUpdate();
+                    await Wait.Update;
             }
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Units;
+using UnityAsync;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -22,7 +23,7 @@ namespace Core.Ui
             uiGo.name = "UI";
         }
 
-        public async void AddRoot(UIRoot root)
+        public void AddRoot(UIRoot root)
         {
             roots.Add(root);
 

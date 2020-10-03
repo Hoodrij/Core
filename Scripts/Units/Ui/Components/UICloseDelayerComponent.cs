@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Core.Tools.ExtensionMethods;
+using UnityAsync;
 using UnityEngine;
 
 namespace Core.Ui.Components
@@ -18,7 +19,7 @@ namespace Core.Ui.Components
 
             animator.SetSingleTrigger("Close");
 
-            await new WaitUntil(() => isClosed);
+            await Wait.Until(() => isClosed);
         }
 
         // Animaton event
