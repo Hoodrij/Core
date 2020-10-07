@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Fader;
 using Core.Tools.ExtensionMethods;
@@ -16,7 +17,7 @@ namespace Core.Units
 
         public Fader()
         {
-            Worker();
+            Flow();
         }
         
         public Fader WithSampleView()
@@ -26,46 +27,39 @@ namespace Core.Units
             return this;
         }
 
-        private async void Worker()
+        private async void Flow()
         {
             while (true)
             {
-                await new WaitForEndOfFrame();
+                await Wait.Until(() => queue.Any());
 
-                if (queue.IsEmpty()) continue;
-
-                if (view != null) await view.Show();
-
-                Func<Task> action = queue.Dequeue();
-                await action();
-                await TryHideView();
+                await view.Show();
+                while (queue.Any())
+                {
+                    await queue.Dequeue()();
+                }
+                await view.Hide();
             }
         }
 
-        public async void SetView(IFaderView view)
+        public async void SetView(IFaderView newView)
         {
-            if (this.view != null && this.view is Component oldView)
+            if (view != null && view is Component oldView)
             {
                 await Wait.Until(() => queue.IsEmpty());
-                await this.view.Hide();
+                await view.Hide();
                 oldView.gameObject.Destroy();
             }
             
-            if (view is Component viewComp)
+            if (newView is Component viewComp)
                 viewComp.gameObject.name = "Fader";
 
-            this.view = view;
+            view = newView;
         }
 
         public void Enqueue(Func<Task> action)
         {
             queue.Enqueue(action);
-        }
-
-        private async Task TryHideView()
-        {
-            if (view == null) return;
-            if (queue.IsEmpty()) await view.Hide();
         }
     }
 }
