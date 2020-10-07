@@ -7,13 +7,12 @@ namespace Core.Ui
 {
     internal class UIController
     {
-        private List<UIView> opened;
-        private UILoader loader;
+        private readonly List<UIView> opened = new List<UIView>();
+        private readonly UILoader loader;
 
         public UIController(UILoader loader)
         {
             this.loader = loader;
-            opened = new List<UIView>();
         }
 
         internal TView Get<TView>() where TView : UIView

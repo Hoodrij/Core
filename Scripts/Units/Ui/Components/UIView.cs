@@ -38,7 +38,7 @@ namespace Core.Ui
         }
         
         protected virtual void OnOpen() { }
-        internal virtual void OnClose() { }
+        protected internal virtual void OnClose() { }
     }
 
     #region Extended generics
