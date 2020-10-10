@@ -9,6 +9,9 @@
 		/// <summary>
 		/// Waits for the specified number of (unscaled) seconds to pass before continuing.
 		/// </summary>
-		public WaitForSecondsRealtime(float seconds) => finishTime = AsyncManager.CurrentUnscaledTime + seconds;
+		internal WaitForSecondsRealtime(float seconds)
+		{
+			finishTime = AsyncManager.CurrentUnscaledTime + seconds;
+		}
 	}
 }

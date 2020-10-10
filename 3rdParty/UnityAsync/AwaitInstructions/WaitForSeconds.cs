@@ -9,6 +9,9 @@
 		/// <summary>
 		/// Waits for the specified number of seconds to pass before continuing.
 		/// </summary>
-		public WaitForSeconds(float seconds) => finishTime = AsyncManager.CurrentTime + seconds;
+		public WaitForSeconds(float seconds)
+		{
+			finishTime = AsyncManager.CurrentTime + seconds;
+		}
 	}
 }

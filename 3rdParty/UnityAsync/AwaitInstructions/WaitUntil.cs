@@ -11,12 +11,12 @@ namespace UnityAsync
 		/// <summary>
 		/// Waits until the condition returns true before continuing.
 		/// </summary>
-		public WaitUntil(Func<bool> condition)
+		internal WaitUntil(Func<bool> condition)
 		{
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			if(condition == null)
 				throw new ArgumentNullException(nameof(condition), "This check only occurs in edit mode.");
-			#endif
+#endif
 			
 			this.condition = condition;
 		}
