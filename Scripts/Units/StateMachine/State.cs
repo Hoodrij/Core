@@ -1,6 +1,4 @@
 using System;
-using Core.Tools.Observables;
-using UnityEngine;
 
 namespace Core.StateMachine
 {

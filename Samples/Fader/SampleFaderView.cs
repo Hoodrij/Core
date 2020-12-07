@@ -3,7 +3,6 @@ using Core.Fader;
 using Core.Tools.ExtensionMethods;
 using UnityAsync;
 using UnityEngine;
-using WaitUntil = UnityEngine.WaitUntil;
 
 namespace Core.Samples.Fader
 {

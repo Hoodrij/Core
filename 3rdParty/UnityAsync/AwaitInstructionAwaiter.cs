@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace UnityAsync
 {
