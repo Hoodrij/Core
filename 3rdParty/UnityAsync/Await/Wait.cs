@@ -6,9 +6,9 @@ namespace UnityAsync
 {
 	public static partial class Wait
 	{
-		public static readonly AwaitInstructionAwaiter<WaitForFrames> Update = new AwaitInstructionAwaiter<WaitForFrames>(new WaitForFrames(1));
-		public static readonly AwaitInstructionAwaiter<WaitForFrames> LateUpdate = new AwaitInstructionAwaiter<WaitForFrames>(new WaitForFrames(1), FrameScheduler.LateUpdate);
-		public static readonly AwaitInstructionAwaiter<WaitForFrames> FixedUpdate = new AwaitInstructionAwaiter<WaitForFrames>(new WaitForFrames(1), FrameScheduler.FixedUpdate);
+		public static AwaitInstructionAwaiter<WaitForFrames> Update => new AwaitInstructionAwaiter<WaitForFrames>(new WaitForFrames(1));
+		public static AwaitInstructionAwaiter<WaitForFrames> LateUpdate => new AwaitInstructionAwaiter<WaitForFrames>(new WaitForFrames(1), FrameScheduler.LateUpdate);
+		public static AwaitInstructionAwaiter<WaitForFrames> FixedUpdate => new AwaitInstructionAwaiter<WaitForFrames>(new WaitForFrames(1), FrameScheduler.FixedUpdate);
 		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static SynchronizationContext UnitySyncContext() => AsyncManager.UnitySyncContext;

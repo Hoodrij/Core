@@ -6,53 +6,65 @@ namespace Core.Tools.Observables
 {
     internal class WeakAction<T>
     {
-        public bool IsAlive => weakReference.IsAlive && weakReference?.Target != null 
+        public bool IsAlive => owner.IsAlive && owner?.Target != null 
                                 && IsAliveAsMonoBeh();
         
-        private readonly WeakReference weakReference;
+        private readonly WeakReference owner;
         private readonly MethodInfo method;
+        private readonly object target;
         
         public WeakAction(Action<T> action)
         {
-            weakReference = new WeakReference(action.Target);
+            owner ??= new WeakReference(action.Target);
             method = action.Method;
+            target = action.Target;
+        }
+        public WeakAction(Action<T> action, object owner) : this(action)
+        {
+            this.owner = new WeakReference(owner);
         }
 
         public void Invoke(T t)
         {
             if (IsActiveAsMonoBeh())
-                method.Invoke(weakReference.Target, new object[] { t });
+                method.Invoke(target, new object[] { t });
         }
 
-        public bool Equals(Action<T> action) => weakReference.Target == action.Target;
+        public bool Equals(Action<T> action) => owner.Target == action.Target;
         
-        private bool IsAliveAsMonoBeh() => !(weakReference.Target is MonoBehaviour mono) || mono.gameObject != null;
-        private bool IsActiveAsMonoBeh() => !(weakReference.Target is MonoBehaviour mono) || mono.gameObject.activeInHierarchy;
+        private bool IsAliveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono.gameObject != null;
+        private bool IsActiveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono.gameObject.activeInHierarchy;
     }
     
     internal class WeakAction
     {
-        public bool IsAlive => weakReference.IsAlive && weakReference?.Target != null 
+        public bool IsAlive => owner.IsAlive && owner?.Target != null 
                                 && IsAliveAsMonoBeh();
         
-        private readonly WeakReference weakReference;
+        private readonly WeakReference owner;
         private readonly MethodInfo method;
+        private readonly object target;
         
         public WeakAction(Action action)
         {
-            weakReference = new WeakReference(action.Target);
+            owner ??= new WeakReference(action.Target);
             method = action.Method;
+            target = action.Target;
+        }
+        public WeakAction(Action action, object owner) : this(action)
+        {
+            this.owner = new WeakReference(owner);
         }
 
         public void Invoke()
         {
             if (IsActiveAsMonoBeh())
-                method.Invoke(weakReference.Target, null);
+                method.Invoke(target, null);
         }
 
-        public bool Equals(Action action) => weakReference.Target == action.Target;
+        public bool Equals(Action action) => owner.Target == action.Target;
         
-        private bool IsAliveAsMonoBeh() => !(weakReference.Target is MonoBehaviour mono) || mono.gameObject != null;
-        private bool IsActiveAsMonoBeh() => !(weakReference.Target is MonoBehaviour mono) || mono.gameObject.activeInHierarchy;
+        private bool IsAliveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono.gameObject != null;
+        private bool IsActiveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono.gameObject.activeInHierarchy;
     }
 }

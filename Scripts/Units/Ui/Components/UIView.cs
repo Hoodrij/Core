@@ -48,7 +48,7 @@ namespace Core.Ui
         internal static UIInfoAttribute Info => typeof(TView).GetCustomAttribute<UIInfoAttribute>();
 
         public static async Task<TView> Open() => await UI.Instance.Open<TView>();
-        public static TView Get() => (TView) UI.Instance.Get<TView>();
+        public static TView Get() => UI.Instance.Get<TView>();
     }
 
     public abstract class UIView<TView, TData> : UIView<TView> where TView : UIView

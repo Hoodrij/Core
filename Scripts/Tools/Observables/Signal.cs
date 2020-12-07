@@ -6,6 +6,7 @@ using System.Reflection;
 using Core.Tools.ExtensionMethods;
 using Core.Tools.Pool;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Core.Tools.Observables
 {
@@ -25,6 +26,7 @@ namespace Core.Tools.Observables
         }
     
         public void Listen(Action action) => listeners.Add(new WeakAction(action));
+        public void Listen(Action action, object owner) => listeners.Add(new WeakAction(action, owner));
     
         public void Unsubscribe(Action action) => listeners.RemoveWhere(weakAction => weakAction.Equals(action));
     
@@ -46,6 +48,7 @@ namespace Core.Tools.Observables
         }
 
         public void Listen(Action<T> action) => listeners.Add(new WeakAction<T>(action));
+        public void Listen(Action<T> action, object owner) => listeners.Add(new WeakAction<T>(action, owner));
 
         public void Unsubscribe(Action<T> action) => listeners.RemoveWhere(weakAction => weakAction.Equals(action));
 
