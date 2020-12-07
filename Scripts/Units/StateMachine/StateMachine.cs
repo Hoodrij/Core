@@ -7,23 +7,23 @@ namespace Core.Units
 {
     public class StateMachine<TState> where TState : State
     {
-        private TState Current { get; set; }
+        protected TState CurrentState { get; private set; }
         
         private Signal<TState> onEnter = new Signal<TState>();
         private Signal<TState> onExit = new Signal<TState>();
 
         public void Set(TState newState)
         {
-            foreach (TState state in GetPath(Current, newState))
+            foreach (TState state in GetPath(CurrentState, newState))
             {
-                if (state.IsParentOf(Current) || state == Current)
+                if (state.IsParentOf(CurrentState) || state == CurrentState)
                     onExit.Fire(state);
 
-                if (state.IsChildOf(Current) || state.OnOtherBranch(Current) || newState == Current)
+                if (state.IsChildOf(CurrentState) || state.OnOtherBranch(CurrentState) || newState == CurrentState)
                     onEnter.Fire(state);
             }
 
-            Current = newState;
+            CurrentState = newState;
         }
 
         private IEnumerable<TState> GetPath(TState fromState, TState toState)
@@ -66,7 +66,7 @@ namespace Core.Units
 
         public void ListenEnter(TState requiredState, Action callback)
         {
-            if (Current == requiredState) callback();
+            if (CurrentState == requiredState) callback();
             
             onEnter.Listen(state =>
             {
