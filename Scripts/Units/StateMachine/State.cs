@@ -54,9 +54,7 @@ namespace Core.StateMachine
 
         public static bool operator ==(State s1, State s2)
         {
-            if (ReferenceEquals(null, s1)) return ReferenceEquals(null, s2);
-
-            return s1.Equals(s2);
+            return s1?.Equals(s2) ?? ReferenceEquals(null, s2);
         }
 
         public static bool operator !=(State s1, State s2)

@@ -33,12 +33,16 @@ namespace Core.Units
             {
                 await Wait.Until(() => queue.Any());
 
-                await view.Show();
+                if (view != null)
+                    await view.Show();
+                
                 while (queue.Any())
                 {
                     await queue.Dequeue()();
                 }
-                await view.Hide();
+                
+                if (view != null)
+                    await view.Hide();
             }
         }
 
