@@ -28,8 +28,7 @@ namespace Core.Ui
 
         public async void Close()
         {
-            UICloseDelayerComponent closeDelayer = GetComponent<UICloseDelayerComponent>();
-            if (closeDelayer != null)
+            if (TryGetComponent(out UICloseDelayerComponent closeDelayer))
             {
                 await closeDelayer.WaitClose();
             }

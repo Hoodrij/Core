@@ -1,5 +1,6 @@
 {
     "name": "Core",
+    "rootNamespace": "Core",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
