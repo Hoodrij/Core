@@ -13,6 +13,8 @@ namespace Core.Units
         private readonly UILoader loader;
         private readonly UIController controller;
 
+        internal static UI Instance => Injector.Instance.Get<UI>();
+        
         public UI(IEnumerable<UIRoot> setup)
         {
             loader = new UILoader(Assets);
@@ -31,7 +33,5 @@ namespace Core.Units
         internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
 
         public void CloseAll() => controller.CloseAll();
-
-        internal static UI Instance => Injector.Instance.Get<UI>();
     }
 }

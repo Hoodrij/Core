@@ -81,7 +81,7 @@ namespace Core.Units
             {
                 if (state.Is(requiredState)) 
                     callback();
-            });
+            }, callback.Target);
         }
     }
 }

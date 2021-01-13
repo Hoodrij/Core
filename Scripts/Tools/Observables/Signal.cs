@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Tools.ExtensionMethods;
 
 namespace Core.Tools.Observables
 {
@@ -10,12 +11,8 @@ namespace Core.Tools.Observables
     
         public void Fire()
         {
-            listeners.RemoveWhere(weakAction => !weakAction.IsAlive);
-    
-            foreach (WeakAction weakAction in listeners)
-            {
-                weakAction.Invoke();
-            }
+            listeners.RemoveWhere(action => !action.IsAlive);
+            listeners.ForEach(action => action.Invoke());
         }
     
         public void Listen(Action action) => listeners.Add(new WeakAction(action));
@@ -32,12 +29,8 @@ namespace Core.Tools.Observables
 
         public void Fire(T t)
         {
-            listeners.RemoveWhere(weakAction => !weakAction.IsAlive);
-
-            foreach (WeakAction<T> weakAction in listeners)
-            {
-                weakAction.Invoke(t);
-            }
+            listeners.RemoveWhere(action => !action.IsAlive);
+            listeners.ForEach(action => action.Invoke(t));
         }
 
         public void Listen(Action<T> action) => listeners.Add(new WeakAction<T>(action));

@@ -1,10 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Core.Tools.ExtensionMethods
 {
-    public static class ListEx
+    public static class IEnumerableEx
     {
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach(T item in source)
+            {
+                action(item);
+            }
+        }
+        
         public static void Set<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary.ContainsKey(key))
