@@ -5,19 +5,19 @@ namespace Core.Tools.Pool
 {
     public class ObjectPool
     {
-        private APoolable prefab;
+        private PooledObject prefab;
         public GameObject parent;
 
-        private Stack<APoolable> stack;
+        private Stack<PooledObject> stack;
         private int itemsInUse;
         private string name;
 
-        public ObjectPool(APoolable prefab, GameObject parent, int initialCap = 0)
+        public ObjectPool(PooledObject prefab, GameObject parent, int initialCap = 0)
         {
             this.prefab = prefab;
             this.parent = parent;
 
-            stack = new Stack<APoolable>();
+            stack = new Stack<PooledObject>();
             itemsInUse = 0;
             name = prefab.name;
 
@@ -26,7 +26,7 @@ namespace Core.Tools.Pool
 
         #region Push item
 
-        public virtual void Push(APoolable item)
+        public virtual void Push(PooledObject item)
         {
             if (IS.DEBUG)
             {
@@ -62,13 +62,13 @@ namespace Core.Tools.Pool
 
         #region Pop item
 
-        public virtual APoolable Pop()
+        public virtual PooledObject Pop()
         {
             if (stack.Count == 0)
                 AddInstance();
 
-            APoolable item = stack.Pop();
-            item.OnPop();
+            PooledObject item = stack.Pop();
+            item.Pop();
 
             itemsInUse++;
             return item;
@@ -78,7 +78,7 @@ namespace Core.Tools.Pool
 
         private void AddInstance()
         {
-            APoolable item = Object.Instantiate(prefab, parent.transform);
+            PooledObject item = Object.Instantiate(prefab, parent.transform);
             item.gameObject.SetActive(false);
             item.Pool = this;
             stack.Push(item);
