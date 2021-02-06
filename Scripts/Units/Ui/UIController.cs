@@ -25,7 +25,8 @@ namespace Core.Ui
             UIInfoAttribute info = UIView<TView>.Info;
 
             foreach (UIView openedView in opened.Where(openedView =>
-                info.Root.IsClosingOther(openedView.Info.Root)))
+                info.Root.IsClosingOther(openedView.Info.Root))
+                .ToList())
                 openedView.Close();
 
             TView view = await loader.Load<TView>(info);
