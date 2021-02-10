@@ -15,7 +15,7 @@ namespace Core.Tools
             OneByFrame = 2,
         }
 
-        public float Progress => 1 - (float) queue.Count / initialTasksCount;
+        public float Progress => 1 - (float) (queue.Count - 1) / initialTasksCount;
 
         private readonly Signal<float> onProgressChanged = new Signal<float>();
         private readonly Queue<Job> queue = new Queue<Job>();
