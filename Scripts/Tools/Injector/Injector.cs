@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Scripts.Tools.Injector;
+using Core.Tools.ExtensionMethods;
+using Core.Units.Model2;
 using UnityEngine;
 
 namespace Core.Tools
@@ -34,6 +36,13 @@ namespace Core.Tools
         {
             if (container.TryGetValue(type, out var value))
                 return value;
+
+            if (type.IsAssignableToGenericType(typeof(Model2<>)))
+            {
+                object instance = Activator.CreateInstance(type);
+                Add(instance);
+                return instance;
+            }
 
             Debug.LogError($"[Injector] Cant find {type.Name.Color(Color.red)}");
             return null;
