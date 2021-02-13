@@ -19,7 +19,7 @@ namespace UnityAsync
 			=> FixedUpdate.ConfigureAwait(mono);
 		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static AwaitInstructionAwaiter<WaitForSeconds> Seconds(this MonoBehaviour mono, float duration) 
+		public static AwaitInstructionAwaiter<WaitForSeconds> WaitSeconds(this MonoBehaviour mono, float duration) 
 			=> Seconds(duration).ConfigureAwait(mono);
 		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

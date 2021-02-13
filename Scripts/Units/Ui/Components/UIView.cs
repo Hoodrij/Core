@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Core.Tools;
 using Core.Tools.Bindings;
+using Core.Tools.Observables;
 using Core.Ui.Components;
 using Core.Units;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace Core.Ui
     [DisallowMultipleComponent] 
     public abstract class UIView : ABindableBehaviour
     {
+        public TaskSource<UIView> CloseTask = new TaskSource<UIView>();
+            
         internal UIInfoAttribute Info => GetType().GetCustomAttribute<UIInfoAttribute>();
         internal Action CloseInstructions;
 
@@ -33,6 +36,7 @@ namespace Core.Ui
                 await closeDelayer.WaitClose();
             }
 
+            CloseTask.Complete(this);
             CloseInstructions.Invoke();
         }
         
