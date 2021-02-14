@@ -32,7 +32,6 @@ namespace Core.Tools.Observables
 
         public bool Equals(Action<T> action) => owner.Target == action.Target;
         
-        
         private bool IsAliveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono != null && mono.gameObject != null;
         private bool IsActiveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono.gameObject.activeInHierarchy;
     }
