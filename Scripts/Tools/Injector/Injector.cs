@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Core.Scripts.Tools.Injector;
 using Core.Tools.ExtensionMethods;
-using Core.Units.Model2;
+using Core.Units.Model;
 using UnityEngine;
 
 namespace Core.Tools
@@ -37,7 +37,7 @@ namespace Core.Tools
             if (container.TryGetValue(type, out var value))
                 return value;
 
-            if (type.IsAssignableToGenericType(typeof(Model2<>)))
+            if (type.IsAssignableToGenericType(typeof(Model<>)))
             {
                 object instance = Activator.CreateInstance(type);
                 Add(instance);
