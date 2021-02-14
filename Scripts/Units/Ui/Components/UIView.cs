@@ -13,7 +13,7 @@ namespace Core.Ui
     [DisallowMultipleComponent] 
     public abstract class UIView : ABindableBehaviour
     {
-        public TaskSource<UIView> CloseTask = new TaskSource<UIView>();
+        public Signal<UIView> OnClose = new Signal<UIView>();
             
         internal UIInfoAttribute Info => GetType().GetCustomAttribute<UIInfoAttribute>();
         internal Action CloseInstructions;
@@ -36,12 +36,11 @@ namespace Core.Ui
                 await closeDelayer.WaitClose();
             }
 
-            CloseTask.Complete(this);
+            OnClose.Fire(this);
             CloseInstructions.Invoke();
         }
         
         protected virtual void OnOpen() { }
-        protected internal virtual void OnClose() { }
     }
 
     #region Extended generics

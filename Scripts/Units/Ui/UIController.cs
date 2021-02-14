@@ -39,7 +39,6 @@ namespace Core.Ui
                 if (view == null) return;
 
                 opened.Remove(view);
-                view.OnClose();
                 Object.Destroy(view.gameObject);
             };
 
