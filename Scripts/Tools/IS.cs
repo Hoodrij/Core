@@ -1,4 +1,4 @@
-public static class IS
+public static partial class IS
 {
     public static bool EDITOR =
 #if UNITY_EDITOR
