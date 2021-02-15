@@ -10,7 +10,9 @@ namespace Core.Tools
     internal class Injector
     {
 #region internal Singleton (for Core only)
-        internal static Injector Instance { get; } = new Injector();
+        internal static Injector Instance { get; private set; }
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void Create() => Instance = new Injector(); 
 #endregion
 
         private readonly Dictionary<Type, object> container = new Dictionary<Type, object>();
