@@ -1,5 +1,4 @@
 ﻿using Core.Life;
-using Core.Tools.Observables;
 using UnityEngine;
 using Event = Core.Tools.Observables.Event;
 

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections;
-using Core.Tools.Observables;
-using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
-
-namespace Core.Tests
+﻿namespace Core.Tests
 {
     public class Signal_Test
     {

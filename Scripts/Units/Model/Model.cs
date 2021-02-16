@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Tools;
 using Core.Tools.Observables;
 
 namespace Core.Units.Model
@@ -8,7 +9,12 @@ namespace Core.Units.Model
         private T t;
         private readonly Event<T> @event = new Event<T>();
 
-        public void Set(T t)
+        protected Model()
+        {
+            Injector.Instance.Populate(this);
+        }
+
+        public virtual void Set(T t)
         {
             this.t = t;
             @event.Fire(t);
