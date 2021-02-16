@@ -12,7 +12,7 @@ namespace Core.Services
 
             if (this is IUpdateHandler iUpdate)
             {
-                life.OnUpdate.Listen(iUpdate.Update);
+                life.UpdateEvent.Listen(iUpdate.Update);
             }
         }
     }

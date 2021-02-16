@@ -8,25 +8,25 @@ namespace Core.Life
 
         private void Update()
         {
-            Life?.OnUpdate.Fire();
+            Life?.UpdateEvent.Fire();
         }
 
         private void LateUpdate()
         {
-            Life?.OnLateUpdate.Fire();
+            Life?.LateUpdateEvent.Fire();
         }
 
         private void FixedUpdate()
         {
-            Life?.OnFixedUpdate.Fire();
+            Life?.FixedUpdateEvent.Fire();
         }
 
         private void OnApplicationFocus(bool focus)
         {
             if (focus)
-                Life?.OnResume.Fire();
+                Life?.ResumeEvent.Fire();
             else
-                Life?.OnPause.Fire();
+                Life?.PauseEvent.Fire();
         }
 
         private void OnApplicationPause(bool pause)
@@ -34,14 +34,14 @@ namespace Core.Life
             if (!IS.EDITOR) return;
 
             if (pause)
-                Life?.OnPause.Fire();
+                Life?.PauseEvent.Fire();
             else
-                Life?.OnResume.Fire();
+                Life?.ResumeEvent.Fire();
         }
 
         private void OnApplicationQuit()
         {
-            Life?.OnQuit.Fire();
+            Life?.QuitEvent.Fire();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Core.Ui
     [DisallowMultipleComponent] 
     public abstract class UIView : ABindableBehaviour
     {
-        public Signal<UIView> CloseSignal = new Signal<UIView>();
+        public Event<UIView> CloseEvent { get; } = new Event<UIView>();
             
         internal UIInfoAttribute Info => GetType().GetCustomAttribute<UIInfoAttribute>();
         internal Action CloseInstructions;
@@ -36,7 +36,7 @@ namespace Core.Ui
                 await closeDelayer.WaitClose();
             }
 
-            CloseSignal.Fire(this);
+            CloseEvent.Fire(this);
             CloseInstructions.Invoke();
         }
         

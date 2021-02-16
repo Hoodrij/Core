@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace Core.Tools.Pool
 {
-    public sealed class PooledObject : MonoBehaviour
+    public class PooledObject : MonoBehaviour
     {
-        public Signal<PooledObject> OnPoped = new Signal<PooledObject>();
-        public Signal<PooledObject> OnPooled = new Signal<PooledObject>();
+        public Event<PooledObject> PopEvent { get; } = new Event<PooledObject>();
+        public Event<PooledObject> PoolEvent { get; } = new Event<PooledObject>();
         
         internal ObjectPool Pool { get; set; }
 
         internal void Pop()
         {
-            OnPoped.Fire(this);
+            PopEvent.Fire(this);
         }
 
         public void ReturnToPool()
         {
-            OnPooled.Fire(this);
+            PoolEvent.Fire(this);
 
             if (Pool != null)
                 Pool.Push(this);

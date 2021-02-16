@@ -9,18 +9,18 @@ namespace Core.Units
     {
         protected TState CurrentState { get; private set; }
         
-        private Signal<TState> onEnter = new Signal<TState>();
-        private Signal<TState> onExit = new Signal<TState>();
+        private readonly Event<TState> enterEvent = new Event<TState>();
+        private readonly Event<TState> exitEvent = new Event<TState>();
 
         public void Set(TState newState)
         {
             foreach (TState state in GetPath(CurrentState, newState))
             {
                 if (state.IsParentOf(CurrentState) || state == CurrentState)
-                    onExit.Fire(state);
+                    exitEvent.Fire(state);
 
                 if (state.IsChildOf(CurrentState) || state.OnOtherBranch(CurrentState) || newState == CurrentState)
-                    onEnter.Fire(state);
+                    enterEvent.Fire(state);
             }
 
             CurrentState = newState;
@@ -68,7 +68,7 @@ namespace Core.Units
         {
             if (CurrentState == requiredState) callback();
             
-            onEnter.Listen(state =>
+            enterEvent.Listen(state =>
             {
                 if (state.Is(requiredState)) 
                     callback();
@@ -77,7 +77,7 @@ namespace Core.Units
         
         public void ListenExit(TState requiredState, Action callback)
         {
-            onExit.Listen(state =>
+            exitEvent.Listen(state =>
             {
                 if (state.Is(requiredState)) 
                     callback();

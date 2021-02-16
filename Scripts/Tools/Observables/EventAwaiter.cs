@@ -3,15 +3,15 @@ using System.Runtime.CompilerServices;
 
 namespace Core.Tools.Observables
 {
-    public class SignalAwaiter : INotifyCompletion
+    public class EventAwaiter : INotifyCompletion
     {
-        private Signal signal;
+        private Event @event;
         private bool isCompleted;
         private Action continuation;
 
-        public SignalAwaiter(Signal signal)
+        internal EventAwaiter(Event @event)
         {
-            this.signal = signal;
+            this.@event = @event;
         }
 
         public bool IsCompleted => isCompleted;
@@ -20,7 +20,7 @@ namespace Core.Tools.Observables
         public void OnCompleted(Action continuation)
         {
             this.continuation = continuation;
-            signal.ListenOneshot(Listener);
+            @event.ListenOneshot(Listener);
         }
 
         private void Listener()
@@ -30,16 +30,16 @@ namespace Core.Tools.Observables
         }
     }
     
-    public class SignalAwaiter<T> : INotifyCompletion
+    public class EventAwaiter<T> : INotifyCompletion
     {
-        private Signal<T> signal;
+        private Event<T> @event;
         private bool isCompleted;
         private Action continuation;
         private T result;
 
-        public SignalAwaiter(Signal<T> signal)
+        internal EventAwaiter(Event<T> @event)
         {
-            this.signal = signal;
+            this.@event = @event;
         }
 
         public bool IsCompleted => isCompleted;
@@ -48,7 +48,7 @@ namespace Core.Tools.Observables
         public void OnCompleted(Action continuation)
         {
             this.continuation = continuation;
-            signal.ListenOneshot(Listener);
+            @event.ListenOneshot(Listener);
         }
 
         private void Listener(T result)
@@ -59,9 +59,9 @@ namespace Core.Tools.Observables
         }
     }
 
-    public static class SignalEx
+    public static class EventEx
     {
-        public static SignalAwaiter GetAwaiter(this Signal s) => new SignalAwaiter(s);
-        public static SignalAwaiter<T> GetAwaiter<T>(this Signal<T> s) => new SignalAwaiter<T>(s);
+        public static EventAwaiter GetAwaiter(this Event e) => new EventAwaiter(e);
+        public static EventAwaiter<T> GetAwaiter<T>(this Event<T> e) => new EventAwaiter<T>(e);
     }
 }

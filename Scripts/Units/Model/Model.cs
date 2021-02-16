@@ -6,21 +6,21 @@ namespace Core.Units.Model
     public class Model<T>
     {
         private T t;
-        private readonly Signal<T> signal = new Signal<T>();
+        private readonly Event<T> @event = new Event<T>();
 
         public void Set(T t)
         {
             this.t = t;
-            signal.Fire(t);
+            @event.Fire(t);
         }
 
         public void Listen(Action<T> callback)
         {
-            signal.Listen(callback, callback.Target);
+            @event.Listen(callback, callback.Target);
         }
         public void Listen(Action callback)
         {
-            signal.Listen(value => callback(), callback.Target);   
+            @event.Listen(value => callback(), callback.Target);   
         }
         
         public static implicit operator T(Model<T> model) => model.t;

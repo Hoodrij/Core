@@ -17,7 +17,7 @@ namespace Core.Tools
 
         public float Progress => 1 - (float) (queue.Count - 1) / initialTasksCount;
 
-        private readonly Signal<float> onProgressChanged = new Signal<float>();
+        private readonly Event<float> progressChangeEvent = new Event<float>();
         private readonly Queue<Job> queue = new Queue<Job>();
         private int initialTasksCount;
         private Mode mode = Mode.MultipleShot;
@@ -37,7 +37,7 @@ namespace Core.Tools
 
         public JobSequence OnProgress(Action<float> action)
         {
-            onProgressChanged.Listen(action);
+            progressChangeEvent.Listen(action);
             return this;
         }
 
@@ -61,7 +61,7 @@ namespace Core.Tools
             while (queue.Count > 0 && !tokenSource.IsCancellationRequested)
             {
                 await queue.Dequeue().Run(tokenSource);
-                onProgressChanged.Fire(Progress);
+                progressChangeEvent.Fire(Progress);
 
                 if (mode == Mode.OneByFrame)
                     await Wait.Update;

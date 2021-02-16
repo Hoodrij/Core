@@ -13,12 +13,12 @@ namespace Core.Tools.Observables
                 if (this.value != null && this.value.Equals(value)) return;
 
                 this.value = value;
-                signal.Fire(value);
+                @event.Fire(value);
             }
         }
 
         private T value;
-        private Signal<T> signal = new Signal<T>();
+        private Event<T> @event = new Event<T>();
 
         public Observable() { }
 
@@ -29,7 +29,7 @@ namespace Core.Tools.Observables
 
         public void Listen(Action<T> action)
         {
-            signal.Listen(action);
+            @event.Listen(action);
         }
 
         public static implicit operator T(Observable<T> observable)

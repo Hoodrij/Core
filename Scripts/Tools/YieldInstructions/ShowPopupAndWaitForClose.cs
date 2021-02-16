@@ -18,7 +18,7 @@ namespace Core.Tools.Yield
         private async void Open(Func<Task<UIView>> openFunc)
         {
             UIView view = await openFunc();
-            await view.closeEvent;
+            await view.CloseEvent;
             isClosed = true;
         }
 

@@ -1,17 +1,18 @@
 ﻿using Core.Life;
 using Core.Tools.Observables;
 using UnityEngine;
+using Event = Core.Tools.Observables.Event;
 
 namespace Core.Units
 {
     public class Life : Unit
     {
-        public readonly Signal OnUpdate = new Signal();
-        public readonly Signal OnLateUpdate = new Signal();
-        public readonly Signal OnFixedUpdate = new Signal();
-        public readonly Signal OnPause = new Signal();
-        public readonly Signal OnResume = new Signal();
-        public readonly Signal OnQuit = new Signal();
+        public readonly Event UpdateEvent = new Event();
+        public readonly Event LateUpdateEvent = new Event();
+        public readonly Event FixedUpdateEvent = new Event();
+        public readonly Event PauseEvent = new Event();
+        public readonly Event ResumeEvent = new Event();
+        public readonly Event QuitEvent = new Event();
 
         public Life()
         {
