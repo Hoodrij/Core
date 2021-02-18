@@ -16,6 +16,8 @@ namespace Core.Units.Model
 
         public virtual void Set(T t)
         {
+            if (Equals(this.t, t))
+                return;
             this.t = t;
             @event.Fire(t);
         }
