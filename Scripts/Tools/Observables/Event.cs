@@ -14,8 +14,7 @@ namespace Core.Tools.Observables
             listeners.RemoveWhere(action => !action.IsAlive);
             listeners.ForEach(action => action.Invoke());
             
-            oneshotListeners.RemoveWhere(action => !action.IsAlive);
-            oneshotListeners.ForEach(action => action.Invoke());
+            oneshotListeners.ForEach(action => { if (action.IsAlive) action.Invoke(); });
             oneshotListeners.Clear();
         }
     
@@ -39,8 +38,7 @@ namespace Core.Tools.Observables
             listeners.RemoveWhere(action => !action.IsAlive);
             listeners.ForEach(action => action.Invoke(t));
             
-            oneshotListeners.RemoveWhere(action => !action.IsAlive);
-            oneshotListeners.ForEach(action => action.Invoke(t));
+            oneshotListeners.ForEach(action => { if (action.IsAlive) action.Invoke(t); });
             oneshotListeners.Clear();
         }
 
