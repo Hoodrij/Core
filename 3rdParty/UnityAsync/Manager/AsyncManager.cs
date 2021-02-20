@@ -48,7 +48,7 @@ namespace UnityAsync
 			unityThreadId = Thread.CurrentThread.ManagedThreadId;
 			UnitySyncContext = SynchronizationContext.Current;
 
-			BackgroundSyncContext = new SynchronizationContext(); // TODO: confirm this produces desired behaviour
+			BackgroundSyncContext = new SynchronizationContext();
 
 			Instance = new GameObject("Async Manager").AddComponent<AsyncManager>();
 			Instance.gameObject.hideFlags = HideFlags.HideInHierarchy;
