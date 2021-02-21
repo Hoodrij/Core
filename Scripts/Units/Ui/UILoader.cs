@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Units;
 using UnityAsync;
@@ -23,10 +24,9 @@ namespace Core.Ui
             uiGo.name = "UI";
         }
 
-        public void AddRoot(UIRoot root)
+        private UIRoot AddRoot(UIRoot root)
         {
             roots.Add(root);
-
             GameObject rootGO = new GameObject(root.GetType().Name, typeof(RectTransform));
             rootGO.transform.SetParent(uiGo.transform, false);
 
@@ -37,6 +37,14 @@ namespace Core.Ui
             rectTransform.offsetMax = Vector2.zero;
 
             root.Transform = rectTransform;
+            RefreshRootsOrder();
+            return root;
+        }
+
+        private void RefreshRootsOrder()
+        {
+            roots = roots.OrderBy(root => root.Order).ToList();
+            roots.ForEach(root => root.Transform.SetSiblingIndex(root.Order));
         }
 
         public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
@@ -48,9 +56,11 @@ namespace Core.Ui
             return Object.Instantiate(view, root);
         }
 
-        public UIRoot GetRoot(Type type)
+        private UIRoot GetRoot(Type type)
         {
-            return roots.Find(root => root.GetType() == type);
+            UIRoot uiRoot = roots.Find(root => root.GetType() == type) 
+                            ?? AddRoot((UIRoot) Activator.CreateInstance(type));
+            return uiRoot;
         }
     }
 }

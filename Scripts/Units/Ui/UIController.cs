@@ -25,7 +25,7 @@ namespace Core.Ui
             UIInfoAttribute info = UIView<TView>.Info;
 
             foreach (UIView openedView in opened.Where(openedView =>
-                info.Root.IsClosingOther(openedView.Info.Root))
+                info.IsClosingOther(openedView.Info))
                 .ToList())
                 openedView.Close();
 

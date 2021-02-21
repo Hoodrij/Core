@@ -1,5 +1,5 @@
 ﻿using System;
-using Core.Units;
+using System.Reflection;
 
 namespace Core.Ui
 {
@@ -15,6 +15,10 @@ namespace Core.Ui
             Path = path;
         }
 
-        internal UIRoot Root => UI.Instance.GetRoot(RootType);
+        internal bool IsClosingOther(UIInfoAttribute info)
+        {
+            UIRootInfoAttribute rootInfo = RootType.GetCustomAttribute<UIRootInfoAttribute>();
+            return rootInfo.IsClosingOther(info.RootType);
+        }
     }
 }

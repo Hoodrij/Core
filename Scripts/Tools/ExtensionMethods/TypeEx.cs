@@ -116,5 +116,18 @@ namespace Core.Tools.ExtensionMethods
 
             return IsAssignableToGenericType(baseType, genericType);
         }
+
+        public static bool IsAssignableFromAny(this Type type, IEnumerable<Type> list)
+        {
+            foreach (Type other in list)
+            {
+                if (type.IsAssignableToGenericType(other))
+                    return true;
+
+                if (type.IsSubclassOf(other))
+                    return true;
+            }
+            return false;
+        }
     }
 }

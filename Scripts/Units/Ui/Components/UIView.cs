@@ -42,6 +42,8 @@ namespace Core.Ui
         
         protected virtual void OnOpen() { }
         protected internal virtual void OnClose() { }
+
+        public static void CloseAll() => UI.Instance.CloseAll();
     }
 
     #region Extended generics

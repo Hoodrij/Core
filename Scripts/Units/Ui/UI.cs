@@ -1,36 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Core.Tools;
 using Core.Ui;
 
 namespace Core.Units
 {
-    public class UI : Unit
+    internal class UI : Unit
     {
         [Inject] IAssets Assets;
 
-        private readonly UILoader loader;
         private readonly UIController controller;
 
         internal static UI Instance => Injector.Instance.Get<UI>();
         
-        public UI(IEnumerable<UIRoot> setup)
+        public UI()
         {
-            loader = new UILoader(Assets);
+            UILoader loader = new UILoader(Assets);
             controller = new UIController(loader);
-
-            foreach (UIRoot root in setup)
-            {
-                loader.AddRoot(root);
-            }
         }
 
         internal async Task<TView> Open<TView>(object data = null) where TView : UIView =>
             await controller.Open<TView>(data);
 
         internal TView Get<TView>() where TView : UIView => controller.Get<TView>();
-        internal UIRoot GetRoot(Type type) => loader.GetRoot(type);
 
         public void CloseAll() => controller.CloseAll();
     }

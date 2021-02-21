@@ -15,6 +15,12 @@ namespace Core.Tools
         private static void Create() => Instance = new Injector(); 
 #endregion
 
+        private static Type[] AutoCreationTypes = 
+        {
+            typeof(Model<>),
+            typeof(Unit)
+        };
+
         private readonly Dictionary<Type, object> container = new Dictionary<Type, object>();
 
         public void Add(object obj)
@@ -39,7 +45,7 @@ namespace Core.Tools
             if (container.TryGetValue(type, out var value))
                 return value;
 
-            if (type.IsAssignableToGenericType(typeof(Model<>)))
+            if (RequireAutoCreation(type))
             {
                 object instance = Activator.CreateInstance(type);
                 Add(instance);
@@ -48,6 +54,11 @@ namespace Core.Tools
 
             Debug.LogError($"[Injector] Cant find {type.Name.Color(Color.red)}");
             return null;
+        }
+
+        private bool RequireAutoCreation(Type type)
+        {
+            return type.IsAssignableFromAny(AutoCreationTypes);
         }
 
         public T Get<T>() => (T) Get(typeof(T));
