@@ -19,7 +19,7 @@ namespace Core.Ui.Components
 
             animator.SetSingleTrigger("Close");
 
-            await Wait.Until(() => isClosed);
+            await this.WaitUntil(() => isClosed);
         }
 
         // Animaton event
