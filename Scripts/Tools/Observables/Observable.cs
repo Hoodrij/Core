@@ -5,18 +5,6 @@ namespace Core.Tools.Observables
     [Serializable] 
     public class Observable<T>
     {
-        public T Value
-        {
-            get => value;
-            set
-            {
-                if (this.value != null && this.value.Equals(value)) return;
-
-                this.value = value;
-                @event.Fire(value);
-            }
-        }
-
         private T value;
         private Event<T> @event = new Event<T>();
 
@@ -26,15 +14,23 @@ namespace Core.Tools.Observables
         {
             this.value = value;
         }
-
-        public void Listen(Action<T> action)
+        
+        public void Set(T newValue)
         {
-            @event.Listen(action);
+            if (value != null && value.Equals(newValue)) return;
+
+            value = newValue;
+            @event.Fire(value);
+        }
+
+        public void Listen(Action<T> action, object target = null)
+        {
+            @event.Listen(action, target ?? action.Target);
         }
 
         public static implicit operator T(Observable<T> observable)
         {
-            return observable.Value;
+            return observable.value;
         }
 
         public bool Equals(Observable<T> other)
@@ -50,6 +46,11 @@ namespace Core.Tools.Observables
         public override int GetHashCode()
         {
             return value.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
         }
     }
 }

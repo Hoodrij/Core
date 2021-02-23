@@ -4,10 +4,17 @@ using Core.Tools.Observables;
 
 namespace Core.Units.Model
 {
-    public class Model<T>
+    public class Model
     {
-        private T t;
-        private readonly Event<T> @event = new Event<T>();
+        public static T Get<T>() where T : Model
+        {
+            return Injector.Instance.Get<T>();
+        }
+    }
+    
+    public class Model<T> : Model
+    {
+        private readonly Observable<T> value = new Observable<T>();
 
         protected Model()
         {
@@ -16,27 +23,24 @@ namespace Core.Units.Model
 
         public virtual void Set(T t)
         {
-            if (Equals(this.t, t))
-                return;
-            this.t = t;
-            @event.Fire(t);
+            value.Set(t);
         }
 
         public void Listen(Action<T> callback)
         {
-            @event.Listen(callback, callback.Target);
+            value.Listen(callback);
         }
         public void Listen(Action callback)
         {
-            @event.Listen(value => callback(), callback.Target);   
+            value.Listen(t => callback(), callback.Target);   
         }
         
-        public static implicit operator T(Model<T> model) => model.t;
-        public static implicit operator string(Model<T> model) => model.t.ToString();
+        public static implicit operator T(Model<T> model) => model.value;
+        public static implicit operator string(Model<T> model) => model.value.ToString();
 
         public override string ToString()
         {
-            return t.ToString();
+            return value.ToString();
         }
     }
 }

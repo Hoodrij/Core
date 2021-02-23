@@ -15,7 +15,7 @@ namespace Core.Tools
         private static void Create() => Instance = new Injector(); 
 #endregion
 
-        private static Type[] AutoCreationTypes = 
+        private static readonly Type[] AutoCreationTypes = 
         {
             typeof(Model<>),
             typeof(Unit)
