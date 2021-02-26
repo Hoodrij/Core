@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Scripts.Tools.Injector;
-using Core.Tools.ExtensionMethods;
-using Core.Units.Model;
 using UnityEngine;
 
 namespace Core.Tools
@@ -10,16 +8,13 @@ namespace Core.Tools
     internal class Injector
     {
 #region internal Singleton (for Core only)
-        internal static Injector Instance { get; private set; }
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void Create() => Instance = new Injector(); 
-#endregion
 
-        private static readonly Type[] AutoCreationTypes = 
-        {
-            typeof(Model<>),
-            typeof(Unit)
-        };
+        internal static Injector Instance { get; private set; }
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void Create() => Instance = new Injector();
+
+        #endregion
 
         private readonly Dictionary<Type, object> container = new Dictionary<Type, object>();
 
@@ -45,7 +40,7 @@ namespace Core.Tools
             if (container.TryGetValue(type, out var value))
                 return value;
 
-            if (RequireAutoCreation(type))
+            if (RequireLazyCreation(type))
             {
                 object instance = Activator.CreateInstance(type);
                 Add(instance);
@@ -56,9 +51,9 @@ namespace Core.Tools
             return null;
         }
 
-        private bool RequireAutoCreation(Type type)
+        private bool RequireLazyCreation(Type type)
         {
-            return type.IsAssignableFromAny(AutoCreationTypes);
+            return typeof(Lazy).IsAssignableFrom(type);
         }
 
         public T Get<T>() => (T) Get(typeof(T));

@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
-namespace Core.Scripts.Tools.Job 
+namespace Core.Tools
 {
-    internal class AnonymousJob : Core.Tools.Job
+    internal class AnonymousJob : Job
     {
         private readonly Func<Task> action;
 

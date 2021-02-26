@@ -4,7 +4,7 @@ using Core.Ui;
 
 namespace Core.Units
 {
-    internal class UI : Unit
+    internal class UI : Unit, Lazy
     {
         [Inject] IAssets Assets;
 

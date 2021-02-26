@@ -18,13 +18,16 @@ namespace Core.Units.Model
 
         protected Model()
         {
+            Set(DefaultValue());
             Injector.Instance.Populate(this);
         }
 
-        public virtual void Set(T t)
+        public void Set(T t)
         {
             value.Set(t);
         }
+
+        protected virtual T DefaultValue() => default;
 
         public void Listen(Action<T> callback)
         {
