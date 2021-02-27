@@ -26,7 +26,7 @@ namespace Core.Ui
             this.data = data;
 
             OnOpen();
-            RebindAll();
+            Rebind();
         }
 
         public async void Close()

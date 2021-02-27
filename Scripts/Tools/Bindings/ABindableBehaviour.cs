@@ -6,44 +6,38 @@ namespace Core.Tools.Bindings
 {
     public abstract class ABindableBehaviour : MonoBehaviour, IBindersNotifier
     {
-        private readonly List<ABinder> _attachedBinders = new List<ABinder>();
+        private readonly List<ABinder> attachedBinders = new List<ABinder>();
 
-        public bool ReadyForBind { get; private set; }
+        protected virtual bool ReadyForBind() => true;
 
         public void AttachBinder(ABinder binder)
         {
-            _attachedBinders.Add(binder);
+            attachedBinders.Add(binder);
         }
 
         public void DetachBinder(ABinder binder)
         {
-            _attachedBinders.Remove(binder);
+            attachedBinders.Remove(binder);
         }
 
-        public void SetBindReady(bool isReady)
+        // ReSharper disable Unity.PerformanceAnalysis
+        protected void Rebind()
         {
-            ReadyForBind = isReady;
-        }
-
-        protected void RebindAll()
-        {
-            ReadyForBind = true;
             RaisePropertyChanged("*");
         }
 
         private void RaisePropertyChanged(string propertyName)
         {
-            if (_attachedBinders == null)
+            if (!ReadyForBind())
                 return;
-
-            for (int i = 0; i < _attachedBinders.Count; i++)
+            for (int i = 0; i < attachedBinders.Count; i++)
             {
-                ABinder binder = _attachedBinders[i];
-                Object unityObject = binder.Target as Object;
+                ABinder binder = attachedBinders[i];
+                Object unityObject = binder.Target;
 
                 if (unityObject != null && !unityObject)
                 {
-                    _attachedBinders.RemoveAt(i);
+                    attachedBinders.RemoveAt(i);
                     i--;
                     continue;
                 }

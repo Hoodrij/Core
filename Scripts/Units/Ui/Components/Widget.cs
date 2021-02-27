@@ -9,9 +9,9 @@ namespace Core.Ui
         {
             Injector.Instance.Populate(this);
             OnOpen();
-            RebindAll();
+            Rebind();
         }
 
-        protected abstract void OnOpen();
+        protected virtual void OnOpen() { }
     }
 }

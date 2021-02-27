@@ -6,6 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Core.Tools.Bindings
 {
+    [DefaultExecutionOrder(-1)]
     public abstract class ABinder : MonoBehaviour
     {
         [SerializeField] private string _memberName;
@@ -164,13 +165,9 @@ namespace Core.Tools.Bindings
             if (_target is IBindersNotifier target)
             {
                 target.AttachBinder(this);
-
-                if (target.ReadyForBind)
-                    Bind();
-
                 return;
             }
-
+        
             Bind();
         }
 
