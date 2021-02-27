@@ -4,7 +4,7 @@ using Core.Tools.Observables;
 
 namespace Core.Units.Model
 {
-    public class Model
+    public abstract class Model
     {
         public static T Get<T>() where T : Model
         {
@@ -12,7 +12,7 @@ namespace Core.Units.Model
         }
     }
     
-    public class Model<T> : Model
+    public abstract class Model<T> : Model
     {
         private readonly Observable<T> value = new Observable<T>();
 
