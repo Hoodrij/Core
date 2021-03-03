@@ -1,10 +1,11 @@
 ﻿using Core.Life;
+using Core.Tools;
 using UnityEngine;
 using Event = Core.Tools.Observables.Event;
 
 namespace Core.Units
 {
-    public class Life : Unit
+    public class Life : Unit, Lazy
     {
         public readonly Event UpdateEvent = new Event();
         public readonly Event LateUpdateEvent = new Event();

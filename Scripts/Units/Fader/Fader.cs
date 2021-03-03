@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Fader;
+using Core.Tools;
 using Core.Tools.ExtensionMethods;
 using UnityAsync;
 using UnityEngine;
@@ -10,7 +11,7 @@ using Object = UnityEngine.Object;
 
 namespace Core.Units
 {
-    public class Fader : Unit
+    public class Fader : Unit, Lazy
     {
         private readonly Queue<Func<Task>> queue = new Queue<Func<Task>>();
         private IFaderView view;
