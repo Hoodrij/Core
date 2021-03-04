@@ -49,7 +49,7 @@ namespace Core.Units
 
         public async void SetView(IFaderView newView)
         {
-            if (view != null && view is Component oldView)
+            if (view is Component oldView)
             {
                 await Wait.Until(() => queue.IsEmpty());
                 await view.Hide();
