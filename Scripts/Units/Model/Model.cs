@@ -6,9 +6,9 @@ namespace Core.Units.Model
 {
     public abstract class Model
     {
-        public static T Get<T>() where T : Model
+        protected Model()
         {
-            return Injector.Instance.Get<T>();
+            Injector.Instance.Populate(this);
         }
     }
     
@@ -16,19 +16,11 @@ namespace Core.Units.Model
     {
         private readonly Observable<T> value = new Observable<T>();
 
-        protected Model()
-        {
-            Set(DefaultValue());
-            Injector.Instance.Populate(this);
-        }
-
         public void Set(T t)
         {
             value.Set(t);
         }
-
-        protected virtual T DefaultValue() => default;
-
+        
         public void Listen(Action<T> callback)
         {
             value.Listen(callback);
