@@ -1,22 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Core.Tools.Bindings
 {
-    public struct Collection : IEnumerable
+    public struct Collection<TComponent, TData> : IEnumerable<TData>
     {
-        public static Collection Default = new Collection();
+        public delegate void CollectionSetup(TComponent item, TData data, bool isNew);
+        private readonly IEnumerable<TData> _collection;
 
-        private readonly IEnumerable _collection;
-
-        public IEqualityComparer<object> Comparer { get; }
-
+        public CollectionSetup SetupAction { get; }
         public bool IsEmpty => _collection == null || !_collection.GetEnumerator().MoveNext();
 
-        public Collection(IEnumerable collection, IEqualityComparer<object> comparer = null)
+        public Collection(IEnumerable<TData> collection, CollectionSetup setupAction)
         {
             _collection = collection;
-            Comparer = comparer;
+            SetupAction = setupAction;
+        }
+
+        IEnumerator<TData> IEnumerable<TData>.GetEnumerator()
+        {
+            return _collection.GetEnumerator();
         }
 
         public IEnumerator GetEnumerator()
