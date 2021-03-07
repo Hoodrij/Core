@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Core.Tools.Yield
 {
-    public class ShowPopupAndWaitForClose : CustomYieldInstruction
+    public class ShowViewAndWaitForClose : CustomYieldInstruction
     {
         private bool isClosed; 
             
-        public ShowPopupAndWaitForClose(Func<Task<UIView>> openFunc)
+        public ShowViewAndWaitForClose(Func<Task<UIView>> openFunc)
         {
             Open(openFunc);
         }

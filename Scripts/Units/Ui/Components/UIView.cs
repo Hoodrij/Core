@@ -3,21 +3,19 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Core.Tools;
 using Core.Tools.Bindings;
-using Core.Tools.Observables;
 using Core.Ui.Components;
 using Core.Units;
 using UnityEngine;
+using Event = Core.Tools.Observables.Event;
 
 namespace Core.Ui
 {
     [DisallowMultipleComponent] 
     public abstract class UIView : ABindableBehaviour
     {
-        public Event<UIView> CloseEvent { get; } = new Event<UIView>();
+        public Event CloseEvent { get; } = new Event();
             
         internal UIInfoAttribute Info => GetType().GetCustomAttribute<UIInfoAttribute>();
-        internal Action CloseInstructions;
-
         internal object data;
 
         internal void Open(object data)
@@ -36,12 +34,13 @@ namespace Core.Ui
                 await closeDelayer.WaitClose();
             }
 
-            CloseEvent.Fire(this);
-            CloseInstructions.Invoke();
+            OnClose();
+            CloseEvent.Fire();
+            Destroy(gameObject);
         }
         
         protected virtual void OnOpen() { }
-        protected internal virtual void OnClose() { }
+        protected virtual void OnClose() { }
 
         public static void CloseAll() => UI.Instance.CloseAll();
     }

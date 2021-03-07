@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Tools.Observables;
-using UnityEngine;
 
 namespace Core.Ui
 {
@@ -31,15 +30,7 @@ namespace Core.Ui
 
             opened.Add(view);
             view.Open(data);
-
-            view.CloseInstructions = () =>
-            {
-                if (view == null) return;
-
-                opened.Remove(view);
-                view.OnClose();
-                Object.Destroy(view.gameObject);
-            };
+            view.CloseEvent.Listen(() => opened.Remove(view), this);
 
             return view;
         }
