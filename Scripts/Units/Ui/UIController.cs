@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Tools.Observables;
 using UnityEngine;
 
 namespace Core.Ui
@@ -24,10 +25,7 @@ namespace Core.Ui
         {
             UIInfoAttribute info = UIView<TView>.Info;
 
-            foreach (UIView openedView in opened.Where(openedView =>
-                info.IsClosingOther(openedView.Info))
-                .ToList())
-                openedView.Close();
+            await CloseRequiredOpened(info);
 
             TView view = await loader.Load<TView>(info);
 
@@ -44,6 +42,20 @@ namespace Core.Ui
             };
 
             return view;
+        }
+
+        private async Task CloseRequiredOpened(UIInfoAttribute nextViewInfo)
+        {
+            for (int index = opened.Count - 1; index >= 0; index--)
+            {
+                UIView openedView = opened[index];
+                if (!nextViewInfo.IsClosingOther(openedView.Info)) continue;
+                
+                if (openedView.Info.CanBeOverlapped)
+                    await openedView.Close();
+                else
+                    await openedView.CloseEvent;
+            }
         }
 
         internal void CloseAll()

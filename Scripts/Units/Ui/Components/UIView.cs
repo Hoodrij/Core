@@ -29,7 +29,7 @@ namespace Core.Ui
             Rebind();
         }
 
-        public async void Close()
+        public async Task Close()
         {
             if (TryGetComponent(out UICloseDelayerComponent closeDelayer))
             {

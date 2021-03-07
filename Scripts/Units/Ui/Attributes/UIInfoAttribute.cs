@@ -8,11 +8,13 @@ namespace Core.Ui
     {
         public Type RootType { get; }
         public string Path { get; }
+        public bool CanBeOverlapped { get; }
 
-        public UIInfoAttribute(Type root, string path)
+        public UIInfoAttribute(Type root, string path, bool canBeOverlapped = true)
         {
             RootType = root;
             Path = path;
+            CanBeOverlapped = canBeOverlapped;
         }
 
         internal bool IsClosingOther(UIInfoAttribute info)
