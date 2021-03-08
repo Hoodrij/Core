@@ -8,6 +8,7 @@ namespace Core.Services
 
         protected Service()
         {
+            Injector.Instance.Add(this);
             Injector.Instance.Populate(this);
 
             if (this is IUpdateHandler iUpdate)
