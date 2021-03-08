@@ -14,7 +14,7 @@ namespace Core.Tools
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Create() => Instance = new Injector();
 
-        #endregion
+#endregion
 
         private readonly Dictionary<Type, object> container = new Dictionary<Type, object>();
 
