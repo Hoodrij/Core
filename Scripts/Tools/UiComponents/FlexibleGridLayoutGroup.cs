@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityAsync;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Core.Tools.UiComponents
@@ -111,6 +112,12 @@ namespace Core.Tools.UiComponents
         }
 
 #endif
+
+        protected override async void OnEnable()
+        {
+            await this.WaitUpdate();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+        }
 
         public override void CalculateLayoutInputHorizontal()
         {

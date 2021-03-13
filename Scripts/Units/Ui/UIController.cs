@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Tools.Observables;
-using UnityAsync;
 
 namespace Core.Ui
 {
