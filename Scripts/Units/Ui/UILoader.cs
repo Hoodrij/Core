@@ -49,11 +49,11 @@ namespace Core.Ui
 
         public async Task<TView> Load<TView>(UIInfoAttribute info) where TView : UIView
         {
-            TView view = await assets.Load<TView>(info.Path);
-            await new WaitForEndOfFrame();
+            TView prefab = await assets.Load<TView>(info.Path);
 
             Transform root = GetRoot(info.RootType).Transform;
-            return Object.Instantiate(view, root);
+            TView view = Object.Instantiate(prefab, root);
+            return view;
         }
 
         private UIRoot GetRoot(Type type)
