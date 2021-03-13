@@ -1,11 +1,14 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Tools.Observables;
 
 namespace Core.Tools
 {
     public abstract class Job
     {
+        public readonly Event CompletedEvent = new Event(); 
+            
         private CancellationTokenSource tokenSource;
         internal CancellationToken Token => tokenSource.Token;
         
@@ -18,6 +21,7 @@ namespace Core.Tools
         {
             this.tokenSource = tokenSource ?? new CancellationTokenSource();
             await Run();
+            CompletedEvent.Fire();
         }
         
         protected abstract Task Run();
