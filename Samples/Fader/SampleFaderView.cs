@@ -8,7 +8,7 @@ namespace Core.Samples.Fader
 {
     public class SampleFaderView : MonoBehaviour, IFaderView
     {
-        private enum State
+        private enum EState
         {
             Idle,
             Shown,
@@ -16,7 +16,7 @@ namespace Core.Samples.Fader
         }
 
         private Animator animator;
-        private State state;
+        private EState state;
 
         private void Awake()
         {
@@ -26,29 +26,29 @@ namespace Core.Samples.Fader
         public async Task Show()
         {
             animator.SetSingleTrigger("show");
-            await this.WaitUntil(() => state == State.Shown);
+            await this.WaitUntil(() => state == EState.Shown);
         }
 
         public async Task Hide()
         {
-            if (state == State.Shown)
+            if (state == EState.Shown)
             {
-                state = State.Hiding;
+                state = EState.Hiding;
                 animator.SetSingleTrigger("hide");
             }
-            await this.WaitUntil(() => state == State.Idle);
+            await this.WaitUntil(() => state == EState.Idle);
         }
 
         // animation event
         private void OnAnimShown()
         {
-            state = State.Shown;
+            state = EState.Shown;
         }
 
         // animation event
         private void OnAnimHidden()
         {
-            state = State.Idle;
+            state = EState.Idle;
         }
     }
 }

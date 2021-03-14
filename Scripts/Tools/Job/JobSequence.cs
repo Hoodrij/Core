@@ -9,7 +9,7 @@ namespace Core.Tools
 {
     public class JobSequence
     {
-        public enum Mode
+        public enum EMode
         {
             MultipleShot = 1,
             OneByFrame = 2,
@@ -20,7 +20,7 @@ namespace Core.Tools
         private readonly Event<float> progressChangeEvent = new Event<float>();
         private readonly Queue<Job> queue = new Queue<Job>();
         private int initialTasksCount;
-        private Mode mode = Mode.MultipleShot;
+        private EMode mode = EMode.MultipleShot;
         private CancellationTokenSource tokenSource;
 
         public JobSequence Add(Job job)
@@ -29,7 +29,7 @@ namespace Core.Tools
             return this;
         }
 
-        public JobSequence SetMode(Mode mode)
+        public JobSequence SetMode(EMode mode)
         {
             this.mode = mode;
             return this;
@@ -63,7 +63,7 @@ namespace Core.Tools
                 await queue.Dequeue().Run(tokenSource);
                 progressChangeEvent.Fire(Progress);
 
-                if (mode == Mode.OneByFrame)
+                if (mode == EMode.OneByFrame)
                     await Wait.Update;
             }
         }
