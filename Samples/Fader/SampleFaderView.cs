@@ -1,12 +1,13 @@
 using System.Threading.Tasks;
 using Core.Fader;
 using Core.Tools.ExtensionMethods;
+using Core.Ui;
 using UnityAsync;
 using UnityEngine;
 
 namespace Core.Samples.Fader
 {
-    public class SampleFaderView : MonoBehaviour, IFaderView
+    public class SampleFaderView : UIView, IFaderView
     {
         private enum EState
         {
