@@ -1,4 +1,4 @@
 ﻿using System;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+[AttributeUsage(AttributeTargets.Property)]
 public class InjectAttribute : Attribute { }

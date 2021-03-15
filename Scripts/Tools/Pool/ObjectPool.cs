@@ -6,7 +6,7 @@ namespace Core.Tools.Pool
     public class ObjectPool
     {
         private PooledObject prefab;
-        public GameObject parent;
+        private GameObject parent;
 
         private Stack<PooledObject> stack;
         private int itemsInUse;

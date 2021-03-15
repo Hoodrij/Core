@@ -6,7 +6,7 @@ namespace Core.Units
 {
     internal class UI : Unit, Lazy
     {
-        [Inject] IAssets Assets;
+        [Inject] IAssets Assets { get; }
 
         private readonly UIController controller;
 

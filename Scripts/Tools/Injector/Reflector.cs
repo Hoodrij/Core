@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Core.Tools.ExtensionMethods;
+using Mono.Reflection;
 
 namespace Core.Scripts.Tools.Injector 
 {
@@ -26,7 +28,8 @@ namespace Core.Scripts.Tools.Injector
                         ((FieldInfo) member).SetValue(obj, value);
                         break;
                     case MemberTypes.Property:
-                        ((PropertyInfo) member).SetValue(obj, value, null);
+                        PropertyInfo property = ((PropertyInfo) member);
+                        property.GetBackingField().SetValue(obj, value);
                         break;
                 }
             }

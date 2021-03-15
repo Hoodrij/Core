@@ -4,7 +4,7 @@ namespace Core.Services
 {
     public abstract class Service
     {
-        [Inject] Units.Life life;
+        [Inject] Units.Life Life { get; }
 
         protected Service()
         {
@@ -13,7 +13,7 @@ namespace Core.Services
 
             if (this is IUpdateHandler iUpdate)
             {
-                life.UpdateEvent.Listen(iUpdate.Update);
+                Life.UpdateEvent.Listen(iUpdate.Update);
             }
         }
     }
