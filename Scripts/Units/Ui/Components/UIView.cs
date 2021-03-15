@@ -45,8 +45,6 @@ namespace Core.Ui
         public static void CloseAll() => UI.Instance.CloseAll();
     }
 
-    #region Extended generics
-
     public abstract class UIView<TView> : UIView where TView : UIView
     {
         internal static UIInfoAttribute Info => typeof(TView).GetCustomAttribute<UIInfoAttribute>();
@@ -62,6 +60,4 @@ namespace Core.Ui
         public static async Task<TView> Open(TData data) => await UI.Instance.Open<TView>(data);
         [Obsolete("Requires Data", true)] public new static void Open() { }
     }
-
-    #endregion
 }

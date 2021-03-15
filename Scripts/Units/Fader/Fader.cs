@@ -47,7 +47,7 @@ namespace Core.Units
             }
         }
 
-        public async void SetView(IFaderView newView)
+        public async Task SetView(IFaderView newView)
         {
             if (view is Component oldView)
             {
