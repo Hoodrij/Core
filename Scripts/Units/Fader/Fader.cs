@@ -55,9 +55,6 @@ namespace Core.Units
                 await view.Hide();
                 oldView.gameObject.Destroy();
             }
-            
-            if (newView is Component viewComp)
-                viewComp.gameObject.name = "Fader";
 
             view = newView;
         }

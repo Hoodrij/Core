@@ -12,7 +12,7 @@ namespace Core.Units.Model
         }
     }
     
-    public abstract class Model<T> : Model
+    public abstract class Model<T> : Model, IObservable, Tools.Observables.IObservable<T>
     {
         private readonly Observable<T> value = new Observable<T>();
 
@@ -21,13 +21,13 @@ namespace Core.Units.Model
             value.Set(t);
         }
         
-        public void Listen(Action<T> callback)
+        public void Listen(Action<T> callback, object target = null)
         {
-            value.Listen(callback);
+            value.Listen(callback, target ?? callback.Target);
         }
-        public void Listen(Action callback)
+        public void Listen(Action callback, object target = null)
         {
-            value.Listen(t => callback(), callback.Target);   
+            value.Listen(t => callback(), target ?? callback.Target);   
         }
         
         public static implicit operator T(Model<T> model) => model.value;

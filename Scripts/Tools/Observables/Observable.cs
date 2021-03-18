@@ -3,7 +3,7 @@
 namespace Core.Tools.Observables
 {
     [Serializable] 
-    public class Observable<T>
+    public class Observable<T> : IObservable<T>
     {
         private T value;
         private Event<T> @event = new Event<T>();
