@@ -4,7 +4,7 @@ using Core.Tools.ExtensionMethods;
 
 namespace Core.Tools.Observables
 {
-    public class Event
+    public class Event : IObservable
     {
         private readonly HashSet<WeakAction> listeners = new HashSet<WeakAction>();
         private readonly HashSet<WeakAction> oneshotListeners = new HashSet<WeakAction>();
@@ -28,7 +28,7 @@ namespace Core.Tools.Observables
         public void Clear() => listeners.Clear();
     }
 
-    public class Event<T>
+    public class Event<T> : IObservable<T>
     {
         private readonly HashSet<WeakAction<T>> listeners = new HashSet<WeakAction<T>>();
         private readonly HashSet<WeakAction<T>> oneshotListeners = new HashSet<WeakAction<T>>();
