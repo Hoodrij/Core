@@ -7,15 +7,10 @@ namespace Core.Tools
 {
     internal class Injector
     {
-#region internal Singleton (for Core only)
-
-        internal static Injector Instance { get; private set; }
-        
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Create() => Instance = new Injector();
-
-#endregion
-
+        internal static Injector Instance { get; private set; }
+        
         private readonly Dictionary<Type, object> container = new Dictionary<Type, object>();
 
         public void Add(object obj)
@@ -40,7 +35,7 @@ namespace Core.Tools
             if (container.TryGetValue(type, out var value))
                 return value;
 
-            if (RequireLazyCreation(type))
+            if (SupportsLazyCreation(type))
             {
                 object instance = Activator.CreateInstance(type);
                 Add(instance);
@@ -51,7 +46,7 @@ namespace Core.Tools
             return null;
         }
 
-        private bool RequireLazyCreation(Type type)
+        private bool SupportsLazyCreation(Type type)
         {
             return typeof(Lazy).IsAssignableFrom(type);
         }

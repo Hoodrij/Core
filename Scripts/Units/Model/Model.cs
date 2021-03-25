@@ -8,6 +8,7 @@ namespace Core.Units.Model
     {
         protected Model()
         {
+            Injector.Instance.Add(this);
             Injector.Instance.Populate(this);
         }
     }

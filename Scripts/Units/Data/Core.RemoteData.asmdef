@@ -1,7 +1,7 @@
 {
     "name": "Core.RemoteData",
+    "rootNamespace": "",
     "references": [
-        "GUID:d4f8f3098ca064117a9b67941bfedd91",
         "GUID:d3a492092629bec469222914e6abab17"
     ],
     "includePlatforms": [],
