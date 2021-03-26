@@ -21,7 +21,7 @@ namespace Core.Tools.Observables
         }
         public WeakAction(Action<T> action, object owner) : this(action)
         {
-            this.owner = new WeakReference(owner);
+            this.owner = new WeakReference(owner ?? action.Target);
         }
 
         public void Invoke(T t)
@@ -30,7 +30,7 @@ namespace Core.Tools.Observables
                 method.Invoke(target, new object[] { t });
         }
 
-        public bool Equals(Action<T> action) => owner.Target == action.Target;
+        public bool IsOwnedBy(object owner) => this.owner.Target == owner;
         
         private bool IsAliveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono != null && mono.gameObject != null;
         private bool IsActiveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono.gameObject.activeInHierarchy;
@@ -53,7 +53,7 @@ namespace Core.Tools.Observables
         }
         public WeakAction(Action action, object owner) : this(action)
         {
-            this.owner = new WeakReference(owner);
+            this.owner = new WeakReference(owner ?? action.Target);
         }
 
         public void Invoke()
@@ -62,7 +62,7 @@ namespace Core.Tools.Observables
                 method.Invoke(target, null);
         }
 
-        public bool Equals(Action action) => owner.Target == action.Target;
+        public bool IsOwnedBy(object owner) => this.owner.Target == owner;
         
         private bool IsAliveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono != null && mono.gameObject != null;
         private bool IsActiveAsMonoBeh() => !(owner.Target is MonoBehaviour mono) || mono.gameObject.activeInHierarchy;

@@ -25,7 +25,7 @@ namespace Core.Ui
             UIInfoAttribute info = UIView<TView>.Info;
             opened.Add(info);
 
-            await WaitFreeRoot(info);
+            // await WaitFreeRoot(info);
             await CloseRequiredOpened(info);
 
             TView view = await loader.Load<TView>(info);

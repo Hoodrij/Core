@@ -4,10 +4,12 @@ namespace Core.Tools.Observables
 {
     public interface IObservable
     {
-        public void Listen(Action callback, object target = null);
+        public void Listen(Action action, object target = null);
+        public void Unsubscribe(object owner);
     }
     public interface IObservable<T>
     {
-        public void Listen(Action<T> callback, object target = null);
+        public void Listen(Action<T> action, object target = null);
+        public void Unsubscribe(object owner);
     }
 }

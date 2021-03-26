@@ -3,15 +3,15 @@ using System.Runtime.CompilerServices;
 
 namespace Core.Tools.Observables
 {
-    public class EventAwaiter : INotifyCompletion
+    public class IObservableAwaiter : INotifyCompletion
     {
-        private Event @event;
+        private readonly IObservable observable;
         private bool isCompleted;
         private Action continuation;
 
-        internal EventAwaiter(Event @event)
+        internal IObservableAwaiter(IObservable observable)
         {
-            this.@event = @event;
+            this.observable = observable;
         }
 
         public bool IsCompleted => isCompleted;
@@ -20,26 +20,27 @@ namespace Core.Tools.Observables
         public void OnCompleted(Action continuation)
         {
             this.continuation = continuation;
-            @event.ListenOneshot(Listener);
+            observable.Listen(Listener);
         }
 
         private void Listener()
         {
+            observable.Unsubscribe(this);
             isCompleted = true;
             continuation();
         }
     }
     
-    public class EventAwaiter<T> : INotifyCompletion
+    public class IObservableAwaiter<T> : INotifyCompletion
     {
-        private Event<T> @event;
+        private readonly IObservable<T> observable;
         private bool isCompleted;
         private Action continuation;
         private T result;
 
-        internal EventAwaiter(Event<T> @event)
+        internal IObservableAwaiter(IObservable<T> observable)
         {
-            this.@event = @event;
+            this.observable = observable;
         }
 
         public bool IsCompleted => isCompleted;
@@ -48,11 +49,12 @@ namespace Core.Tools.Observables
         public void OnCompleted(Action continuation)
         {
             this.continuation = continuation;
-            @event.ListenOneshot(Listener);
+            observable.Listen(Listener);
         }
 
         private void Listener(T result)
         {
+            observable.Unsubscribe(this);
             isCompleted = true;
             this.result = result;
             continuation();

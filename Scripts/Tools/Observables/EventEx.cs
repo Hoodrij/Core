@@ -9,14 +9,14 @@ namespace Core.Tools.Observables
             return Task.Run(async () => await @event);
         }
         
-        public static EventAwaiter GetAwaiter(this Event e)
+        public static IObservableAwaiter GetAwaiter(this IObservable e)
         {
-            return new EventAwaiter(e);
+            return new IObservableAwaiter(e);
         }
 
-        public static EventAwaiter<T> GetAwaiter<T>(this Event<T> e)
+        public static IObservableAwaiter<T> GetAwaiter<T>(this IObservable<T> e)
         {
-            return new EventAwaiter<T>(e);
+            return new IObservableAwaiter<T>(e);
         }
     }
 }

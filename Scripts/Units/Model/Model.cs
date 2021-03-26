@@ -22,15 +22,26 @@ namespace Core.Units.Model
             value.Set(t);
         }
         
-        public void Listen(Action<T> callback, object target = null)
+        public void Listen(Action<T> action, object target = null)
         {
-            value.Listen(callback, target ?? callback.Target);
+            value.Listen(action, target);
         }
-        public void Listen(Action callback, object target = null)
+
+        public void Unsubscribe(Action<T> action)
         {
-            value.Listen(t => callback(), target ?? callback.Target);   
+            value.Unsubscribe(action);
         }
-        
+
+        public void Listen(Action action, object target = null)
+        {
+            value.Listen(t => action(), target);   
+        }
+
+        public void Unsubscribe(object owner)
+        {
+            value.Unsubscribe(owner);
+        }
+
         public static implicit operator T(Model<T> model) => model.value;
         public static implicit operator string(Model<T> model) => model.value.ToString();
 

@@ -25,7 +25,12 @@ namespace Core.Tools.Observables
 
         public void Listen(Action<T> action, object target = null)
         {
-            @event.Listen(action, target ?? action.Target);
+            @event.Listen(action, target);
+        }
+
+        public void Unsubscribe(object owner)
+        {
+            @event.Unsubscribe(owner);
         }
 
         public static implicit operator T(Observable<T> observable)
