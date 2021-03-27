@@ -3,12 +3,10 @@
 namespace Core.Tools.Observables
 {
     [Serializable] 
-    public class Observable<T> : IObservable<T>
+    public class Observable<T>
     {
         private T value;
-        private Event<T> @event = new Event<T>();
-
-        public Observable() { }
+        public Event<T> ChangedEvent { get; } = new Event<T>();
 
         public Observable(T value = default)
         {
@@ -20,17 +18,18 @@ namespace Core.Tools.Observables
             if (value != null && value.Equals(newValue)) return;
 
             value = newValue;
-            @event.Fire(value);
+            ChangedEvent.Fire(value);
         }
+
 
         public void Listen(Action<T> action, object target = null)
         {
-            @event.Listen(action, target);
+            ChangedEvent.Listen(action, target);
         }
 
         public void Unsubscribe(object owner)
         {
-            @event.Unsubscribe(owner);
+            ChangedEvent.Unsubscribe(owner);
         }
 
         public static implicit operator T(Observable<T> observable)

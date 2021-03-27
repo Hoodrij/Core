@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Core.Tools.Collections;
 
 namespace Core.Tools.Observables
 {
-    public class Event : IObservable
+    public class Event
     {
         private readonly SafeHashSet<WeakAction> listeners = new SafeHashSet<WeakAction>();
 
@@ -12,13 +13,15 @@ namespace Core.Tools.Observables
             listeners.RemoveWhere(action => !action.IsAlive);
             listeners.ForEach(action => action.Invoke());
         }
-    
+
         public void Listen(Action action, object owner = null) => listeners.Add(new WeakAction(action, owner));
         public void Unsubscribe(object owner) => listeners.RemoveWhere(weakAction => weakAction.IsOwnedBy(owner));
         public void Clear() => listeners.Clear();
+        
+        public static implicit operator Task(Event @event) => Task.Run(async () => await @event);
     }
 
-    public class Event<T> : IObservable<T>
+    public class Event<T>
     {
         private readonly SafeHashSet<WeakAction<T>> listeners = new SafeHashSet<WeakAction<T>>();
 
@@ -31,5 +34,7 @@ namespace Core.Tools.Observables
         public void Listen(Action<T> action, object owner = null) => listeners.Add(new WeakAction<T>(action, owner));
         public void Unsubscribe(object owner) => listeners.RemoveWhere(weakAction => weakAction.IsOwnedBy(owner));
         public void Clear() => listeners.Clear();
+        
+        public static implicit operator Task<T>(Event<T> @event) => Task.Run(async () => await @event);
     }
 }

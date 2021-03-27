@@ -13,28 +13,24 @@ namespace Core.Units.Model
         }
     }
     
-    public abstract class Model<T> : Model, IObservable, Tools.Observables.IObservable<T>
+    public abstract class Model<T> : Model
     {
         private readonly Observable<T> value = new Observable<T>();
+        public Event<T> ChangedEvent => value.ChangedEvent;
 
         public void Set(T t)
         {
             value.Set(t);
         }
-        
+
         public void Listen(Action<T> action, object target = null)
         {
             value.Listen(action, target);
         }
 
-        public void Unsubscribe(Action<T> action)
-        {
-            value.Unsubscribe(action);
-        }
-
         public void Listen(Action action, object target = null)
         {
-            value.Listen(t => action(), target);   
+            value.Listen(t => action(), target);
         }
 
         public void Unsubscribe(object owner)

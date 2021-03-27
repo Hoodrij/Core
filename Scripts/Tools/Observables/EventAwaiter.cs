@@ -3,13 +3,13 @@ using System.Runtime.CompilerServices;
 
 namespace Core.Tools.Observables
 {
-    public class IObservableAwaiter : INotifyCompletion
+    public class EventAwaiter : INotifyCompletion
     {
-        private readonly IObservable observable;
+        private readonly Event observable;
         private bool isCompleted;
         private Action continuation;
 
-        internal IObservableAwaiter(IObservable observable)
+        internal EventAwaiter(Event observable)
         {
             this.observable = observable;
         }
@@ -31,14 +31,14 @@ namespace Core.Tools.Observables
         }
     }
     
-    public class IObservableAwaiter<T> : INotifyCompletion
+    public class EventAwaiter<T> : INotifyCompletion
     {
-        private readonly IObservable<T> observable;
+        private readonly Event<T> observable;
         private bool isCompleted;
         private Action continuation;
         private T result;
 
-        internal IObservableAwaiter(IObservable<T> observable)
+        internal EventAwaiter(Event<T> observable)
         {
             this.observable = observable;
         }
