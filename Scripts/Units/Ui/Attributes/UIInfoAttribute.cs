@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading.Tasks;
-using UnityAsync;
 
 namespace Core.Ui
 {
@@ -11,7 +9,6 @@ namespace Core.Ui
         public Type RootType { get; }
         public string Path { get; }
         public bool CanBeOverlapped { get; }
-        private UIView view; 
 
         public UIInfoAttribute(Type root, string path, bool canBeOverlapped = true)
         {
@@ -25,13 +22,5 @@ namespace Core.Ui
             UIRootInfoAttribute rootInfo = RootType.GetCustomAttribute<UIRootInfoAttribute>();
             return rootInfo.IsClosingOther(info.RootType);
         }
-        
-        public async Task<UIView> GetView()
-        {
-            await Wait.Until(() => view != null);
-            return view;
-        }
-
-        public void SetView(UIView view) => this.view = view;
     }
 }
