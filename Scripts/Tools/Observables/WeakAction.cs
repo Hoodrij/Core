@@ -6,7 +6,7 @@ namespace Core.Tools.Observables
 {
     internal class WeakAction<T>
     {
-        public bool IsAlive => owner.IsAlive && owner?.Target != null 
+        public bool IsAlive => owner.IsAlive && (owner != null ? owner.Target != null : false) 
                                 && IsAliveAsMonoBeh();
         
         private readonly WeakReference owner;
@@ -21,7 +21,7 @@ namespace Core.Tools.Observables
         }
         public WeakAction(Action<T> action, object owner) : this(action)
         {
-            this.owner = new WeakReference(owner ?? action.Target);
+            this.owner = new WeakReference(owner != null ? owner : action.Target);
         }
 
         public void Invoke(T t)
@@ -38,7 +38,7 @@ namespace Core.Tools.Observables
     
     internal class WeakAction
     {
-        public bool IsAlive => owner.IsAlive && owner?.Target != null 
+        public bool IsAlive => owner.IsAlive && (owner != null ? owner.Target != null : false) 
                                 && IsAliveAsMonoBeh();
         
         private readonly WeakReference owner;
@@ -53,7 +53,7 @@ namespace Core.Tools.Observables
         }
         public WeakAction(Action action, object owner) : this(action)
         {
-            this.owner = new WeakReference(owner ?? action.Target);
+            this.owner = new WeakReference(owner != null ? owner : action.Target);
         }
 
         public void Invoke()
