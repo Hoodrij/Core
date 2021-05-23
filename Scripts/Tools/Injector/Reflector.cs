@@ -5,9 +5,9 @@ using System.Reflection;
 using Core.Tools.ExtensionMethods;
 using Mono.Reflection;
 
-namespace Core.Scripts.Tools.Injector 
+namespace Core.Tools 
 {
-    internal static class Reflector
+    public static class Reflector
     {
         private static readonly Dictionary<Type, MemberInfo[]> cachedFieldInfos = new Dictionary<Type, MemberInfo[]>();
         private static readonly Dictionary<Type, MethodInfo[]> cachedMethodInfos = new Dictionary<Type, MethodInfo[]>();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Scripts.Tools.Injector;
 using UnityEngine;
 
 namespace Core.Tools
